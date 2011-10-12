@@ -5,38 +5,35 @@
  * @version 0.1
  * @history 12.10.2011: Created class
  */
-public class LoopThread implements Runnable
+public class LoopThread extends Thread
 {
-	private Thread t = null;
+	private String id = ""; 
+	private int counter = 0;
 	
-	public static void main(String[] args)
+	public LoopThread(String id)
 	{
-		Thread t = new Thread(new LoopThread());
-		t.start();
+		this.id = id;
 	}
 
 	@Override
 	public void run()
 	{
-		for(int i = 0; i <= 5000; i++)
-		{
-			System.out.println("Loop: " + i);
+		for(int i = 0; i <= 2000; i++)
+		{			
+			try { this.sleep(100); }
+			catch (InterruptedException e) { }
 			
-			try
-			{ 
-				t.sleep(0); 
-			}
-			catch (InterruptedException e) 
-			{ 
-				System.err.println("Interrupted Exception");
-			}
-			
-			System.out.println("LoopCount: " + getLoopCount(i));
+			System.out.println(id + "- i: " + i + " count: " + getLoopCount(i) + " counter: " + counter);
 		}
 	}
 	
 	private int getLoopCount(int loop)
 	{
-		return loop++;
+		try { this.sleep(50); }
+		catch (InterruptedException e) { }
+		
+		counter++;
+		
+		return ++loop;
 	}
 }
