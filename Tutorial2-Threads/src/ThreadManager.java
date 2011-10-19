@@ -1,6 +1,6 @@
 
 /**
- * Class description
+ * For running multiple threads
  *
  * @author tom
  * @version 0.1
@@ -17,7 +17,6 @@ public class ThreadManager
 		lt1.start();
 		lt2.start();
 		lt3.start();
-		
 	}
 
 }

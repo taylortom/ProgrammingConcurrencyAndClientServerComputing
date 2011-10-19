@@ -1,5 +1,5 @@
 /**
- * Class description
+ * A simple class to test threads
  *
  * @author Tom
  * @version 0.1
@@ -18,18 +18,18 @@ public class LoopThread extends Thread
 	@Override
 	public void run()
 	{
-		for(int i = 0; i <= 2000; i++)
+		for(int i = 0; i <= 500; i++)
 		{			
-			try { this.sleep(100); }
+			try { this.sleep(1); }
 			catch (InterruptedException e) { }
 			
-			System.out.println(id + "- i: " + i + " count: " + getLoopCount(i) + " counter: " + counter);
+			System.out.println(id + "- i: " + i + " count: " + getLoopCount(i));
 		}
 	}
 	
 	private int getLoopCount(int loop)
 	{
-		try { this.sleep(50); }
+		try { this.sleep(1); }
 		catch (InterruptedException e) { }
 		
 		counter++;
