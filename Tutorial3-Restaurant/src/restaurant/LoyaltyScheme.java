@@ -31,17 +31,14 @@ public class LoyaltyScheme
 	
 	public double applyDiscount(Order order)
 	{
-		double orderCost = order.total();
-		int orders = order.customer.totalOrderCount();
+		double orderCost = order.getTotal();
+		int orders = order.customer.getTotalOrders();
 		
 		if(orders > 5)
 		{
 			if(orders > 10)
 			{
-				if(orders > 15)
-				{
-					return orderCost * (1 + GOLD_DISCOUNT);
-				}
+				if(orders > 15) return orderCost * (1 + GOLD_DISCOUNT);
 				return orderCost * (1 + SILVER_DISCOUNT);
 			}
 			return orderCost * (1 + BRONZE_DISCOUNT); 

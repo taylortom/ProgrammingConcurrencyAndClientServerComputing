@@ -2,6 +2,8 @@ package restaurant;
 
 import java.lang.reflect.Array;
 
+import utils.Utils;
+
 /**
  * A class to store order information
  *
@@ -11,6 +13,7 @@ import java.lang.reflect.Array;
  */
 public class Order
 {
+	private String id;
 	// the customer who placed the order
 	public Customer customer = null;
 	// the cashier who took the order
@@ -18,15 +21,18 @@ public class Order
 	// the cook cooking(!) the order
 	private Cook cook = null;
 	
+	// the total cost of the order
 	private double total;
 	
 	// an array of strings with each order
 	// TODO create a menu item class
 	private String[] order;
 	
-	private enum orderStatus
+	private OrderStatus status;
+	
+	private enum OrderStatus
 	{
-		processing,
+		pending,
 		inProgress,
 		completed;
 	}
@@ -34,13 +40,23 @@ public class Order
 	/**
 	 * Constructor
 	 */
-	public Order()
+	public Order(String[] _order, Cashier _cashier, Customer _customer)
 	{
-		// TODO Order constructor
+		this.order = _order;
+		this.cashier = _cashier;
+		this.customer = _customer;
+		
+		this.id = Utils.generateUniqueId("O-");
 	}
 	
-	public double total()
+	public void setOrderCompleted()
 	{
-		return total;
+		this.status = OrderStatus.completed;
 	}
+	
+	// getters/setters
+	public String getId() { return id; }
+	public double getTotal() {	return total;	}
+	
+	// TODO Order: set order to complete
 }
