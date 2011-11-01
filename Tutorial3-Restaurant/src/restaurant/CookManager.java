@@ -35,12 +35,13 @@ public class CookManager
 	 */
 	public static synchronized void addCook(Cook _cook)
 	{
-		cooks.add(_cook);
+//		cooks.add(_cook);
+		if(Utils.arraySearch(cooks, _cook).equals(false)) cooks.add(_cook);
 	}
 	
 	/**
 	 * Gets the Cook from the id 
-	 * @return the next order
+	 * @return the cook
 	 */
 	public static synchronized Cook getCook(String _id)
 	{
@@ -48,10 +49,28 @@ public class CookManager
 		return null;
 	}
 	
+	/**
+	 * Gets the Cook by index 
+	 * @return the cook
+	 */
+	public static synchronized Cook getCook(int index)
+	{
+		return cooks.get(index);
+	}
+	
 	public static synchronized Cook getRandomCook()
 	{
 		int randomNumber = Utils.generateRandomNumber(cooks.size());
 		return cooks.get(randomNumber);
+	}
+	
+	/**
+	 * Gets the total number of Cooks 
+	 * @return number of cooks
+	 */
+	public static int getNumberOfCooks()
+	{
+		return cooks.size();
 	}
 	
 	/**

@@ -24,13 +24,12 @@ public class Order
 	// the total cost of the order
 	private double total;
 	
-	// an array of strings with each order
-	// TODO create a menu item class
-	private String[] order;
+	// an array of MenuItem with each order
+	private MenuItem[] order;
 	
 	private OrderStatus status;
 	
-	private enum OrderStatus
+	public enum OrderStatus
 	{
 		pending,
 		inProgress,
@@ -40,7 +39,7 @@ public class Order
 	/**
 	 * Constructor
 	 */
-	public Order(String[] _order, Cashier _cashier, Customer _customer)
+	public Order(MenuItem[] _order, Cashier _cashier, Customer _customer)
 	{
 		this.order = _order;
 		this.cashier = _cashier;
@@ -52,6 +51,7 @@ public class Order
 	public void setOrderCompleted()
 	{
 		this.status = OrderStatus.completed;
+		this.cashier.deliverOrder();
 	}
 	
 	// getters/setters

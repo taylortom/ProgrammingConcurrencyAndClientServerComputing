@@ -37,18 +37,16 @@ public class CashierManager
 	 */
 	public static synchronized void addCashier(Cashier _cashier)
 	{
-		if(Utils.arraySearch(cashiers, _cashier) == null) cashiers.add(_cashier);
+		if(Utils.arraySearch(cashiers, _cashier).equals(false)) cashiers.add(_cashier);
 	}
 	
 	/**
-	 * Finds a cashier by their id
-	 * @param _id
+	 * Gets the Cashier by index 
 	 * @return the cashier
 	 */
-	public static synchronized Cashier getCashier(String _id)
+	public static synchronized Cashier getCashier(int index)
 	{
-		// TODO Cashier.getCashier
-		return null;
+		return cashiers.get(index);
 	}
 	
 	/**
@@ -57,8 +55,17 @@ public class CashierManager
 	 */
 	public static synchronized Cashier getRandomCashier()
 	{
-		int randomNumber = Utils.generateRandomNumber(cashiers.size()-1);
+		int randomNumber = Utils.generateRandomNumber(cashiers.size());
 		return cashiers.get(randomNumber);
+	}
+	
+	/**
+	 * Gets the total number of Cashiers 
+	 * @return number of cashiers
+	 */
+	public static int getNumberOfCashiers()
+	{
+		return cashiers.size();
 	}
 	
 	/**

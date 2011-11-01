@@ -1,32 +1,29 @@
 package restaurant;
 
-import java.util.ArrayList;
-
+// Java Library imports
 import utils.Utils;
 
 /**
  * A main class to kick everything off
+ *
+ *	TODO implement receipt - possibly separate class, output to file
+ * TODO change 
  *
  * @author Tom
  * @version 0.1
  * @history 19.10.2011: Created class
  */
 public class Main
-{
-	private static ArrayList<Cook> cooks  = new ArrayList<Cook>();
-	private static ArrayList<Cashier> cashiers  = new ArrayList<Cashier>();
-	private static ArrayList<Customer> customers  = new ArrayList<Customer>();
-	
+{	
 	/**
 	 * The kick-off point...
 	 * @param args
 	 */
 	public static void main(String[] args)
-	{
-		System.out.println("Main.main");
-		
+	{		
 		addCooks();
 		addCashiers();
+		addCustomers();
 		
 		startThreads();
 	}
@@ -36,20 +33,19 @@ public class Main
 	 */
 	// TODO how to start threads implementing runnable
 	private static void startThreads()
-	{
-		System.out.println("Main.startThreads");
+	{		
+		CookManager.getInstance();
+		CashierManager.getInstance();
 		
-		for (int i = 0; i < cashiers.size(); i++)
+		for (int i = 0; i < CashierManager.getNumberOfCashiers(); i++)
 		{
-			Thread cashier = new Thread(cashiers.get(i));
+			Thread cashier = new Thread(CashierManager.getCashier(i));
 			cashier.start();
 		}
-		
-		System.out.println("cooks.size(): " + cooks.size());
-		
-		for (int j = 0; j < cooks.size(); j++)
+				
+		for (int j = 0; j < CookManager.getNumberOfCooks(); j++)
 		{
-			Thread cook = new Thread(cooks.get(j));
+			Thread cook = new Thread(CookManager.getCook(j));
 			cook.start();
 		}
 	}
@@ -58,13 +54,13 @@ public class Main
 	 * Create a few new cooks
 	 */
 	private static void addCooks()
-	{	
-		System.out.println("Main.addCooks");
-		cooks.add(new Cook("Raymond", "Slater", Utils.generateUniqueId("CO")));
-		cooks.add(new Cook("Laura", "Conner", Utils.generateUniqueId("CO")));
-		cooks.add(new Cook("Grace", "Stafford", Utils.generateUniqueId("CO")));
-		cooks.add(new Cook("Joe", "Stevens", Utils.generateUniqueId("CO")));
-		cooks.add(new Cook("Paul", "McBride", Utils.generateUniqueId("CO")));
+	{			
+		CookManager.getInstance();
+		CookManager.addCook(new Cook("Raymond", "Slater", Utils.generateUniqueId("CO")));
+		CookManager.addCook(new Cook("Laura", "Conner", Utils.generateUniqueId("CO")));
+//		CookManager.addCook(new Cook("Grace", "Stafford", Utils.generateUniqueId("CO")));
+//		CookManager.addCook(new Cook("Joe", "Stevens", Utils.generateUniqueId("CO")));
+//		CookManager.addCook(new Cook("Paul", "McBride", Utils.generateUniqueId("CO")));
 	}
 	
 	/**
@@ -72,10 +68,24 @@ public class Main
 	 */
 	private static void addCashiers()
 	{
-		cashiers.add(new Cashier("Emma", "Fitzgerald", Utils.generateUniqueId("CA")));
-		cashiers.add(new Cashier("John", "Price", Utils.generateUniqueId("CA")));
-		cashiers.add(new Cashier("Sarah", "Simpson", Utils.generateUniqueId("CA")));
-		cashiers.add(new Cashier("Steve", "Spears", Utils.generateUniqueId("CA")));
-		cashiers.add(new Cashier("Nicole", "Black", Utils.generateUniqueId("CA")));
+		CashierManager.getInstance();
+		CashierManager.addCashier(new Cashier("Emma", "Fitzgerald", Utils.generateUniqueId("CA")));
+//		CashierManager.addCashier(new Cashier("John", "Price", Utils.generateUniqueId("CA")));
+//		CashierManager.addCashier(new Cashier("Sarah", "Simpson", Utils.generateUniqueId("CA")));
+//		CashierManager.addCashier(new Cashier("Steve", "Spears", Utils.generateUniqueId("CA")));
+//		CashierManager.addCashier(new Cashier("Nicole", "Black", Utils.generateUniqueId("CA")));
+	}
+	
+	/**
+	 * Create a few new customers
+	 */
+	private static void addCustomers()
+	{		
+		CustomerManager.getInstance();
+		CustomerManager.addCustomer(new Customer("Geoff", "Spence", Utils.generateUniqueId("CU")));
+//		CustomerManager.addCustomer(new Customer("Pete", "James", Utils.generateUniqueId("CU")));
+//		CustomerManager.addCustomer(new Customer("Fred", "Stevens", Utils.generateUniqueId("CU")));
+//		CustomerManager.addCustomer(new Customer("Gill", "Phillips", Utils.generateUniqueId("CU")));
+//		CustomerManager.addCustomer(new Customer("Alex", "Parker", Utils.generateUniqueId("CU")));
 	}
 }

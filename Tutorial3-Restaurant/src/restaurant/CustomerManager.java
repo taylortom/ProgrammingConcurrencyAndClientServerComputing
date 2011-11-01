@@ -20,7 +20,7 @@ public class CustomerManager
 	private static CustomerManager instance = null;
 
 	/**
-	 * Returns the instance of the CustomerManagerv
+	 * Returns the instance of the CustomerManager
 	 * @return the CustomerManager instance
 	 */
 	public static CustomerManager getInstance() 
@@ -35,17 +35,7 @@ public class CustomerManager
 	 */
 	public static synchronized void addCustomer(Customer _customer)
 	{
-		customers.add(_customer);
-	}
-	
-	/**
-	 * Gets the Customer from the id 
-	 * @return the next order
-	 */
-	public static synchronized Customer getCustomer(String _id)
-	{
-		// TODO CustomerManager.getCustomer
-		return null;
+		if(Utils.arraySearch(customers, _customer).equals(false)) customers.add(_customer);
 	}
 	
 	/**
@@ -54,7 +44,7 @@ public class CustomerManager
 	 */
 	public static synchronized Customer getRandomCustomer()
 	{
-		int randomNumber = Utils.generateRandomNumber(customers.size()-1);
+		int randomNumber = Utils.generateRandomNumber(customers.size());
 		return customers.get(randomNumber);
 	}
 	

@@ -17,10 +17,13 @@ import utils.Utils;
 public class OrderManager
 {
 	private static ArrayList<Order> processingOrders = new ArrayList<Order>();
-	// TODO iterate over a queue?
-	// private static Queue pendingOrders;
-	// essentially a Queue, but needed basic iteration
+
+	/*
+	 * The orders waiting to be cooked
+	 * essentially a Queue, but needed random access
+	 */
 	private static ArrayList<Order> pendingOrders = new ArrayList<Order>();
+	// The orders currently being cooked
 	private static ArrayList<Order> completedOrders = new ArrayList<Order>();
 
 	private static ArrayList<Order> testOrders = new ArrayList<Order>();
@@ -116,34 +119,26 @@ public class OrderManager
 		getOrder(_order.getId()).setOrderCompleted();
 		processingOrders.remove(0);
 		completedOrders.add(_order);
+		
+		System.out.println("Pending: " + pendingOrders.size() + " Processing: " + processingOrders.size() + " Complete: " + completedOrders.size());
+	}
+	
+	public static Order createRandomOrder()
+	{
+		int count = Utils.generateRandomNumber(5);
+				
+		MenuItem[] orderItems = new MenuItem[count];
+		
+		for (int i = 0; i < count; i++)
+		{
+			orderItems[i] = Menu.getInstance().getItem(Utils.generateRandomNumber(Menu.getInstance().getNumberOfItems()));
+		}
+		
+		return new Order(orderItems, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer());
 	}
 	
 	/**
 	 * Constructor - should never be called externally
 	 */
 	protected OrderManager() {	}
-
-	
-	/**
-	 * THE FOLLOWING CODE IS USED FOR TEST PURPOSES ONLY
-	 * 
-	 */
-	public static void addTestOrders()
-	{
-		testOrders.add(new Order(null, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer()));
-		testOrders.add(new Order(null, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer()));
-		testOrders.add(new Order(null, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer()));
-		testOrders.add(new Order(null, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer()));
-		testOrders.add(new Order(null, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer()));
-		testOrders.add(new Order(null, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer()));
-		testOrders.add(new Order(null, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer()));
-		testOrders.add(new Order(null, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer()));
-		testOrders.add(new Order(null, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer()));
-		testOrders.add(new Order(null, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer()));
-	}
-	
-	public static Order getRandomOrder()
-	{
-		return testOrders.get(Utils.generateRandomNumber(testOrders.size()));
-	}
 }

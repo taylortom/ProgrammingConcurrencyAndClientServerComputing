@@ -11,7 +11,8 @@ import java.util.ArrayList;
  */
 public class Cashier extends Member implements Runnable
 {
-	ArrayList<String> ordersTaken = new ArrayList<String>();
+	private static final int DELIVERY_TIME = 2000;
+	private ArrayList<String> ordersTaken = new ArrayList<String>();
 	
 	/**
 	 * Constructor
@@ -26,17 +27,16 @@ public class Cashier extends Member implements Runnable
 	{
 		while(true)
 		{			
-			try { Thread.sleep(1000); }
+			try { Thread.sleep(500); }
 			catch (InterruptedException e) { }
 			
-			this.addOrder(OrderManager.getRandomOrder());
-			// TODO Cashier: place order
-			// TODO Cashier: take order (sleep)
+			this.addOrder(OrderManager.createRandomOrder());
 		}
 	}
 	
 	public void addOrder(Order _order)
 	{
+		System.out.println("Cashier added order: " + _order.getId());
 		super.addOrder(_order);
 		this.ordersTaken.add(_order.getId());
 	}
@@ -44,5 +44,12 @@ public class Cashier extends Member implements Runnable
 	public int getTotalOrders()
 	{
 		return this.ordersTaken.size();
+	}
+	
+	public void deliverOrder()
+	{
+		System.out.println("Cashier.deliverOrder");
+		try { Thread.sleep(this.DELIVERY_TIME); }
+		catch (InterruptedException e) { }
 	}
 }
