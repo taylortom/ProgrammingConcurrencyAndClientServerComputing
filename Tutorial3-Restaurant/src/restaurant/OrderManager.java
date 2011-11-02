@@ -2,6 +2,8 @@ package restaurant;
 
 // Java imports
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 // Java Library imports
 import utils.ErrorLog;
@@ -16,26 +18,26 @@ import utils.Utils;
  */
 public class OrderManager
 {
-	private static ArrayList<Order> processingOrders = new ArrayList<Order>();
+	private static List<Order> processingOrders = Collections.synchronizedList(new ArrayList<Order>());
+
+	// the OrderManager instance
+	private static OrderManager instance = null;
+	
+	private static int orderCount = 1; 
 
 	/*
 	 * The orders waiting to be cooked
 	 * essentially a Queue, but needed random access
 	 */
-	private static ArrayList<Order> pendingOrders = new ArrayList<Order>();
+	private static List<Order> pendingOrders = Collections.synchronizedList(new ArrayList<Order>());
 	// The orders currently being cooked
-	private static ArrayList<Order> completedOrders = new ArrayList<Order>();
-
-	private static ArrayList<Order> testOrders = new ArrayList<Order>();
-	
-	// the OrderManager instance
-	private static OrderManager instance = null;
+	private static List<Order> completedOrders = Collections.synchronizedList(new ArrayList<Order>());
 
 	/**
 	 * Returns the instance of the CashierManager
 	 * @return the CashierManager instance
 	 */
-	public static OrderManager getInstance() 
+	public static synchronized OrderManager getInstance() 
 	{
 		if(instance == null) { instance = new OrderManager(); }
 		return instance;
@@ -47,7 +49,10 @@ public class OrderManager
 	 */
 	public static synchronized void addOrder(Order _order)
 	{
+		_order.setId("OR-" + orderCount);
+		orderCount++;
 		pendingOrders.add(_order);
+		System.out.println("OrderManager-Cashier[" + _order.getCashier().getSurname() + "] added order: " + _order.getId() + "..." + _order.getOrder()[0].getDescription());
 	}
 	
 	/**
@@ -65,29 +70,12 @@ public class OrderManager
 		}
 		else return null;
 	}
-	/*public static Order getOrder()
-	{
-		Order order = null; 
-		
-		try 
-		{ 
-			order = (Order)pendingOrders.remove(); 
-		}
-		catch(NoSuchElementException e)
-		{
-			ErrorLog el = ErrorLog.getInstance();
-			el.addMessage("OrderManager", "getOrder", e.getMessage(), ErrorLog.Error.ERROR); 
-		}
-		
-		processingOrders.add(order);
-		return order;
-	}*/
 	
 	/**
 	 * Looks for an order by its id
 	 * @return the next order
 	 */
-	public static synchronized Order getOrder(String _id)
+	public static Order getOrder(String _id)
 	{		
 		// first check the processing orders
 		for (int i = 0; i < processingOrders.size(); i++)
@@ -110,22 +98,30 @@ public class OrderManager
 		// order not found, so log an error, and return null
 		ErrorLog el = ErrorLog.getInstance();
 		el.addMessage("OrderManager", "getOrder", "No such order found", ErrorLog.Error.ERROR);
-		
 		return null;
 	}
 	
-	public static synchronized void setOrderCompleted(Order _order)
-	{
-		getOrder(_order.getId()).setOrderCompleted();
-		processingOrders.remove(0);
+	public static void setOrderCompleted(Order _order)
+	{		
+		if(_order == processingOrders.get(0)) 
+		{
+			_order.setOrderCompleted();
+			processingOrders.remove(0);
+		}
+		else
+		{
+			ErrorLog el = ErrorLog.getInstance();
+			el.addMessage("OrderManager", "setOrderCompleted", "Head of processing orders and param don't match", ErrorLog.Error.ERROR);
+		}
 		completedOrders.add(_order);
 		
 		System.out.println("Pending: " + pendingOrders.size() + " Processing: " + processingOrders.size() + " Complete: " + completedOrders.size());
 	}
 	
-	public static Order createRandomOrder()
+	public static synchronized Order createRandomOrder()
 	{
 		int count = Utils.generateRandomNumber(5);
+		if(count == 0) count = 1;
 				
 		MenuItem[] orderItems = new MenuItem[count];
 		
@@ -135,6 +131,21 @@ public class OrderManager
 		}
 		
 		return new Order(orderItems, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer());
+	}
+	
+	public static synchronized Order createRandomOrder(Cashier _cashier)
+	{
+		int count = Utils.generateRandomNumber(5);
+		if(count == 0) count = 1;
+				
+		MenuItem[] orderItems = new MenuItem[count];
+		
+		for (int i = 0; i < count; i++)
+		{
+			orderItems[i] = Menu.getInstance().getItem(Utils.generateRandomNumber(Menu.getInstance().getNumberOfItems()));
+		}
+		
+		return new Order(orderItems, _cashier, CustomerManager.getRandomCustomer());
 	}
 	
 	/**

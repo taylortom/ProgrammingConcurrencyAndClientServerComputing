@@ -15,7 +15,7 @@ public class Order
 {
 	private String id;
 	// the customer who placed the order
-	public Customer customer = null;
+	private Customer customer = null;
 	// the cashier who took the order
 	private Cashier cashier = null;
 	// the cook cooking(!) the order
@@ -44,8 +44,19 @@ public class Order
 		this.order = _order;
 		this.cashier = _cashier;
 		this.customer = _customer;
+	}
+	
+	public int calculatePreparationTime()
+	{
+		int preparationTime = 0;
 		
-		this.id = Utils.generateUniqueId("O-");
+		for (int i = 0; i < this.order.length; i++)
+		{
+			preparationTime += this.order[i].getPreparationTime();
+		}
+		
+		// TODO slight hack - *prep time by 200
+		return preparationTime*200;
 	}
 	
 	public void setOrderCompleted()
@@ -56,6 +67,15 @@ public class Order
 	
 	// getters/setters
 	public String getId() { return id; }
+	public void setId(String _id) 
+	{ 
+		if(_id != null) this.id = _id; 
+	}
+	
+	public Cashier getCashier() { return this.cashier; }
+	public Customer getCustomer() { return this.customer; }
+	public MenuItem[] getOrder() { return this.order; }
+	
 	public double getTotal() {	return total;	}
 	
 	// TODO Order: set order to complete

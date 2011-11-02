@@ -31,8 +31,28 @@ public class MenuItem
 		this.course = _course;
 	}
 	
+	public String getDescription()
+	{
+		return this.name;
+	}
+	
 	public String getId()
 	{
 		return this.id;
+	}
+	
+	public int getPreparationTime()
+	{
+		switch(this.course)
+		{
+			case STARTER:
+				return STARTER_PREP_TIME;
+			case MAIN:
+				return MAIN_PREP_TIME;
+			case DESSERT:
+				return DESSERT_PREP_TIME;
+			default:
+				return 0;
+		}
 	}
 }

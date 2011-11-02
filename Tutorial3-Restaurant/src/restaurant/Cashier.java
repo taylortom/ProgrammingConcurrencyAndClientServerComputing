@@ -25,18 +25,18 @@ public class Cashier extends Member implements Runnable
 	@Override
 	public void run()
 	{
+		// TODO Cook.run: implement logging system
 		while(true)
 		{			
-			try { Thread.sleep(500); }
+			this.addOrder(OrderManager.createRandomOrder(this));
+
+			try { Thread.sleep(5000); }
 			catch (InterruptedException e) { }
-			
-			this.addOrder(OrderManager.createRandomOrder());
 		}
 	}
 	
 	public void addOrder(Order _order)
 	{
-		System.out.println("Cashier added order: " + _order.getId());
 		super.addOrder(_order);
 		this.ordersTaken.add(_order.getId());
 	}
@@ -48,8 +48,8 @@ public class Cashier extends Member implements Runnable
 	
 	public void deliverOrder()
 	{
-		System.out.println("Cashier.deliverOrder");
-		try { Thread.sleep(this.DELIVERY_TIME); }
+		System.out.println("cashier[" + this.getSurname() + "].deliverOrder: " + this.getTotalOrders());
+		try { Thread.sleep(DELIVERY_TIME); }
 		catch (InterruptedException e) { }
 	}
 }

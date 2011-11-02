@@ -3,6 +3,7 @@ package restaurant;
 // Java imports
 import java.util.ArrayList;
 
+//Java Library imports
 import utils.Utils;
 
 /**
@@ -23,7 +24,7 @@ public class CustomerManager
 	 * Returns the instance of the CustomerManager
 	 * @return the CustomerManager instance
 	 */
-	public static CustomerManager getInstance() 
+	public static synchronized CustomerManager getInstance() 
 	{
 		if(instance == null) { instance = new CustomerManager(); }
 		return instance;

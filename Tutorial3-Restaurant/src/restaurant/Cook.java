@@ -31,6 +31,7 @@ public class Cook extends Member implements Runnable
 	@Override
 	public void run()
 	{	
+		// TODO Cook.run: implement logging system
 		while(true)
 		{				
 			OrderManager.getInstance();
@@ -40,21 +41,20 @@ public class Cook extends Member implements Runnable
 			
 			if (this.currentOrder != null)
 			{
-				System.out.println("---> Cook: got order..." + this.currentOrder.getId());
+				System.out.println("Cook[" + this.getSurname() + "] got order..." + this.currentOrder.getId());
 				
 				// sleep to imitate preparation of food
-				//	TODO Cook.run: order preparation time - int preparationTime = order.complexity*1000;
-				int preparationTime = 3000;
+				int preparationTime = this.currentOrder.calculatePreparationTime();
 				try{ Thread.sleep(preparationTime); }
 				catch (InterruptedException e){}
 				
 				OrderManager.getInstance();
 				OrderManager.setOrderCompleted(this.currentOrder);
-				System.out.println("---> Cook: completed order..." + this.currentOrder.getId());
+				System.out.println("Cook[" + this.getSurname() + "] completed order..." + this.currentOrder.getId());
 			}
 			else 
 			{
-				System.out.println("---> Cook: oops...no orders available");
+				//System.out.println("Cook[" + this.getSurname() + "] oops...no orders available");
 				try { Thread.sleep(1000); }
 				catch (InterruptedException e)
 				{

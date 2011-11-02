@@ -25,7 +25,7 @@ public class CashierManager
 	 * Returns the instance of the CashierManager
 	 * @return the CashierManager instance
 	 */
-	public static CashierManager getInstance() 
+	public static synchronized CashierManager getInstance() 
 	{
 		if(instance == null) { instance = new CashierManager(); }
 		return instance;
@@ -63,7 +63,7 @@ public class CashierManager
 	 * Gets the total number of Cashiers 
 	 * @return number of cashiers
 	 */
-	public static int getNumberOfCashiers()
+	public static synchronized int getNumberOfCashiers()
 	{
 		return cashiers.size();
 	}

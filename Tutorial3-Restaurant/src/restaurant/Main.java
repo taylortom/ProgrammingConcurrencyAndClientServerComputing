@@ -7,7 +7,7 @@ import utils.Utils;
  * A main class to kick everything off
  *
  *	TODO implement receipt - possibly separate class, output to file
- * TODO change 
+ * TODO change singleton implementation to use enum? 
  *
  * @author Tom
  * @version 0.1
@@ -58,9 +58,9 @@ public class Main
 		CookManager.getInstance();
 		CookManager.addCook(new Cook("Raymond", "Slater", Utils.generateUniqueId("CO")));
 		CookManager.addCook(new Cook("Laura", "Conner", Utils.generateUniqueId("CO")));
-//		CookManager.addCook(new Cook("Grace", "Stafford", Utils.generateUniqueId("CO")));
-//		CookManager.addCook(new Cook("Joe", "Stevens", Utils.generateUniqueId("CO")));
-//		CookManager.addCook(new Cook("Paul", "McBride", Utils.generateUniqueId("CO")));
+		CookManager.addCook(new Cook("Grace", "Stafford", Utils.generateUniqueId("CO")));
+		CookManager.addCook(new Cook("Joe", "Stevens", Utils.generateUniqueId("CO")));
+		CookManager.addCook(new Cook("Paul", "McBride", Utils.generateUniqueId("CO")));
 	}
 	
 	/**
@@ -70,10 +70,10 @@ public class Main
 	{
 		CashierManager.getInstance();
 		CashierManager.addCashier(new Cashier("Emma", "Fitzgerald", Utils.generateUniqueId("CA")));
-//		CashierManager.addCashier(new Cashier("John", "Price", Utils.generateUniqueId("CA")));
-//		CashierManager.addCashier(new Cashier("Sarah", "Simpson", Utils.generateUniqueId("CA")));
-//		CashierManager.addCashier(new Cashier("Steve", "Spears", Utils.generateUniqueId("CA")));
-//		CashierManager.addCashier(new Cashier("Nicole", "Black", Utils.generateUniqueId("CA")));
+		CashierManager.addCashier(new Cashier("John", "Price", Utils.generateUniqueId("CA")));
+		CashierManager.addCashier(new Cashier("Sarah", "Simpson", Utils.generateUniqueId("CA")));
+		CashierManager.addCashier(new Cashier("Steve", "Spears", Utils.generateUniqueId("CA")));
+		CashierManager.addCashier(new Cashier("Nicole", "Black", Utils.generateUniqueId("CA")));
 	}
 	
 	/**
@@ -83,9 +83,9 @@ public class Main
 	{		
 		CustomerManager.getInstance();
 		CustomerManager.addCustomer(new Customer("Geoff", "Spence", Utils.generateUniqueId("CU")));
-//		CustomerManager.addCustomer(new Customer("Pete", "James", Utils.generateUniqueId("CU")));
-//		CustomerManager.addCustomer(new Customer("Fred", "Stevens", Utils.generateUniqueId("CU")));
-//		CustomerManager.addCustomer(new Customer("Gill", "Phillips", Utils.generateUniqueId("CU")));
-//		CustomerManager.addCustomer(new Customer("Alex", "Parker", Utils.generateUniqueId("CU")));
+		CustomerManager.addCustomer(new Customer("Pete", "James", Utils.generateUniqueId("CU")));
+		CustomerManager.addCustomer(new Customer("Fred", "Stevens", Utils.generateUniqueId("CU")));
+		CustomerManager.addCustomer(new Customer("Gill", "Phillips", Utils.generateUniqueId("CU")));
+		CustomerManager.addCustomer(new Customer("Alex", "Parker", Utils.generateUniqueId("CU")));
 	}
 }

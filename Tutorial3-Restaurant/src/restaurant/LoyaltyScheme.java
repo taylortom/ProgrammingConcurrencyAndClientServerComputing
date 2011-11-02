@@ -32,7 +32,7 @@ public class LoyaltyScheme
 	public double applyDiscount(Order order)
 	{
 		double orderCost = order.getTotal();
-		int orders = order.customer.getTotalOrders();
+		int orders = order.getCustomer().getTotalOrders();
 		
 		if(orders > 5)
 		{
