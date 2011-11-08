@@ -35,18 +35,7 @@ public class CookManager
 	 */
 	public static synchronized void addCook(Cook _cook)
 	{
-//		cooks.add(_cook);
 		if(Utils.arraySearch(cooks, _cook).equals(false)) cooks.add(_cook);
-	}
-	
-	/**
-	 * Gets the Cook from the id 
-	 * @return the cook
-	 */
-	public static synchronized Cook getCook(String _id)
-	{
-		// TODO CookManager.getCook
-		return null;
 	}
 	
 	/**
@@ -60,7 +49,7 @@ public class CookManager
 	
 	public static synchronized Cook getRandomCook()
 	{
-		int randomNumber = Utils.generateRandomNumber(cooks.size());
+		int randomNumber = Utils.generateRandomNumber(cooks.size()-1);
 		return cooks.get(randomNumber);
 	}
 	

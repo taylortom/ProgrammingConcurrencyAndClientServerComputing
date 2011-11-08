@@ -31,7 +31,6 @@ public class Main
 	/**
 	 * Starts the cashier/customer threads
 	 */
-	// TODO how to start threads implementing runnable
 	private static void startThreads()
 	{		
 		CookManager.getInstance();
@@ -58,9 +57,9 @@ public class Main
 		CookManager.getInstance();
 		CookManager.addCook(new Cook("Raymond", "Slater", Utils.generateUniqueId("CO")));
 		CookManager.addCook(new Cook("Laura", "Conner", Utils.generateUniqueId("CO")));
-		CookManager.addCook(new Cook("Grace", "Stafford", Utils.generateUniqueId("CO")));
-		CookManager.addCook(new Cook("Joe", "Stevens", Utils.generateUniqueId("CO")));
-		CookManager.addCook(new Cook("Paul", "McBride", Utils.generateUniqueId("CO")));
+//		CookManager.addCook(new Cook("Grace", "Stafford", Utils.generateUniqueId("CO")));
+//		CookManager.addCook(new Cook("Joe", "Stevens", Utils.generateUniqueId("CO")));
+//		CookManager.addCook(new Cook("Paul", "McBride", Utils.generateUniqueId("CO")));
 	}
 	
 	/**
@@ -71,9 +70,9 @@ public class Main
 		CashierManager.getInstance();
 		CashierManager.addCashier(new Cashier("Emma", "Fitzgerald", Utils.generateUniqueId("CA")));
 		CashierManager.addCashier(new Cashier("John", "Price", Utils.generateUniqueId("CA")));
-		CashierManager.addCashier(new Cashier("Sarah", "Simpson", Utils.generateUniqueId("CA")));
-		CashierManager.addCashier(new Cashier("Steve", "Spears", Utils.generateUniqueId("CA")));
-		CashierManager.addCashier(new Cashier("Nicole", "Black", Utils.generateUniqueId("CA")));
+//		CashierManager.addCashier(new Cashier("Sarah", "Simpson", Utils.generateUniqueId("CA")));
+//		CashierManager.addCashier(new Cashier("Steve", "Spears", Utils.generateUniqueId("CA")));
+//		CashierManager.addCashier(new Cashier("Nicole", "Black", Utils.generateUniqueId("CA")));
 	}
 	
 	/**

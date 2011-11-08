@@ -55,7 +55,7 @@ public class CashierManager
 	 */
 	public static synchronized Cashier getRandomCashier()
 	{
-		int randomNumber = Utils.generateRandomNumber(cashiers.size());
+		int randomNumber = Utils.generateRandomNumber(cashiers.size()-1);
 		return cashiers.get(randomNumber);
 	}
 	

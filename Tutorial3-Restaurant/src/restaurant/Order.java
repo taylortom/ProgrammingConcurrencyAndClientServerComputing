@@ -55,7 +55,7 @@ public class Order
 			preparationTime += this.order[i].getPreparationTime();
 		}
 		
-		// TODO slight hack - *prep time by 200
+		// TODO slight hack: x prep time by 200
 		return preparationTime*200;
 	}
 	
@@ -76,7 +76,5 @@ public class Order
 	public Customer getCustomer() { return this.customer; }
 	public MenuItem[] getOrder() { return this.order; }
 	
-	public double getTotal() {	return total;	}
-	
-	// TODO Order: set order to complete
+	public double getTotal() {	return total;	}	
 }

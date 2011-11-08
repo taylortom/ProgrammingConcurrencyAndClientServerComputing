@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import utils.ErrorLog;
 import utils.ErrorLog.Error;
+import utils.Utils;
 
 /**
  * Class to contain cook info
@@ -31,35 +32,44 @@ public class Cook extends Member implements Runnable
 	@Override
 	public void run()
 	{	
-		// TODO Cook.run: implement logging system
+		// TODO Cook.run: implement log-in system
+		
+		int sleepMultiplier = 1;
+		
 		while(true)
 		{				
 			OrderManager.getInstance();
 			this.currentOrder = OrderManager.getOrder();
 			
-			// TODO Cook: cook current order (sleep)
-			
 			if (this.currentOrder != null)
 			{
 				System.out.println("Cook[" + this.getSurname() + "] got order..." + this.currentOrder.getId());
-				
+
 				// sleep to imitate preparation of food
-				int preparationTime = this.currentOrder.calculatePreparationTime();
-				try{ Thread.sleep(preparationTime); }
-				catch (InterruptedException e){}
+				try{ Thread.sleep(this.currentOrder.calculatePreparationTime()); }
+				catch (InterruptedException e) 
+				{ 
+					System.out.println("Cook.run: InterruptedException");
+					// TODO Cook.run: ErrorLog.addMessage
+				}
 				
 				OrderManager.getInstance();
 				OrderManager.setOrderCompleted(this.currentOrder);
 				System.out.println("Cook[" + this.getSurname() + "] completed order..." + this.currentOrder.getId());
+				
+				sleepMultiplier = 1;
 			}
 			else 
 			{
 				//System.out.println("Cook[" + this.getSurname() + "] oops...no orders available");
-				try { Thread.sleep(1000); }
+				
+				try { Thread.sleep(Utils.generateRandomNumber(1000*sleepMultiplier)); }
 				catch (InterruptedException e)
 				{
 					ErrorLog.getInstance().addMessage("Cook", "run", "InterruptedException", ErrorLog.Error.ERROR);
 				}
+				
+				sleepMultiplier += 2;
 			}
 		}
 	}

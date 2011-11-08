@@ -45,7 +45,7 @@ public class CustomerManager
 	 */
 	public static synchronized Customer getRandomCustomer()
 	{
-		int randomNumber = Utils.generateRandomNumber(customers.size());
+		int randomNumber = Utils.generateRandomNumber(customers.size()-1);
 		return customers.get(randomNumber);
 	}
 	

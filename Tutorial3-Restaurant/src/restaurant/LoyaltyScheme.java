@@ -24,11 +24,6 @@ public class LoyaltyScheme
 		// TODO LoyaltyScheme constructor
 	}
 	
-	private void onOrderAdded(Object evtObj)
-	{
-		//TODO event management
-	}
-	
 	public double applyDiscount(Order order)
 	{
 		double orderCost = order.getTotal();

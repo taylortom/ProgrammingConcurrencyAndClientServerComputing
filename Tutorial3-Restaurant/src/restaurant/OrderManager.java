@@ -18,6 +18,8 @@ import utils.Utils;
  */
 public class OrderManager
 {
+	private static final int ORDER_LIMIT = 10;
+
 	private static List<Order> processingOrders = Collections.synchronizedList(new ArrayList<Order>());
 
 	// the OrderManager instance
@@ -27,7 +29,7 @@ public class OrderManager
 
 	/*
 	 * The orders waiting to be cooked
-	 * essentially a Queue, but needed random access
+	 * essentially a random access Queue
 	 */
 	private static List<Order> pendingOrders = Collections.synchronizedList(new ArrayList<Order>());
 	// The orders currently being cooked
@@ -52,7 +54,10 @@ public class OrderManager
 		_order.setId("OR-" + orderCount);
 		orderCount++;
 		pendingOrders.add(_order);
-		System.out.println("OrderManager-Cashier[" + _order.getCashier().getSurname() + "] added order: " + _order.getId() + "..." + _order.getOrder()[0].getDescription());
+		System.out.println("OrderManager-Cashier[" + _order.getCashier().getSurname() + "] added order: " + _order.getId() + "..." + _order.calculatePreparationTime()/1000 + "s prep time");
+		
+		// stop cashiers after specified number of orders
+		if(orderCount >= ORDER_LIMIT && ORDER_LIMIT != 0) for (int i = 0; i < CashierManager.getNumberOfCashiers(); i++) { CashierManager.getCashier(i).stop(); }
 	}
 	
 	/**
@@ -114,23 +119,6 @@ public class OrderManager
 			el.addMessage("OrderManager", "setOrderCompleted", "Head of processing orders and param don't match", ErrorLog.Error.ERROR);
 		}
 		completedOrders.add(_order);
-		
-		System.out.println("Pending: " + pendingOrders.size() + " Processing: " + processingOrders.size() + " Complete: " + completedOrders.size());
-	}
-	
-	public static synchronized Order createRandomOrder()
-	{
-		int count = Utils.generateRandomNumber(5);
-		if(count == 0) count = 1;
-				
-		MenuItem[] orderItems = new MenuItem[count];
-		
-		for (int i = 0; i < count; i++)
-		{
-			orderItems[i] = Menu.getInstance().getItem(Utils.generateRandomNumber(Menu.getInstance().getNumberOfItems()));
-		}
-		
-		return new Order(orderItems, CashierManager.getRandomCashier(), CustomerManager.getRandomCustomer());
 	}
 	
 	public static synchronized Order createRandomOrder(Cashier _cashier)
@@ -151,5 +139,5 @@ public class OrderManager
 	/**
 	 * Constructor - should never be called externally
 	 */
-	protected OrderManager() {	}
+	protected OrderManager() { System.out.println("-- ONLY " + ORDER_LIMIT + " ORDERS WILL BE TAKEN --"); }
 }
