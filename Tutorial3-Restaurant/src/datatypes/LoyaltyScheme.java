@@ -1,4 +1,4 @@
-package restaurant;
+package datatypes;
 
 /**
  * A customer loyalty scheme class that applies discounts 

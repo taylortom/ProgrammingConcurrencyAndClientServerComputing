@@ -1,6 +1,11 @@
-package restaurant;
+package members;
 
 import java.util.ArrayList;
+
+import datatypes.Order;
+
+
+import managers.OrderManager;
 
 /**
  * Class to store all cashier-related code
@@ -9,7 +14,7 @@ import java.util.ArrayList;
  * @version 0.1
  * @history 19.10.2011: Created class
  */
-public class Cashier extends Member implements Runnable
+public class Cashier extends Employee
 {
 	private static final int DELIVERY_TIME = 2000;
 	private ArrayList<String> ordersTaken = new ArrayList<String>();
@@ -27,7 +32,7 @@ public class Cashier extends Member implements Runnable
 	public void run()
 	{
 		// TODO Cashier.run: implement log-in system
-		while(this.run)
+		while(this.loggedIn())
 		{			
 			this.addOrder(OrderManager.createRandomOrder(this));
 
@@ -36,11 +41,10 @@ public class Cashier extends Member implements Runnable
 		}
 	}
 	
-	public void stop()
-	{
-		this.run  = false;
-	}
-	
+	/**
+	 * Adds the passed order to the system
+	 * @param order to add
+	 */
 	public void addOrder(Order _order)
 	{
 		super.addOrder(_order);

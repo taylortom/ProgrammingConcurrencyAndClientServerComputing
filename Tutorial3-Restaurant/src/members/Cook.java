@@ -1,9 +1,12 @@
-package restaurant;
+package members;
 
 import java.util.ArrayList;
 
-import utils.ErrorLog;
-import utils.ErrorLog.Error;
+import datatypes.Order;
+
+
+import managers.OrderManager;
+
 import utils.Utils;
 
 /**
@@ -13,7 +16,7 @@ import utils.Utils;
  * @version 0.1
  * @history 19.10.2011: Created class
  */
-public class Cook extends Member implements Runnable
+public class Cook extends Employee
 {
 	// a reference to the current order
 	private Order currentOrder = null;
@@ -29,6 +32,9 @@ public class Cook extends Member implements Runnable
 		super(_firstName, _surname, _id);
 	}
 	
+	/**
+	 * Main loop
+	 */
 	@Override
 	public void run()
 	{	
@@ -36,7 +42,7 @@ public class Cook extends Member implements Runnable
 		
 		int sleepMultiplier = 1;
 		
-		while(true)
+		while(this.loggedIn())
 		{				
 			OrderManager.getInstance();
 			this.currentOrder = OrderManager.getOrder();
@@ -54,7 +60,7 @@ public class Cook extends Member implements Runnable
 				}
 				
 				OrderManager.getInstance();
-				OrderManager.setOrderCompleted(this.currentOrder);
+				OrderManager.setOrderCooked(this.currentOrder);
 				System.out.println("Cook[" + this.getSurname() + "] completed order..." + this.currentOrder.getId());
 				
 				sleepMultiplier = 1;
@@ -66,7 +72,7 @@ public class Cook extends Member implements Runnable
 				try { Thread.sleep(Utils.generateRandomNumber(1000*sleepMultiplier)); }
 				catch (InterruptedException e)
 				{
-					ErrorLog.getInstance().addMessage("Cook", "run", "InterruptedException", ErrorLog.Error.ERROR);
+					System.out.println("Cook.run: Error InterruptedException");
 				}
 				
 				sleepMultiplier += 2;
@@ -74,6 +80,9 @@ public class Cook extends Member implements Runnable
 		}
 	}
 	
+	/**
+	 * Returns the number of orders
+	 */
 	@Override
 	public int getTotalOrders()
 	{

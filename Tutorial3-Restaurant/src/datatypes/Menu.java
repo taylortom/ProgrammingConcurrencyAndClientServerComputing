@@ -1,4 +1,4 @@
-package restaurant;
+package datatypes;
 
 import java.util.ArrayList;
 import java.util.Iterator;

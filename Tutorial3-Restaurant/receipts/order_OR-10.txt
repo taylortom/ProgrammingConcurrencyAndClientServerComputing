@@ -1,0 +1,16 @@
+--Sales Receipt--
+
+You were served by: John Price
+
+Order No. OR-10
+Date: 03.02.2012 Time: 20:50:05
+
+
+Items:
+
+Red Apple Salad          £10.95
+
+Total: £10.95
+
+
+--Thank you, call again!--

@@ -1,7 +1,10 @@
-package restaurant;
+package members;
+
+import datatypes.Order;
+import managers.OrderManager;
 
 /**
- * Class to store all cashier-related code
+ * Low level class to store basic details
  *
  * @author Tom
  * @version 0.1
@@ -23,12 +26,20 @@ public class Member
 		this.id = _id;
 	}
 	
+	/**
+	 * Adds an order to the system
+	 * @param order to add
+	 */
 	public void addOrder(Order _order)
 	{
 		OrderManager.getInstance();
 		OrderManager.addOrder(_order);
 	}
 
+	/**
+	 * returns the total number of orders
+	 * @return total orders
+	 */
 	public int getTotalOrders()
 	{
 		// to be implemented in subclass

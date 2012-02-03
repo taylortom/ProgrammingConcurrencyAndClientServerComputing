@@ -1,12 +1,17 @@
-package restaurant;
+package managers;
 
 // Java imports
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// Java Library imports
-import utils.ErrorLog;
+import datatypes.Menu;
+import datatypes.MenuItem;
+import datatypes.Order;
+
+import members.Cashier;
+
+
 import utils.Utils;
 
 /**
@@ -54,10 +59,11 @@ public class OrderManager
 		_order.setId("OR-" + orderCount);
 		orderCount++;
 		pendingOrders.add(_order);
+		_order.createReceipt();
 		System.out.println("OrderManager-Cashier[" + _order.getCashier().getSurname() + "] added order: " + _order.getId() + "..." + _order.calculatePreparationTime()/1000 + "s prep time");
 		
 		// stop cashiers after specified number of orders
-		if(orderCount >= ORDER_LIMIT && ORDER_LIMIT != 0) for (int i = 0; i < CashierManager.getNumberOfCashiers(); i++) { CashierManager.getCashier(i).stop(); }
+		if(orderCount >= ORDER_LIMIT && ORDER_LIMIT != 0) for (int i = 0; i < CashierManager.getNumberOfCashiers(); i++) { CashierManager.getCashier(i).logOut(); }
 	}
 	
 	/**
@@ -78,47 +84,37 @@ public class OrderManager
 	
 	/**
 	 * Looks for an order by its id
-	 * @return the next order
+	 * @return the order
 	 */
 	public static Order getOrder(String _id)
 	{		
 		// first check the processing orders
 		for (int i = 0; i < processingOrders.size(); i++)
-		{
 			if(processingOrders.get(i).getId() == _id) return processingOrders.get(i);
-		}
 		
 		// then check the pending orders
 		for (int j = 0; j < pendingOrders.size(); j++)
-		{
 			if(pendingOrders.get(j).getId() == _id) return pendingOrders.get(j);
-		}
 		
 		// finally check the completed orders
 		for (int k = 0; k < completedOrders.size(); k++)
-		{
 			if(completedOrders.get(k).getId() == _id) return completedOrders.get(k);
-		}
 		
-		// order not found, so log an error, and return null
-		ErrorLog el = ErrorLog.getInstance();
-		el.addMessage("OrderManager", "getOrder", "No such order found", ErrorLog.Error.ERROR);
+		// order not found, so display error, and return null
+		System.out.println("OrderManager.getOrder: Error no such order found");
 		return null;
 	}
 	
-	public static void setOrderCompleted(Order _order)
+	public static synchronized void setOrderCooked(Order _order)
 	{		
-		if(_order == processingOrders.get(0)) 
-		{
-			_order.setOrderCompleted();
-			processingOrders.remove(0);
-		}
-		else
-		{
-			ErrorLog el = ErrorLog.getInstance();
-			el.addMessage("OrderManager", "setOrderCompleted", "Head of processing orders and param don't match", ErrorLog.Error.ERROR);
-		}
+		_order.setOrderCooked();
+		processingOrders.remove(_order);
 		completedOrders.add(_order);
+	}
+	
+	public static void setOrderDelivered(Order _order)
+	{		
+		_order.setOrderDelivered();
 	}
 	
 	public static synchronized Order createRandomOrder(Cashier _cashier)

@@ -1,10 +1,8 @@
-package restaurant;
+package managers;
 
 // Java imports
 import java.util.ArrayList;
-
-// Java Library imports
-import utils.ErrorLog;
+import members.Cashier;
 import utils.Utils;
 
 /**

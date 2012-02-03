@@ -1,6 +1,13 @@
-package restaurant;
+
 
 // Java Library imports
+import managers.CashierManager;
+import managers.CookManager;
+import managers.CustomerManager;
+import members.Cashier;
+import members.Cook;
+import members.Customer;
+import clients.DisplayClient;
 import utils.Utils;
 
 /**
@@ -14,39 +21,43 @@ import utils.Utils;
  * @history 19.10.2011: Created class
  */
 public class Main
-{	
+{		
 	/**
 	 * The kick-off point...
 	 * @param args
 	 */
 	public static void main(String[] args)
 	{		
+		// Populate the system
 		addCooks();
 		addCashiers();
 		addCustomers();
 		
-		startThreads();
+		initialiseGUI();
+		
+		//logInUsers();
+	}
+
+	private static void initialiseGUI()
+	{
+		System.out.println("Main.initialiseGUI");
+		
+		DisplayClient displayClient = new DisplayClient();
 	}
 
 	/**
-	 * Starts the cashier/customer threads
+	 * Randomly chooses a few cooks/cashiers to log in
 	 */
-	private static void startThreads()
+	private static void logInUsers()
 	{		
 		CookManager.getInstance();
 		CashierManager.getInstance();
 		
 		for (int i = 0; i < CashierManager.getNumberOfCashiers(); i++)
-		{
-			Thread cashier = new Thread(CashierManager.getCashier(i));
-			cashier.start();
-		}
+			CashierManager.getCashier(i).logIn();
 				
 		for (int j = 0; j < CookManager.getNumberOfCooks(); j++)
-		{
-			Thread cook = new Thread(CookManager.getCook(j));
-			cook.start();
-		}
+			CookManager.getCook(j).logIn();
 	}
 
 	/**
@@ -57,9 +68,9 @@ public class Main
 		CookManager.getInstance();
 		CookManager.addCook(new Cook("Raymond", "Slater", Utils.generateUniqueId("CO")));
 		CookManager.addCook(new Cook("Laura", "Conner", Utils.generateUniqueId("CO")));
-//		CookManager.addCook(new Cook("Grace", "Stafford", Utils.generateUniqueId("CO")));
-//		CookManager.addCook(new Cook("Joe", "Stevens", Utils.generateUniqueId("CO")));
-//		CookManager.addCook(new Cook("Paul", "McBride", Utils.generateUniqueId("CO")));
+		CookManager.addCook(new Cook("Grace", "Stafford", Utils.generateUniqueId("CO")));
+		CookManager.addCook(new Cook("Joe", "Stevens", Utils.generateUniqueId("CO")));
+		CookManager.addCook(new Cook("Paul", "McBride", Utils.generateUniqueId("CO")));
 	}
 	
 	/**
@@ -70,9 +81,9 @@ public class Main
 		CashierManager.getInstance();
 		CashierManager.addCashier(new Cashier("Emma", "Fitzgerald", Utils.generateUniqueId("CA")));
 		CashierManager.addCashier(new Cashier("John", "Price", Utils.generateUniqueId("CA")));
-//		CashierManager.addCashier(new Cashier("Sarah", "Simpson", Utils.generateUniqueId("CA")));
-//		CashierManager.addCashier(new Cashier("Steve", "Spears", Utils.generateUniqueId("CA")));
-//		CashierManager.addCashier(new Cashier("Nicole", "Black", Utils.generateUniqueId("CA")));
+		CashierManager.addCashier(new Cashier("Sarah", "Simpson", Utils.generateUniqueId("CA")));
+		CashierManager.addCashier(new Cashier("Steve", "Spears", Utils.generateUniqueId("CA")));
+		CashierManager.addCashier(new Cashier("Nicole", "Black", Utils.generateUniqueId("CA")));
 	}
 	
 	/**

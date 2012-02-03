@@ -1,4 +1,4 @@
-package restaurant;
+package datatypes;
 
 /**
  * An individual menu item
@@ -39,6 +39,11 @@ public class MenuItem
 	public String getId()
 	{
 		return this.id;
+	}
+	
+	public double getPrice()
+	{
+		return this.price;
 	}
 	
 	public int getPreparationTime()

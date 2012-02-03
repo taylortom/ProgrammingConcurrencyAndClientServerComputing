@@ -1,6 +1,10 @@
-package restaurant;
+package members;
 
 import java.util.ArrayList;
+
+import datatypes.LoyaltyScheme;
+import datatypes.Order;
+
 
 /**
  * Class to store customer-related stuff
@@ -25,12 +29,20 @@ public class Customer extends Member
 		loyaltyScheme = new LoyaltyScheme();
 	}
 	
+	/**
+	 * Adds an order to the previous orders
+	 * @param the order to add
+	 */
+	@Override
 	public void addOrder(Order _order)
 	{
 		super.addOrder(_order);
 		this.previousOrders.add(_order.getId());
 	}
 	
+	/**
+	 * Returns the total number of orders
+	 */
 	@Override
 	public int getTotalOrders() 
 	{

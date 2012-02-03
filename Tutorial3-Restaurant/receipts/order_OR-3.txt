@@ -1,0 +1,19 @@
+--Sales Receipt--
+
+You were served by: Steve Spears
+
+Order No. OR-3
+Date: 03.02.2012 Time: 20:49:59
+
+
+Items:
+
+Margharita Pizza         £8.95
+Banoffee Pie             £5.95
+Spaghetti Bolognese      £9.95
+Artichoke Risotto        £4.95
+
+Total: £29.8
+
+
+--Thank you, call again!--
