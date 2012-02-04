@@ -35,7 +35,7 @@ public class Main
 		
 		initialiseGUI();
 		
-		//logInUsers();
+		logInUsers();
 	}
 
 	private static void initialiseGUI()

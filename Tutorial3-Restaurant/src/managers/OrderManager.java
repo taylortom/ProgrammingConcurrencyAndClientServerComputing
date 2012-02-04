@@ -105,6 +105,10 @@ public class OrderManager
 		return null;
 	}
 	
+	/**
+	 * Sets the passed order as cooked
+	 * @param _order
+	 */
 	public static synchronized void setOrderCooked(Order _order)
 	{		
 		_order.setOrderCooked();
@@ -112,11 +116,20 @@ public class OrderManager
 		completedOrders.add(_order);
 	}
 	
+	/**
+	 * Sets the passed order as delivered
+	 * @param _order
+	 */
 	public static void setOrderDelivered(Order _order)
 	{		
 		_order.setOrderDelivered();
 	}
 	
+	/**
+	 * Creates a new random order, and adds to the system
+	 * @param _cashier taking the order
+	 * @return the new order
+	 */
 	public static synchronized Order createRandomOrder(Cashier _cashier)
 	{
 		int count = Utils.generateRandomNumber(5);
@@ -130,6 +143,28 @@ public class OrderManager
 		}
 		
 		return new Order(orderItems, _cashier, CustomerManager.getRandomCustomer());
+	}
+	
+	/**
+	 * Returns an array of pending order ids
+	 * @return the list 
+	 */
+	public String[] getPendingOrders()
+	{		
+		String[] pendingOrdersArr = new String[this.pendingOrders.size()];
+		for (int i = 0; i < this.pendingOrders.size(); i++) pendingOrdersArr[i] = this.pendingOrders.get(i).getId();
+		return pendingOrdersArr;
+	}
+	
+	/**
+	 * Returns an array of processing order ids
+	 * @return the list 
+	 */
+	public String[] getProcessingOrders()
+	{		
+		String[] processingOrdersArr = new String[this.processingOrders.size()];
+		for (int i = 0; i < this.processingOrders.size(); i++) processingOrdersArr[i] = this.processingOrders.get(i).getId();
+		return processingOrdersArr;
 	}
 	
 	/**
