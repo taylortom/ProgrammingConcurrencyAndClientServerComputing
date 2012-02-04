@@ -21,29 +21,29 @@ public class Order
 {
 	
 	private String id;
+	private String date;
+	private String time;
+	
 	// the customer who placed the order
 	private Customer customer = null;
 	// the cashier who took the order
 	private Cashier cashier = null;
-	// the cook cooking(!) the order
-	private Cook cook = null;
-	
-	// the total cost of the order
-	private double total;
-	
-	// an array of MenuItems with each order
-	private MenuItem[] order;
 	
 	private OrderStatus status;
 	
+	// the total cost of the order
+	private double total = 0.0;
+	
+	// an array of MenuItems with each order
+	private MenuItem[] order;
+		
 	private final String RECEIPT_FILENAME = "receipts/order_X.txt";
-	private final int DESCRIPTION_MAX_LENGTH = 25;
 	
 	public enum OrderStatus
 	{
 		pending,
 		inProgress,
-		completed,
+		cooked,
 		delivered;
 	}
 	
@@ -54,9 +54,24 @@ public class Order
 	{
 		this.order = _order;
 		this.cashier = _cashier;
-		this.customer = _customer;
+		this.customer = _customer;	
+		
+		this.date = Utils.generateTimeStamp("dd.MM.yyyy");
+		this.time = Utils.generateTimeStamp("HH:mm:ss");
+		
+		this.calculateOrderTotal();
 	}
 	
+	private void calculateOrderTotal()
+	{
+		for (int i = 0; i < this.order.length; i++) 
+		{
+			MenuItem item = this.order[i];
+			total += item.getPrice(); 
+		}
+		
+	}
+
 	public int calculatePreparationTime()
 	{
 		int preparationTime = 0;
@@ -69,17 +84,6 @@ public class Order
 		// TODO slight hack: x prep time by 200
 		preparationTime = (preparationTime > 7000) ? 7000 : preparationTime*200;
 		return preparationTime;
-	}
-	
-	public void setOrderCooked()
-	{
-		this.status = OrderStatus.completed;
-		this.cashier.deliverOrder();
-	}
-	
-	public void setOrderDelivered()
-	{
-		this.status = OrderStatus.delivered;
 	}
 	
 	public void createReceipt()
@@ -95,17 +99,14 @@ public class Order
 			fw.append("\n\n");
 			fw.append("Order No. " + this.id);
 			fw.append('\n');
-			fw.append("Date: " + Utils.generateTimeStamp("dd.MM.yyyy"));
-			fw.append(" Time: " + Utils.generateTimeStamp("HH:mm:ss"));
+			fw.append("Date: " + this.date);
+			fw.append(" Time: " + date);
 			fw.append("\n\n\nItems:\n\n");
-				
-			double total = 0.0;
 			
 			// add order items
 			for (int i = 0; i < this.order.length; i++) 
 			{
 				MenuItem item = this.order[i];
-				total += item.getPrice(); 
 				
 				fw.append(Utils.extendStringToLength(item.getDescription(), 25));				
 				fw.append("£" + item.getPrice());
@@ -132,10 +133,13 @@ public class Order
 	{ 
 		if(_id != null) this.id = _id; 
 	}
-	
 	public Cashier getCashier() { return this.cashier; }
 	public Customer getCustomer() { return this.customer; }
 	public MenuItem[] getOrder() { return this.order; }
-	
+	public OrderStatus getOrderStatus() { return this.status; }
+	public void setOrderStatus(OrderStatus _status) 
+	{ 
+		if(this.status != _status) this.status = _status; 
+	}
 	public double getTotal() {	return total;	}	
 }

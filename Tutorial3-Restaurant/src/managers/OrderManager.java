@@ -8,6 +8,7 @@ import java.util.List;
 import datatypes.Menu;
 import datatypes.MenuItem;
 import datatypes.Order;
+import datatypes.Order.OrderStatus;
 
 import members.Cashier;
 
@@ -25,19 +26,19 @@ public class OrderManager
 {
 	private static final int ORDER_LIMIT = 10;
 
-	private static List<Order> processingOrders = Collections.synchronizedList(new ArrayList<Order>());
-
 	// the OrderManager instance
 	private static OrderManager instance = null;
 	
+	// start the order numbers at 1 rather than 0
 	private static int orderCount = 1; 
 
-	/*
-	 * The orders waiting to be cooked
-	 * essentially a random access Queue
-	 */
+	// The orders waiting to be cooked
 	private static List<Order> pendingOrders = Collections.synchronizedList(new ArrayList<Order>());
 	// The orders currently being cooked
+	private static List<Order> processingOrders = Collections.synchronizedList(new ArrayList<Order>());
+	//	Cooked orders awaiting delivery
+	private static List<Order> deliveryOrders = Collections.synchronizedList(new ArrayList<Order>());
+	//	Completed orders
 	private static List<Order> completedOrders = Collections.synchronizedList(new ArrayList<Order>());
 
 	/**
@@ -57,13 +58,16 @@ public class OrderManager
 	public synchronized void addOrder(Order _order)
 	{
 		_order.setId("OR-" + orderCount);
-		orderCount++;
 		pendingOrders.add(_order);
+		_order.setOrderStatus(OrderStatus.pending);
 		_order.createReceipt();
-		System.out.println("OrderManager-Cashier[" + _order.getCashier().getSurname() + "] added order: " + _order.getId() + "..." + _order.calculatePreparationTime()/1000 + "s prep time");
+		orderCount++;
+		//System.out.println("OrderManager-Cashier[" + _order.getCashier().getSurname() + "] added order: " + _order.getId() + "..." + _order.calculatePreparationTime()/1000 + "s prep time");
 		
 		// stop cashiers after specified number of orders
-		if(orderCount >= ORDER_LIMIT && ORDER_LIMIT != 0) for (int i = 0; i < CashierManager.getInstance().getNumberOfCashiers(); i++) { CashierManager.getInstance().getCashier(i).logOut(); }
+		if(orderCount >= ORDER_LIMIT && ORDER_LIMIT != 0) 
+			for (int i = 0; i < CashierManager.getInstance().getNumberOfCashiers(); i++) 
+				CashierManager.getInstance().getCashier(i).logOut();
 	}
 	
 	/**
@@ -96,9 +100,13 @@ public class OrderManager
 		for (int j = 0; j < pendingOrders.size(); j++)
 			if(pendingOrders.get(j).getId() == _id) return pendingOrders.get(j);
 		
+		// ... and the orders waiting for delivery
+		for (int k = 0; k < deliveryOrders.size(); k++)
+			if(deliveryOrders.get(k).getId() == _id) return deliveryOrders.get(k);
+		
 		// finally check the completed orders
-		for (int k = 0; k < completedOrders.size(); k++)
-			if(completedOrders.get(k).getId() == _id) return completedOrders.get(k);
+		for (int l = 0; l < completedOrders.size(); l++)
+			if(completedOrders.get(l).getId() == _id) return completedOrders.get(l);
 		
 		// order not found, so display error, and return null
 		System.out.println("OrderManager.getOrder: Error no such order found");
@@ -111,18 +119,25 @@ public class OrderManager
 	 */
 	public synchronized void setOrderCooked(Order _order)
 	{		
-		_order.setOrderCooked();
-		processingOrders.remove(_order);
-		completedOrders.add(_order);
+		processingOrders.remove(_order);		
+		deliveryOrders.add(_order);
+		_order.setOrderStatus(OrderStatus.cooked);
+		//System.out.println("Order: " + _order.getId() + " cooked" );
+		
+		// notify the cashier the order's cooked
+		_order.getCashier().deliverOrder(_order);
 	}
 	
 	/**
-	 * Sets the passed order as delivered
+	 * Sets the passed order as cooked
 	 * @param _order
 	 */
-	public void setOrderDelivered(Order _order)
+	public synchronized void setOrderDelivered(Order _order)
 	{		
-		_order.setOrderDelivered();
+		//System.out.println("OrderManager: cashier[" + _order.getCashier().getSurname() + "] delivered order: " + _order.getId());
+		deliveryOrders.remove(_order);
+		completedOrders.add(_order);
+		_order.setOrderStatus(OrderStatus.delivered);
 	}
 	
 	/**
@@ -138,9 +153,7 @@ public class OrderManager
 		MenuItem[] orderItems = new MenuItem[count];
 		
 		for (int i = 0; i < count; i++)
-		{
 			orderItems[i] = Menu.getInstance().getItem(Utils.generateRandomNumber(Menu.getInstance().getNumberOfItems()));
-		}
 		
 		return new Order(orderItems, _cashier, CustomerManager.getInstance().getRandomCustomer());
 	}
@@ -149,10 +162,15 @@ public class OrderManager
 	 * Returns an array of pending order ids
 	 * @return the list 
 	 */
-	public synchronized String[] getPendingOrders()
-	{		
+	public String[] getPendingOrders()
+	{	
+		// create a copy of the list in case an items removed mid-loop
+		Object[] pendingOrdersCopy = pendingOrders.toArray();
+		
 		String[] pendingOrdersArr = new String[pendingOrders.size()];
-		for (int i = 0; i < pendingOrders.size(); i++) pendingOrdersArr[i] = pendingOrders.get(i).getId();
+		
+		for (int i = 0; i < pendingOrdersCopy.length; i++) pendingOrdersArr[i] = ((Order) pendingOrdersCopy[i]).getId();
+		
 		return pendingOrdersArr;
 	}
 	
@@ -160,11 +178,32 @@ public class OrderManager
 	 * Returns an array of processing order ids
 	 * @return the list 
 	 */
-	public synchronized String[] getProcessingOrders()
-	{		
+	public String[] getProcessingOrders()
+	{	
+		// create a copy of the list in case an items removed mid-loop
+		Object[] processingOrdersCopy = processingOrders.toArray();
+		
 		String[] processingOrdersArr = new String[processingOrders.size()];
-		for (int i = 0; i < processingOrders.size(); i++) processingOrdersArr[i] = processingOrders.get(i).getId();
+		
+		for (int i = 0; i < processingOrdersCopy.length; i++) processingOrdersArr[i] = ((Order)processingOrdersCopy[i]).getId();
+		
 		return processingOrdersArr;
+	}
+	
+	/**
+	 * Returns an array of delivery order ids
+	 * @return the list 
+	 */
+	public String[] getDeliveryOrders()
+	{		
+		// create a copy of the list in case an items removed mid-loop
+		Object[] deliveryOrdersCopy = deliveryOrders.toArray();
+		
+		String[] deliveryOrdersArr = new String[deliveryOrders.size()];
+		
+		for (int i = 0; i < deliveryOrdersCopy.length; i++) deliveryOrdersArr[i] = ((Order)deliveryOrdersCopy[i]).getId();
+		
+		return deliveryOrdersArr;
 	}
 	
 	/**

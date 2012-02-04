@@ -1,13 +1,9 @@
 
 
 // Java Library imports
-import managers.CashierManager;
-import managers.CookManager;
-import managers.CustomerManager;
-import members.Cashier;
-import members.Cook;
-import members.Customer;
-import clients.DisplayClient;
+import managers.*;
+import members.*;
+import clients.*;
 import utils.Utils;
 
 /**
@@ -43,6 +39,8 @@ public class Main
 		System.out.println("Main.initialiseGUI");
 		
 		DisplayClient displayClient = new DisplayClient();
+		CashierClient cashierClient = new CashierClient();
+		//CashierClient cashierClient2 = new CashierClient();
 	}
 
 	/**

@@ -3,6 +3,7 @@ package members;
 import java.util.ArrayList;
 
 import datatypes.Order;
+import datatypes.Order.OrderStatus;
 
 
 import managers.OrderManager;
@@ -49,25 +50,20 @@ public class Cook extends Employee
 			
 			if (this.currentOrder != null)
 			{
-				System.out.println("Cook[" + this.getSurname() + "] got order..." + this.currentOrder.getId());
+				this.currentOrder.setOrderStatus(OrderStatus.inProgress);
+				//System.out.println("Cook[" + this.getSurname() + "] got order..." + this.currentOrder.getId());
 
 				// sleep to imitate preparation of food
-				try{ Thread.sleep(this.currentOrder.calculatePreparationTime()); }
-				catch (InterruptedException e) 
+				try
 				{ 
-					System.out.println("Cook.run: InterruptedException");
-					// TODO Cook.run: ErrorLog.addMessage
+					Thread.sleep(this.currentOrder.calculatePreparationTime()); 
+					OrderManager.getInstance().setOrderCooked(this.currentOrder);
+					sleepMultiplier = 1;
 				}
-				
-				OrderManager.getInstance().setOrderCooked(this.currentOrder);
-				System.out.println("Cook[" + this.getSurname() + "] completed order..." + this.currentOrder.getId());
-				
-				sleepMultiplier = 1;
+				catch (InterruptedException e) { System.out.println("Cook.run: InterruptedException"); }				
 			}
 			else 
-			{
-				//System.out.println("Cook[" + this.getSurname() + "] oops...no orders available");
-				
+			{				
 				try { Thread.sleep(Utils.generateRandomNumber(1000*sleepMultiplier)); }
 				catch (InterruptedException e)
 				{

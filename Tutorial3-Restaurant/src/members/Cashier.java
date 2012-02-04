@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import utils.Utils;
 
 import datatypes.Order;
+import datatypes.Order.OrderStatus;
 
 
 import managers.OrderManager;
@@ -18,9 +19,8 @@ import managers.OrderManager;
  */
 public class Cashier extends Employee
 {
-	private static final int DELIVERY_TIME = 2000;
+	private static final int DELIVERY_TIME = 3000;
 	private ArrayList<String> ordersTaken = new ArrayList<String>();
-	private boolean run = true;
 	
 	/**
 	 * Constructor
@@ -37,8 +37,8 @@ public class Cashier extends Employee
 		while(this.loggedIn())
 		{			
 			this.addOrder(OrderManager.getInstance().createRandomOrder(this));
-
-			int sleepAmount = (Utils.generateRandomNumber(3)+2)*1000;
+			
+			int sleepAmount = (Utils.generateRandomNumber(4)+1)*1000;
 			
 			try { Thread.sleep(sleepAmount); }
 			catch (InterruptedException e) { }
@@ -55,15 +55,32 @@ public class Cashier extends Employee
 		this.ordersTaken.add(_order.getId());
 	}
 
+	/**
+	 * Returns the number of orders taken
+	 * @return orders taken
+	 */
 	public int getTotalOrders()
 	{
 		return this.ordersTaken.size();
 	}
 	
-	public void deliverOrder()
+	/**
+	 * Delivers an order to a customer
+	 * @param _order to be delivered
+	 */
+	public void deliverOrder(Order _order)
 	{
-		System.out.println("cashier[" + this.getSurname() + "].deliverOrder: " + this.getTotalOrders());
-		try { Thread.sleep(DELIVERY_TIME); }
+		if(_order.getOrderStatus() != OrderStatus.cooked)
+		{
+			System.out.println("Cashier.deliverOrder: Error order " + _order.getId() + " not completed " + _order.getOrderStatus());
+			return;
+		}
+			
+		try 
+		{ 
+			Thread.sleep(DELIVERY_TIME);
+			OrderManager.getInstance().setOrderDelivered(_order);
+		}
 		catch (InterruptedException e) { }
 	}
 }
