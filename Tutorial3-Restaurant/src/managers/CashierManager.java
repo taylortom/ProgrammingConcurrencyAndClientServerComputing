@@ -33,7 +33,7 @@ public class CashierManager
 	 * Adds the passed customer to the cashiers list
 	 * @param _cashier
 	 */
-	public static synchronized void addCashier(Cashier _cashier)
+	public synchronized void addCashier(Cashier _cashier)
 	{
 		if(Utils.arraySearch(cashiers, _cashier).equals(false)) cashiers.add(_cashier);
 	}
@@ -42,7 +42,7 @@ public class CashierManager
 	 * Gets the Cashier by index 
 	 * @return the cashier
 	 */
-	public static synchronized Cashier getCashier(int index)
+	public synchronized Cashier getCashier(int index)
 	{
 		return cashiers.get(index);
 	}
@@ -51,7 +51,7 @@ public class CashierManager
 	 * Gets a random cashier from the list using Utils.generateRandomNumber
 	 * @return a random cashier
 	 */
-	public static synchronized Cashier getRandomCashier()
+	public synchronized Cashier getRandomCashier()
 	{
 		int randomNumber = Utils.generateRandomNumber(cashiers.size()-1);
 		return cashiers.get(randomNumber);
@@ -61,7 +61,7 @@ public class CashierManager
 	 * Gets the total number of Cashiers 
 	 * @return number of cashiers
 	 */
-	public static synchronized int getNumberOfCashiers()
+	public synchronized int getNumberOfCashiers()
 	{
 		return cashiers.size();
 	}

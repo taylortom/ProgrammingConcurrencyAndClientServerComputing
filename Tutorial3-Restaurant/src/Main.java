@@ -53,11 +53,11 @@ public class Main
 		CookManager.getInstance();
 		CashierManager.getInstance();
 		
-		for (int i = 0; i < CashierManager.getNumberOfCashiers(); i++)
-			CashierManager.getCashier(i).logIn();
+		for (int i = 0; i < CashierManager.getInstance().getNumberOfCashiers(); i++)
+			CashierManager.getInstance().getCashier(i).logIn();
 				
-		for (int j = 0; j < CookManager.getNumberOfCooks(); j++)
-			CookManager.getCook(j).logIn();
+		for (int j = 0; j < CookManager.getInstance().getNumberOfCooks(); j++)
+			CookManager.getInstance().getCook(j).logIn();
 	}
 
 	/**
@@ -65,12 +65,11 @@ public class Main
 	 */
 	private static void addCooks()
 	{			
-		CookManager.getInstance();
-		CookManager.addCook(new Cook("Raymond", "Slater", Utils.generateUniqueId("CO")));
-		CookManager.addCook(new Cook("Laura", "Conner", Utils.generateUniqueId("CO")));
-		CookManager.addCook(new Cook("Grace", "Stafford", Utils.generateUniqueId("CO")));
-		CookManager.addCook(new Cook("Joe", "Stevens", Utils.generateUniqueId("CO")));
-		CookManager.addCook(new Cook("Paul", "McBride", Utils.generateUniqueId("CO")));
+		CookManager.getInstance().addCook(new Cook("Raymond", "Slater", Utils.generateUniqueId("CO")));
+		CookManager.getInstance().addCook(new Cook("Laura", "Conner", Utils.generateUniqueId("CO")));
+		CookManager.getInstance().addCook(new Cook("Grace", "Stafford", Utils.generateUniqueId("CO")));
+		CookManager.getInstance().addCook(new Cook("Joe", "Stevens", Utils.generateUniqueId("CO")));
+		CookManager.getInstance().addCook(new Cook("Paul", "McBride", Utils.generateUniqueId("CO")));
 	}
 	
 	/**
@@ -78,12 +77,11 @@ public class Main
 	 */
 	private static void addCashiers()
 	{
-		CashierManager.getInstance();
-		CashierManager.addCashier(new Cashier("Emma", "Fitzgerald", Utils.generateUniqueId("CA")));
-		CashierManager.addCashier(new Cashier("John", "Price", Utils.generateUniqueId("CA")));
-		CashierManager.addCashier(new Cashier("Sarah", "Simpson", Utils.generateUniqueId("CA")));
-		CashierManager.addCashier(new Cashier("Steve", "Spears", Utils.generateUniqueId("CA")));
-		CashierManager.addCashier(new Cashier("Nicole", "Black", Utils.generateUniqueId("CA")));
+		CashierManager.getInstance().addCashier(new Cashier("Emma", "Fitzgerald", Utils.generateUniqueId("CA")));
+		CashierManager.getInstance().addCashier(new Cashier("John", "Price", Utils.generateUniqueId("CA")));
+		CashierManager.getInstance().addCashier(new Cashier("Sarah", "Simpson", Utils.generateUniqueId("CA")));
+		CashierManager.getInstance().addCashier(new Cashier("Steve", "Spears", Utils.generateUniqueId("CA")));
+		CashierManager.getInstance().addCashier(new Cashier("Nicole", "Black", Utils.generateUniqueId("CA")));
 	}
 	
 	/**
@@ -91,11 +89,10 @@ public class Main
 	 */
 	private static void addCustomers()
 	{		
-		CustomerManager.getInstance();
-		CustomerManager.addCustomer(new Customer("Geoff", "Spence", Utils.generateUniqueId("CU")));
-		CustomerManager.addCustomer(new Customer("Pete", "James", Utils.generateUniqueId("CU")));
-		CustomerManager.addCustomer(new Customer("Fred", "Stevens", Utils.generateUniqueId("CU")));
-		CustomerManager.addCustomer(new Customer("Gill", "Phillips", Utils.generateUniqueId("CU")));
-		CustomerManager.addCustomer(new Customer("Alex", "Parker", Utils.generateUniqueId("CU")));
+		CustomerManager.getInstance().addCustomer(new Customer("Geoff", "Spence", Utils.generateUniqueId("CU")));
+		CustomerManager.getInstance().addCustomer(new Customer("Pete", "James", Utils.generateUniqueId("CU")));
+		CustomerManager.getInstance().addCustomer(new Customer("Fred", "Stevens", Utils.generateUniqueId("CU")));
+		CustomerManager.getInstance().addCustomer(new Customer("Gill", "Phillips", Utils.generateUniqueId("CU")));
+		CustomerManager.getInstance().addCustomer(new Customer("Alex", "Parker", Utils.generateUniqueId("CU")));
 	}
 }

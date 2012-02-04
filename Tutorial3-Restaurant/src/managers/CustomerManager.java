@@ -37,7 +37,7 @@ public class CustomerManager
 	 * Adds the passed Customer to the customers list
 	 * @param _order
 	 */
-	public static synchronized void addCustomer(Customer _customer)
+	public synchronized void addCustomer(Customer _customer)
 	{
 		if(Utils.arraySearch(customers, _customer).equals(false)) customers.add(_customer);
 	}
@@ -46,7 +46,7 @@ public class CustomerManager
 	 * Gets a random Customer from the list using Utils.generateRandomNumber
 	 * @return a random Customer
 	 */
-	public static synchronized Customer getRandomCustomer()
+	public synchronized Customer getRandomCustomer()
 	{
 		int randomNumber = Utils.generateRandomNumber(customers.size()-1);
 		return customers.get(randomNumber);

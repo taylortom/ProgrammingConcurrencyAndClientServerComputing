@@ -2,6 +2,8 @@ package members;
 
 import java.util.ArrayList;
 
+import utils.Utils;
+
 import datatypes.Order;
 
 
@@ -34,9 +36,11 @@ public class Cashier extends Employee
 		// TODO Cashier.run: implement log-in system
 		while(this.loggedIn())
 		{			
-			this.addOrder(OrderManager.createRandomOrder(this));
+			this.addOrder(OrderManager.getInstance().createRandomOrder(this));
 
-			try { Thread.sleep(5000); }
+			int sleepAmount = (Utils.generateRandomNumber(3)+2)*1000;
+			
+			try { Thread.sleep(sleepAmount); }
 			catch (InterruptedException e) { }
 		}
 	}

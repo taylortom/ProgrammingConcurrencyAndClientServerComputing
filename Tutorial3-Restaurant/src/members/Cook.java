@@ -45,7 +45,7 @@ public class Cook extends Employee
 		while(this.loggedIn())
 		{				
 			OrderManager.getInstance();
-			this.currentOrder = OrderManager.getOrder();
+			this.currentOrder = OrderManager.getInstance().getOrder();
 			
 			if (this.currentOrder != null)
 			{
@@ -59,8 +59,7 @@ public class Cook extends Employee
 					// TODO Cook.run: ErrorLog.addMessage
 				}
 				
-				OrderManager.getInstance();
-				OrderManager.setOrderCooked(this.currentOrder);
+				OrderManager.getInstance().setOrderCooked(this.currentOrder);
 				System.out.println("Cook[" + this.getSurname() + "] completed order..." + this.currentOrder.getId());
 				
 				sleepMultiplier = 1;

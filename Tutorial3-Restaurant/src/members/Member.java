@@ -32,8 +32,7 @@ public class Member
 	 */
 	public void addOrder(Order _order)
 	{
-		OrderManager.getInstance();
-		OrderManager.addOrder(_order);
+		OrderManager.getInstance().addOrder(_order);
 	}
 
 	/**
