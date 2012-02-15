@@ -1,7 +1,6 @@
 package members;
 
-import datatypes.Order;
-import managers.OrderManager;
+import java.util.ArrayList;
 
 /**
  * Low level class to store basic details
@@ -15,6 +14,8 @@ public class Member
 	private String firstName = "";
 	private String surname = "";
 	private String id = "";
+	
+	protected ArrayList<String> orders = new ArrayList<String>();
 		
 	/**
 	 * Constructor
@@ -24,15 +25,6 @@ public class Member
 		this.firstName = _firstName;
 		this.surname = _surname;
 		this.id = _id;
-	}
-	
-	/**
-	 * Adds an order to the system
-	 * @param order to add
-	 */
-	public void addOrder(Order _order)
-	{
-		OrderManager.getInstance().addOrder(_order);
 	}
 
 	/**

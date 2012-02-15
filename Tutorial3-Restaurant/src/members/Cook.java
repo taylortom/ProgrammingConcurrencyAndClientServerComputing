@@ -1,13 +1,9 @@
 package members;
 
-import java.util.ArrayList;
-
+import clients.CookClient;
 import datatypes.Order;
 import datatypes.Order.OrderStatus;
-
-
 import managers.OrderManager;
-
 import utils.Utils;
 
 /**
@@ -22,8 +18,10 @@ public class Cook extends Employee
 	// a reference to the current order
 	private Order currentOrder = null;
 	
-	// the ids of the completed orders
-	private ArrayList<String> completedOrders;
+	// reference to the client GUI
+	private CookClient client;
+	
+	private boolean endShift = false;
 	
 	/**
 	 * Constructor
@@ -33,23 +31,31 @@ public class Cook extends Employee
 		super(_firstName, _surname, _id);
 	}
 	
+	@Override
+	protected void initGUI()
+	{
+		if(this.client == null) this.client = new CookClient(this);
+		else System.out.println("Cook.initGUI: Error client non-null");
+	}
+	
 	/**
 	 * Main loop
 	 */
 	@Override
 	public void run()
-	{	
-		// TODO Cook.run: implement log-in system
-		
+	{			
 		int sleepMultiplier = 1;
 		
 		while(this.loggedIn())
 		{				
-			OrderManager.getInstance();
-			this.currentOrder = OrderManager.getInstance().getOrder();
+			// don't log out until the current order's finished
+			if(!endShift) this.currentOrder = OrderManager.getInstance().getOrder();
+			else super.logOut();
 			
 			if (this.currentOrder != null)
 			{
+				if(this.client != null) this.client.update("Cooking");
+				
 				this.currentOrder.setOrderStatus(OrderStatus.inProgress);
 				//System.out.println("Cook[" + this.getSurname() + "] got order..." + this.currentOrder.getId());
 
@@ -58,12 +64,15 @@ public class Cook extends Employee
 				{ 
 					Thread.sleep(this.currentOrder.calculatePreparationTime()); 
 					OrderManager.getInstance().setOrderCooked(this.currentOrder);
+					this.orders.add(this.currentOrder.getId());
 					sleepMultiplier = 1;
 				}
 				catch (InterruptedException e) { System.out.println("Cook.run: InterruptedException"); }				
 			}
 			else 
-			{				
+			{		
+				if(this.client != null) this.client.update("Waiting");
+				
 				try { Thread.sleep(Utils.generateRandomNumber(1000*sleepMultiplier)); }
 				catch (InterruptedException e)
 				{
@@ -76,11 +85,30 @@ public class Cook extends Employee
 	}
 	
 	/**
-	 * Returns the number of orders
+	 * Logs the employee out of the system
 	 */
-	@Override
+	public void logOut()
+	{
+		System.out.println("Cook.logOut: " + this.getFirstName() + " " + this.getSurname());
+		this.endShift = true;
+	}
+	
+	/**
+	 * Returns the current order
+	 * @return current order
+	 */
+	public Order getCurrentOrder()
+	{
+		return this.currentOrder;
+	}
+	
+	/**
+	 * Returns the number of orders taken
+	 * @return orders taken
+	 */
 	public int getTotalOrders()
 	{
-		return this.completedOrders.size();
+		if(this.orders != null) return this.orders.size();
+		else return 0;
 	}
 }

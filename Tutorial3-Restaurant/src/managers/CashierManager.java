@@ -58,6 +58,16 @@ public class CashierManager
 	}
 	
 	/**
+	 * Gets the next available cashier from the list
+	 * @return the next cashier, null if none
+	 */
+	public synchronized Cashier getAvailableCashier()
+	{
+		for (int i = 0; i < cashiers.size(); i++) if(cashiers.get(i).loggedIn()) return cashiers.get(i);
+		return null;
+	}
+	
+	/**
 	 * Gets the total number of Cashiers 
 	 * @return number of cashiers
 	 */

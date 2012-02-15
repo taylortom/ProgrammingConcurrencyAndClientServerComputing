@@ -12,29 +12,32 @@ import managers.OrderManager;
  * @version 0.1
  * @history 03.02.2012: Created class
  */
-public class DisplayClient extends Thread
+public class DisplayClient
 {
+	// references to the lists (used by update()) 
 	private static JList pendingList;
 	private static JList processingList;
 	private static JList deliveryList;
 	
+	/**
+	 * Constructor
+	 */
 	public DisplayClient()
 	{
 		initGUI();
-		this.start();
 	}
   
+	/**
+	 * Creates the components 
+	 */
 	public static void initGUI()
-	{     			  
-		JFrame frame = new JFrame("Restaurant Display Client");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(600, 410);
-
+	{     
+		// create the window
+		Frame frame = new Frame("Restaurant Display Client", 600, 410);
+		
+		// create the container for the components
 		Container container = new Container(); 
 		container.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		container.add(panel);
 	
 		/**
 		 * Pending List
@@ -82,17 +85,13 @@ public class DisplayClient extends Thread
 		container.add(deliveryScroller);
 	}
 
-	@Override
-	public void run()
+	/**
+	 * Updates the lists when they're changed
+	 */
+	public void update()
 	{
-		while(true)
-		{
-			pendingList.setListData(OrderManager.getInstance().getPendingOrders());
-			processingList.setListData(OrderManager.getInstance().getProcessingOrders());
-			deliveryList.setListData(OrderManager.getInstance().getDeliveryOrders());
-			
-			try { Thread.sleep(500); }
-			catch (InterruptedException e) { }
-		}
+		pendingList.setListData(OrderManager.getInstance().getPendingOrders());
+		processingList.setListData(OrderManager.getInstance().getProcessingOrders());
+		deliveryList.setListData(OrderManager.getInstance().getDeliveryOrders());
 	}
 }

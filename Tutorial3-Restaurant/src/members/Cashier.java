@@ -1,9 +1,7 @@
 package members;
 
-import java.util.ArrayList;
-
+import clients.CashierClient;
 import utils.Utils;
-
 import datatypes.Order;
 import datatypes.Order.OrderStatus;
 
@@ -20,7 +18,9 @@ import managers.OrderManager;
 public class Cashier extends Employee
 {
 	private static final int DELIVERY_TIME = 3000;
-	private ArrayList<String> ordersTaken = new ArrayList<String>();
+	
+	//	reference to the client GUI
+	private CashierClient client;
 	
 	/**
 	 * Constructor
@@ -31,14 +31,20 @@ public class Cashier extends Employee
 	}
 	
 	@Override
+	protected void initGUI()
+	{
+		if(this.client == null) this.client = new CashierClient(this);
+		else System.out.println("Cashier.initGUI: Error client non-null");
+	}
+	
+	@Override
 	public void run()
 	{
-		// TODO Cashier.run: implement log-in system
 		while(this.loggedIn())
 		{			
 			this.addOrder(OrderManager.getInstance().createRandomOrder(this));
 			
-			int sleepAmount = (Utils.generateRandomNumber(4)+1)*1000;
+			int sleepAmount = (Utils.generateRandomNumber(4)+3)*1000;
 			
 			try { Thread.sleep(sleepAmount); }
 			catch (InterruptedException e) { }
@@ -50,9 +56,10 @@ public class Cashier extends Employee
 	 * @param order to add
 	 */
 	public void addOrder(Order _order)
-	{
-		super.addOrder(_order);
-		this.ordersTaken.add(_order.getId());
+	{		
+		OrderManager.getInstance().addOrder(_order);
+		this.orders.add(_order.getId());
+		if(this.client != null) this.client.update("Added order");
 	}
 
 	/**
@@ -61,7 +68,8 @@ public class Cashier extends Employee
 	 */
 	public int getTotalOrders()
 	{
-		return this.ordersTaken.size();
+		if(this.orders != null) return this.orders.size();
+		else return 0;
 	}
 	
 	/**
@@ -79,7 +87,9 @@ public class Cashier extends Employee
 		try 
 		{ 
 			Thread.sleep(DELIVERY_TIME);
+			System.out.println(this.getFirstName() + this.getSurname() + ".deliverOrder: " + _order.getId());
 			OrderManager.getInstance().setOrderDelivered(_order);
+			this.client.update("Delivered order");
 		}
 		catch (InterruptedException e) { }
 	}

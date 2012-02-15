@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import clients.DisplayClient;
+
 import datatypes.Menu;
 import datatypes.MenuItem;
 import datatypes.Order;
@@ -24,12 +26,10 @@ import utils.Utils;
  */
 public class OrderManager
 {
-	private static final int ORDER_LIMIT = 10;
-
 	// the OrderManager instance
 	private static OrderManager instance = null;
 	
-	// start the order numbers at 1 rather than 0
+	// start the order numbers at 1
 	private static int orderCount = 1; 
 
 	// The orders waiting to be cooked
@@ -40,6 +40,9 @@ public class OrderManager
 	private static List<Order> deliveryOrders = Collections.synchronizedList(new ArrayList<Order>());
 	//	Completed orders
 	private static List<Order> completedOrders = Collections.synchronizedList(new ArrayList<Order>());
+	
+	// reference to the display client
+	private static DisplayClient client;
 
 	/**
 	 * Returns the instance of the CashierManager
@@ -47,7 +50,11 @@ public class OrderManager
 	 */
 	public static synchronized OrderManager getInstance() 
 	{
-		if(instance == null) { instance = new OrderManager(); }
+		if(instance == null) 
+		{ 
+			instance = new OrderManager();
+			client = new DisplayClient();
+		}
 		return instance;
 	}
 	
@@ -56,18 +63,16 @@ public class OrderManager
 	 * @param _order
 	 */
 	public synchronized void addOrder(Order _order)
-	{
+	{		
 		_order.setId("OR-" + orderCount);
 		pendingOrders.add(_order);
 		_order.setOrderStatus(OrderStatus.pending);
+		_order.calculateTotal();
 		_order.createReceipt();
 		orderCount++;
 		//System.out.println("OrderManager-Cashier[" + _order.getCashier().getSurname() + "] added order: " + _order.getId() + "..." + _order.calculatePreparationTime()/1000 + "s prep time");
 		
-		// stop cashiers after specified number of orders
-		if(orderCount >= ORDER_LIMIT && ORDER_LIMIT != 0) 
-			for (int i = 0; i < CashierManager.getInstance().getNumberOfCashiers(); i++) 
-				CashierManager.getInstance().getCashier(i).logOut();
+		//client.update();
 	}
 	
 	/**
@@ -81,6 +86,7 @@ public class OrderManager
 			Order order = pendingOrders.get(0);
 			processingOrders.add(order);
 			pendingOrders.remove(0);
+			client.update();
 			return order;
 		}
 		else return null;
@@ -122,10 +128,20 @@ public class OrderManager
 		processingOrders.remove(_order);		
 		deliveryOrders.add(_order);
 		_order.setOrderStatus(OrderStatus.cooked);
+		client.update();
 		//System.out.println("Order: " + _order.getId() + " cooked" );
 		
-		// notify the cashier the order's cooked
-		_order.getCashier().deliverOrder(_order);
+		/*
+		 *  notify the cashier the order's cooked
+		 *  If the cashier who took the order isn't available, get another
+		 */
+		if(_order.getCashier().loggedIn()) _order.getCashier().deliverOrder(_order);
+		else 
+		{
+			Cashier newCashier = CashierManager.getInstance().getAvailableCashier();
+			if(newCashier == null) System.out.println("Well this is embarrassing: all of the the waiting staff seem to have left");
+			else newCashier.deliverOrder(_order);
+		}
 	}
 	
 	/**
@@ -137,6 +153,7 @@ public class OrderManager
 		//System.out.println("OrderManager: cashier[" + _order.getCashier().getSurname() + "] delivered order: " + _order.getId());
 		deliveryOrders.remove(_order);
 		completedOrders.add(_order);
+		client.update();
 		_order.setOrderStatus(OrderStatus.delivered);
 	}
 	
@@ -147,8 +164,7 @@ public class OrderManager
 	 */
 	public synchronized Order createRandomOrder(Cashier _cashier)
 	{
-		int count = Utils.generateRandomNumber(5);
-		if(count == 0) count = 1;
+		int count = Utils.generateRandomNumber(5) + 1;
 				
 		MenuItem[] orderItems = new MenuItem[count];
 		
@@ -209,5 +225,5 @@ public class OrderManager
 	/**
 	 * Constructor - should never be called externally
 	 */
-	protected OrderManager() { System.out.println("-- ONLY " + ORDER_LIMIT + " ORDERS WILL BE TAKEN --"); }
+	protected OrderManager() { /*System.out.println("-- ONLY " + ORDER_LIMIT + " ORDERS WILL BE TAKEN --");*/ }
 }

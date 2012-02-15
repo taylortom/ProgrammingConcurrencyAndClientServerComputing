@@ -9,6 +9,7 @@ package members;
  */
 public class Employee extends Member implements Runnable
 {
+	// if the employee is currently logged in
 	private boolean loggedIn = false;
 	
 	/**
@@ -17,6 +18,23 @@ public class Employee extends Member implements Runnable
 	public Employee(String _firstName, String _surname, String _id)
 	{
 		super(_firstName, _surname, _id);
+	}
+	
+	/**
+	 * Creates the GUI for the employee
+	 */
+	protected void initGUI()
+	{
+		// should be overridden in subclass
+	}
+	
+	/**
+	 * Connects to the central server
+	 * @return whether the employee's connected
+	 */
+	protected boolean connectToSystem()
+	{
+		return false;
 	}
 	
 	@Override
@@ -34,6 +52,8 @@ public class Employee extends Member implements Runnable
 		
 		Thread thread = new Thread(this);
 		thread.start();
+		
+		initGUI();
 	}
 	
 	/**
@@ -41,10 +61,8 @@ public class Employee extends Member implements Runnable
 	 */
 	public void logOut()
 	{
+		System.out.println("Employee.logOut: " + this.getFirstName() + " " + this.getSurname());
 		loggedIn = false;
-		
-		Thread thread = new Thread(this);
-		thread.stop();
 	}
 	
 	/**

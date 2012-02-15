@@ -9,13 +9,16 @@ package datatypes;
  */
 public class MenuItem
 {
+	// various pieces of information about the item
 	private String id = "";
 	private String name = "";
 	private double price = 0.0;
 	private Course course = null;
 	
+	// which course the item is
 	public enum Course { STARTER, MAIN, DESSERT }
 	
+	// preparation times
 	private static final int STARTER_PREP_TIME = 10;
 	private static final int MAIN_PREP_TIME = 25;
 	private static final int DESSERT_PREP_TIME = 10;
@@ -31,21 +34,37 @@ public class MenuItem
 		this.course = _course;
 	}
 	
+	/**
+	 * Gets the text description of the item
+	 * @return the description
+	 */
 	public String getDescription()
 	{
 		return this.name;
 	}
 	
+	/**
+	 * Gets the id of the item
+	 * @return the id
+	 */
 	public String getId()
 	{
 		return this.id;
 	}
 	
+	/**
+	 * Gets the price of the item
+	 * @return the price
+	 */
 	public double getPrice()
 	{
 		return this.price;
 	}
 	
+	/**
+	 * Gets the preparation time of the item
+	 * @return the prep time 
+	 */
 	public int getPreparationTime()
 	{
 		switch(this.course)

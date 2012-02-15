@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 import members.Cashier;
-import members.Cook;
 import members.Customer;
 
+import utils.LoyaltyScheme;
 import utils.Utils;
 
 /**
@@ -19,7 +19,7 @@ import utils.Utils;
  */
 public class Order
 {
-	
+	// the order details
 	private String id;
 	private String date;
 	private String time;
@@ -33,10 +33,12 @@ public class Order
 	
 	// the total cost of the order
 	private double total = 0.0;
+	private double discount = 0.0;
 	
 	// an array of MenuItems with each order
 	private MenuItem[] order;
-		
+	
+	// the name/location of the reciept
 	private final String RECEIPT_FILENAME = "receipts/order_X.txt";
 	
 	public enum OrderStatus
@@ -54,38 +56,45 @@ public class Order
 	{
 		this.order = _order;
 		this.cashier = _cashier;
-		this.customer = _customer;	
+		this.customer = _customer;
 		
 		this.date = Utils.generateTimeStamp("dd.MM.yyyy");
 		this.time = Utils.generateTimeStamp("HH:mm:ss");
 		
-		this.calculateOrderTotal();
+		this.customer.addOrder(this);
 	}
 	
-	private void calculateOrderTotal()
+	/**
+	 * Calculates the total order price
+	 */
+	public void calculateTotal()
 	{
 		for (int i = 0; i < this.order.length; i++) 
-		{
-			MenuItem item = this.order[i];
-			total += item.getPrice(); 
-		}
+			this.total += this.order[i].getPrice();	
 		
+		this.discount = LoyaltyScheme.calculateDiscount(this);
 	}
 
+	/**
+	 * Calculates the total preparation time of the order
+	 * (Caps the preparation time at 7 seconds)
+	 * @return the prep time
+	 */
 	public int calculatePreparationTime()
 	{
 		int preparationTime = 0;
 		
-		for (int i = 0; i < this.order.length; i++)
-		{
+		for (int i = 0; i < this.order.length; i++) 
 			preparationTime += this.order[i].getPreparationTime();
-		}
 		
 		// TODO slight hack: x prep time by 200
 		preparationTime = (preparationTime > 7000) ? 7000 : preparationTime*200;
 		return preparationTime;
 	}
 	
+	/**
+	 * Exports a receipt file at the location specified in RECEIPT_FILENAME
+	 */
 	public void createReceipt()
 	{	
 		try
@@ -100,7 +109,7 @@ public class Order
 			fw.append("Order No. " + this.id);
 			fw.append('\n');
 			fw.append("Date: " + this.date);
-			fw.append(" Time: " + date);
+			fw.append(" Time: " + this.time);
 			fw.append("\n\n\nItems:\n\n");
 			
 			// add order items
@@ -112,9 +121,14 @@ public class Order
 				fw.append("£" + item.getPrice());
 				fw.append("\n");
 			}
-			
-			// round and add the total	
-			fw.append("\nTotal: £" + Double.valueOf(new DecimalFormat("#.##").format(total)));
+						
+			// round and add the totals	
+			if(discount > 0.0) 
+			{
+				fw.append("\nSubtotal: £" + Double.valueOf(new DecimalFormat("#.##").format(total)));
+				fw.append("\nDiscount: £" + Double.valueOf(new DecimalFormat("#.##").format(discount)));
+			}
+			fw.append("\nTotal: £" + Double.valueOf(new DecimalFormat("#.##").format(total-discount)));
 
 			// add footer and close FileWriter
 			fw.append("\n\n\n--Thank you, call again!--");

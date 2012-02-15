@@ -1,9 +1,6 @@
 package datatypes;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import utils.Utils;
 
 /**
  * A class to store the menu items
@@ -14,6 +11,7 @@ import utils.Utils;
  */
 public class Menu
 {
+	// the list of items
 	private ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>(); 
 	
 	// the Menu instance
@@ -29,31 +27,52 @@ public class Menu
 		return instance;
 	}
 
-	public MenuItem getItem(String id)
+	/**
+	 * Finds the passed item
+	 * @param the id of the item to get
+	 * @return the item
+	 */
+	public MenuItem getItem(String _id)
 	{		
 		for (MenuItem item : menuItems)
 		{
-	      if (item.getId() == id) System.out.println("We got a match!!");
+	      if (item.getId() == _id) System.out.println("We got a match!!");
 		}
 		
 		return null;
 	}
 	
-	public MenuItem getItem(int index)
+	/**
+	 * Returns a menu item from its index
+	 * @param index
+	 * @return the item
+	 */
+	public MenuItem getItem(int _index)
 	{		
-		return menuItems.get(index);
+		return menuItems.get(_index);
 	}
 	
+	/**
+	 * The number of items in the menu
+	 * @return the number of items
+	 */
 	public int getNumberOfItems()
 	{
 		return this.menuItems.size();
 	}
 	
-	public void addItem(MenuItem item)
+	/**
+	 * Adds an item to the list
+	 * @param item to add
+	 */
+	public void addItem(MenuItem _item)
 	{
-		if(item != null) this.menuItems.add(item);
+		if(_item != null) this.menuItems.add(_item);
 	}
 	
+	/**
+	 * Populates the menu with some test items
+	 */
 	private void addTestData()
 	{
 		// starters
@@ -86,8 +105,5 @@ public class Menu
 	/**
 	 * Constructor - should not be called externally
 	 */
-	public Menu()
-	{
-		addTestData();
-	}
+	private Menu() { addTestData(); }
 }

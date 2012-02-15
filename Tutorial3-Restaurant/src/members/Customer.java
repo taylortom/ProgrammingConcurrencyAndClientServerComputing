@@ -1,10 +1,6 @@
 package members;
 
-import java.util.ArrayList;
-
-import datatypes.LoyaltyScheme;
 import datatypes.Order;
-
 
 /**
  * Class to store customer-related stuff
@@ -14,30 +10,22 @@ import datatypes.Order;
  * @history 19.10.2011: Created class
  */
 public class Customer extends Member
-{		
-	private ArrayList<String> previousOrders = new ArrayList<String>();
-	
-	private LoyaltyScheme loyaltyScheme;
-	
+{			
 	/**
 	 * Constructor
 	 */
 	public Customer(String _firstName, String _surname, String _id)
 	{
-		super(_firstName, _surname, _id);
-		
-		loyaltyScheme = new LoyaltyScheme();
+		super(_firstName, _surname, _id);		
 	}
 	
 	/**
 	 * Adds an order to the previous orders
 	 * @param the order to add
 	 */
-	@Override
 	public void addOrder(Order _order)
 	{
-		super.addOrder(_order);
-		this.previousOrders.add(_order.getId());
+		this.orders.add(_order.getId());
 	}
 	
 	/**
@@ -46,6 +34,6 @@ public class Customer extends Member
 	@Override
 	public int getTotalOrders() 
 	{
-		return previousOrders.size();
+		return orders.size();
 	}
 }
