@@ -1,5 +1,7 @@
 package datatypes;
 
+import java.io.Serializable;
+
 /**
  * An individual menu item
  *
@@ -7,8 +9,10 @@ package datatypes;
  * @version 0.1
  * @history Oct 27, 2011: Created class
  */
-public class MenuItem
+public class MenuItem implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	// various pieces of information about the item
 	private String id = "";
 	private String name = "";

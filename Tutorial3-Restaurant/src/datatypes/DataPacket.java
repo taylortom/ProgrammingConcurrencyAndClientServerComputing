@@ -22,37 +22,29 @@ public class DataPacket implements Serializable
 	public Cashier cashier = null;
 	public Cook cook = null;
 	public Function function;
-	
-	public enum DataType
-	{
-		ORDER,
-		CASHIER, 
-		COOK,
-		FUNCTION
-	}
-	public DataType type;
-	
-	public DataPacket(Order _order)
-	{
-		type = DataType.ORDER;
-		this.order = _order;
-	}
-	
-	public DataPacket(Cashier _cashier)
-	{
-		type = DataType.CASHIER;
-		this.cashier = _cashier;
-	}
-	
-	public DataPacket(Cook _cook)
-	{
-		type = DataType.COOK;
-		this.cook = _cook;
-	}
+	public boolean returnTransmission = false;
 	
 	public DataPacket(Function _function)
 	{
-		type = DataType.FUNCTION;
 		this.function = _function;
+		
+		switch (_function)
+		{
+			case ADD_ORDER: 
+			case SET_ORDER_COOKED:
+			case SET_ORDER_DELIVERED:
+				break;
+				
+			case GET_ORDER:
+			case GET_NEXT_ORDER: 
+			case CREATE_RANDOM_ORDER:
+			case GET_CASHIER:
+				this.returnTransmission = true; 
+				break;
+
+			default:
+				System.out.println("DataPacket.DataPacket: Error invalid function passed: " + _function);
+				break;
+		}
 	}
 }

@@ -1,6 +1,8 @@
 package clients;
 
 import java.awt.Container;
+import java.io.Serializable;
+
 import javax.swing.*;
 
 import members.Cashier;
@@ -12,8 +14,10 @@ import members.Cashier;
  * @version 0.1
  * @history 03.02.2012: Created class
  */
-public class CashierClient
+public class CashierClient implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	private Frame frame;
 	private JLabel orders;
 	private JLabel status;

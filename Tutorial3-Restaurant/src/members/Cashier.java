@@ -2,9 +2,12 @@ package members;
 
 import java.io.Serializable;
 
+import other.Constants.Function;
+
 import clients.CashierClient;
 import utils.Utils;
 
+import datatypes.DataPacket;
 import datatypes.Order;
 import datatypes.Order.OrderStatus;
 
@@ -46,7 +49,11 @@ public class Cashier extends Employee implements Serializable
 	{
 		while(this.loggedIn())
 		{			
-			this.addOrder(OrderManager.getInstance().createRandomOrder(this));
+			DataPacket packet = new DataPacket(Function.CREATE_RANDOM_ORDER);
+			packet.cashier = this;
+			packet = this.communicateWithServer(packet);
+			
+			this.addOrder(packet.order);
 			
 			int sleepAmount = (Utils.generateRandomNumber(4)+3)*1000;
 			
@@ -61,7 +68,10 @@ public class Cashier extends Employee implements Serializable
 	 */
 	public void addOrder(Order _order)
 	{		
-		OrderManager.getInstance().addOrder(_order);
+		DataPacket packet = new DataPacket(Function.ADD_ORDER);
+		packet.order = _order;
+		this.communicateWithServer(packet);
+		
 		this.orders.add(_order.getId());
 		if(this.client != null) this.client.update("Added order");
 	}

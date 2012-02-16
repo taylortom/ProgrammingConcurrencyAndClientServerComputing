@@ -35,7 +35,6 @@ public class CashierManager
 	 */
 	public synchronized void addCashier(Cashier _cashier)
 	{
-		System.out.println("CashierManager.addCashier");
 		if(Utils.arraySearch(cashiers, _cashier).equals(false)) cashiers.add(_cashier);
 	}
 	
@@ -54,7 +53,7 @@ public class CashierManager
 	 */
 	public synchronized Cashier getRandomCashier()
 	{
-		if(this.cashiers.size() == 0) 
+		if(cashiers.size() == 0) 
 		{ 
 			System.out.println("CashierManager.getRandomCashier: Error there are no Cashiers in the system");
 			return null;
@@ -95,7 +94,7 @@ public class CashierManager
 		for (int i = 0; i < cashiers.size(); i++)
 		{
 			Cashier cashier = cashiers.get(i);
-			if(cashier.loggedIn() && cashier.connected()) count++;
+			if(cashier.loggedIn()) count++;
 		}
 		
 		return count;

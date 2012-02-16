@@ -1,6 +1,14 @@
 package members;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.Socket;
+
+import other.Constants.Function;
+import datatypes.DataPacket;
 
 /**
  * Class to store all employee-related code
@@ -13,11 +21,11 @@ public class Employee extends Member implements Runnable, Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
+	private String host;
+	private int port;
+	
 	// if the employee is currently logged in
 	private boolean loggedIn = false;
-	
-	// if the employee's connected to the server
-	private boolean connected = false;
 	
 	/**
 	 * Constructor
@@ -36,28 +44,63 @@ public class Employee extends Member implements Runnable, Serializable
 	}
 	
 	/**
-	 * Connects to the central server
-	 * @return whether the employee's connected
+	 * Sets data relevant for connecting to the server
+	 * @param _host
+	 * @param _port
 	 */
-	public boolean connectToSystem()
+	public void setServerDetails(String _host, int _port)
 	{
-		// connect to the server
-		return connected;
+		this.host = _host;
+		this.port = _port;
 	}
 	
 	/**
-	 * Whether the employee's connected to the server
-	 * @return
+	 * Sends a message to the server. Exactly what is sent depends on the message
+	 * @param _function
 	 */
-	public boolean connected()
+	protected DataPacket communicateWithServer(DataPacket _packet)
 	{
-		return connected;
-	}
-	
-	@Override
-	public void run()
-	{
-		// Should be overridden in subclass
+		System.out.println("Employee.communicateWithServer: " + _packet.function.toString() + " at " + this.host + ":" + this.port);
+				
+		try
+		{
+			// the client socket
+			Socket socket = new Socket(this.host, this.port);
+
+			// create the output streams   			
+			BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());  
+			ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+			// send the data
+			oos.writeObject(_packet);
+			oos.flush();
+			
+			// whether we also need to wait for a response
+			if(_packet.returnTransmission)
+			{
+				// create the input streams
+				BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
+				ObjectInputStream ois = new ObjectInputStream(bis);
+
+				// read the data
+				_packet = (DataPacket)ois.readObject();
+				
+				bis.close();
+				ois.close();
+			}
+						
+			// close connections
+			oos.close();  
+			bos.close();  
+			socket.close();  
+			
+			return _packet;
+		}
+		catch(Exception e) 
+		{ 
+			System.out.println("Employee.communicateWithServer: Error exception " + e.getMessage()); 
+			return null;
+		}		
 	}
 	
 	/**
@@ -89,5 +132,11 @@ public class Employee extends Member implements Runnable, Serializable
 	public boolean loggedIn()
 	{
 		return this.loggedIn;
+	}
+	
+	@Override
+	public void run()
+	{
+		// Should be overridden in subclass
 	}
 }

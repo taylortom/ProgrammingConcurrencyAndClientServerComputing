@@ -138,7 +138,7 @@ public class Order implements Serializable
 		}
 		catch(IOException e)
 		{
-			System.out.println("Order.createReceipt: Error occurred while creating receipt");
+			System.out.println("Order.createReceipt: Error occurred while creating receipt " + e.getMessage());
 		}
 	}
 	

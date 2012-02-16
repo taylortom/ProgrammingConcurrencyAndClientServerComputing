@@ -41,7 +41,7 @@ public class OrderManager
 	private static Server server;
 	
 	// reference to the display client
-	private static DisplayClient displayClient;
+	private DisplayClient displayClient;
 
 
 	/**
@@ -59,7 +59,7 @@ public class OrderManager
 	
 	public void initGUI()
 	{
-		displayClient = new DisplayClient();
+		this.displayClient = new DisplayClient();
 	}
 	
 	public void setServer(Server _server)
@@ -81,8 +81,8 @@ public class OrderManager
 		_order.createReceipt();
 		orderCount++;
 		//System.out.println("OrderManager-Cashier[" + _order.getCashier().getSurname() + "] added order: " + _order.getId() + "..." + _order.calculatePreparationTime()/1000 + "s prep time");
-		
-		displayClient.update();
+				
+		this.displayClient.update();
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class OrderManager
 			Order order = pendingOrders.get(0);
 			processingOrders.add(order);
 			pendingOrders.remove(0);
-			displayClient.update();
+			this.displayClient.update();
 			return order;
 		}
 		else return null;
@@ -138,7 +138,7 @@ public class OrderManager
 		processingOrders.remove(_order);		
 		deliveryOrders.add(_order);
 		_order.setOrderStatus(OrderStatus.cooked);
-		displayClient.update();
+		this.displayClient.update();
 		//System.out.println("Order: " + _order.getId() + " cooked" );
 		
 		/*
@@ -163,7 +163,7 @@ public class OrderManager
 		//System.out.println("OrderManager: cashier[" + _order.getCashier().getSurname() + "] delivered order: " + _order.getId());
 		deliveryOrders.remove(_order);
 		completedOrders.add(_order);
-		displayClient.update();
+		this.displayClient.update();
 		_order.setOrderStatus(OrderStatus.delivered);
 	}
 	

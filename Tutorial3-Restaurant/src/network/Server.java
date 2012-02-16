@@ -8,7 +8,7 @@ import other.Setup;
 
 import clients.ServerClient;
 import datatypes.DataPacket;
-import datatypes.DataPacket.DataType;
+import datatypes.Order;
 
 import managers.CashierManager;
 import managers.CookManager;
@@ -35,7 +35,6 @@ public class Server implements Runnable
 	
 	private boolean online = true;
 	private ServerClient client;
-	private ServerSocket serverSocket;
 	
 	public static void main(String args[])
 	{
@@ -46,15 +45,16 @@ public class Server implements Runnable
 	 * Constructor
 	 */
 	public Server()
-	{
-		this.serverSocket = null;
-		
+	{		
 		this.initData();
 		this.initGUI();
 		
 		this.setServerDetails();
 	}
 	
+	/**
+	 * Populates the manager classes with sample data
+	 */
 	private void initData()
 	{
 		Setup.addCashiers();
@@ -62,6 +62,9 @@ public class Server implements Runnable
 		Setup.addCustomers();
 	}
 	
+	/**
+	 * Initialises the both the ServerClient and the DisplayClient
+	 */
 	private void initGUI()
 	{
 		if(this.client == null) this.client = new ServerClient();	
@@ -71,6 +74,9 @@ public class Server implements Runnable
 		orderManager.initGUI();
 	}
 	
+	/**
+	 * Takes input from the user, and sets the server host/port
+	 */
 	private void setServerDetails()
 	{
 		// keep looping until the user confirms details are correct
@@ -105,84 +111,80 @@ public class Server implements Runnable
 		}
 	}
 	
+	/**
+	 * Adds the passed string to the sever client output window
+	 * @param _output string
+	 */
 	public void output(String _output)
 	{
 		client.update(_output);
 	}
 	
    /**
-    * Get the root web page from a website
-    * 
-    * @param the server name (e.g. "www.bton.ac.uk").
-    * @param the server port number. The standard port number for web servers is 80.
+    * Listens at the specified port for incoming connections.
+    * Depending on the input, acts accordingly
     */
 	public void listenAtPort(String _server, int _port) 
 	{
-		System.out.println("Server.listenAtPort");
+		System.out.println("Server.listenAtPort: " + _server + ":" + _port);
 		
 		try
 		{
 			// set up the sockets
-			serverSocket = new ServerSocket(_port);
+			ServerSocket serverSocket = new ServerSocket(_port);
 			Socket socket = serverSocket.accept();
 			serverSocket.setSoTimeout(Constants.CONNECTION_TIMEOUT);
 			socket.setSoTimeout(Constants.CONNECTION_TIMEOUT);
 
 			// create the streams
 			BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());  
-			BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
 			ObjectInputStream ois = new ObjectInputStream(bis);
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
 
 			// get the input
-			Object inputObject = ois.readObject();
-			DataPacket dataPacket = (DataPacket)inputObject;
-			boolean returnObject = false;
-			Object object = null;
-			
-			System.out.print("Recieved " + dataPacket.type.toString());
-			if(dataPacket.type == DataType.FUNCTION) System.out.print(": " + dataPacket.function.toString());
-			System.out.println();
-			
-			switch(dataPacket.type)
+			DataPacket dataPacket = (DataPacket)ois.readObject();
+			System.out.println("Recieved DataPacket: " + dataPacket.function.toString());
+						
+			switch(dataPacket.function)
 			{
-				case ORDER:
+				case GET_CASHIER:
+					Cashier cashier = cashierManager.getRandomCashier();
+					// if the cashier's already logged in, get another 
+					while(cashier.loggedIn()) cashier = cashierManager.getRandomCashier();
+					dataPacket.cashier = cashier;
 					break;
-				case COOK:
+					
+				case CREATE_RANDOM_ORDER:
+					Order order = orderManager.createRandomOrder(dataPacket.cashier);
+					dataPacket.order = order;
 					break;
-				case CASHIER:
+				
+				case ADD_ORDER:
+					orderManager.addOrder(dataPacket.order);
 					break;
-				case FUNCTION:
-					switch(dataPacket.function)
-					{
-						case GET_CASHIER:
-							Cashier cashier = cashierManager.getRandomCashier();
-							// if the cashier's already logged in, get another 
-							while(cashier.loggedIn()) object = cashierManager.getRandomCashier();
-							object = cashier;
-							returnObject = true;
-							break;
-					}
+					
+				default: 
+					System.out.println("Error function not recognised: " + dataPacket.function.toString());
 					break;
 			}
 			
-			if(returnObject)
+			if(dataPacket.returnTransmission)
 			{
-				// send the output
-				oos.writeObject(object);
+				BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
+				ObjectOutputStream oos = new ObjectOutputStream(bos);
+				oos.writeObject(dataPacket);
 				oos.flush();
+				bos.close();
+				oos.close();
 				System.out.println("Object sent successfully");
 			}
 			
-			// close the connection
+			// communication complete, close the connection
 			bis.close(); 
 			ois.close();
-			bos.close();
-			oos.close();
 			socket.close();  
 			serverSocket.close();
 		}
-		catch (Exception e) { System.out.println("Server.listenAtPort: Error exception " + e.getMessage()); }
+		catch (Exception e) { System.out.println("Server.listenAtPort: Error exception: " + e.getMessage()); }
 	}
 	
 	@Override
@@ -191,10 +193,6 @@ public class Server implements Runnable
 		while(online) 
 		{
 			listenAtPort(host, port);
-			
-			// sleep for testing
-			try { Thread.sleep(5000); }
-			catch (InterruptedException e) { }
 		}
 	}
 }

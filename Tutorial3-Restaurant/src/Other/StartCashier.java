@@ -3,6 +3,8 @@ package other;
 import java.io.*;
 import java.net.Socket;
 
+import com.sun.tools.jdi.Packet;
+
 import datatypes.DataPacket;
 import other.Constants.Function;
 import members.Cashier;
@@ -35,9 +37,7 @@ public class StartCashier implements Runnable
 	private void getCashier()
 	{
 		System.out.println("StartCashier.getCashier");
-		
-		Cashier tempCashier = null;
-		
+				
 		try
 		{
 			// the client socket
@@ -48,7 +48,8 @@ public class StartCashier implements Runnable
 			ObjectOutputStream oos = new ObjectOutputStream(bos);
 
 			// send the data
-			oos.writeObject(new DataPacket(Function.GET_CASHIER));
+			DataPacket packet = new DataPacket(Function.GET_CASHIER);
+			oos.writeObject(packet);
 			oos.flush();
 			
 			// create the input streams
@@ -56,18 +57,21 @@ public class StartCashier implements Runnable
 			ObjectInputStream ois = new ObjectInputStream(bis);
 			
 			// read the data
-			tempCashier = (Cashier)ois.readObject();
+			packet = (DataPacket)ois.readObject();
+			cashier = packet.cashier;
 						
 			// close connections
-			oos.close();  
+			bis.close();
+			ois.close();
 			bos.close();  
+			oos.close();
 			socket.close();  
 		}
 		catch(Exception e) { System.out.println("Client.getCashier: Error exception " + e.getMessage()); }
 		
-		if(tempCashier != null) 
+		if(cashier != null) 
 		{
-			cashier = tempCashier;
+			cashier.setServerDetails(this.host, this.port);
 			cashier.logIn();
 		}
 		else 
