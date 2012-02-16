@@ -44,7 +44,7 @@ public class CashierClient
 		
 		// add name label
 		JLabel cashierName = new JLabel(this.cashier.getFirstName() + " " + this.cashier.getSurname());
-		cashierName.setBounds(25, -120, 250, 300);
+		cashierName.setBounds(25, 20, 250, 25);
 		container.add(cashierName);	
 		
 		// add orders label

@@ -2,6 +2,7 @@ package datatypes;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
 import members.Cashier;
@@ -17,7 +18,7 @@ import utils.Utils;
  * @version 0.1
  * @history 19.10.2011: Created class
  */
-public class Order
+public class Order implements Serializable
 {
 	// the order details
 	private String id;

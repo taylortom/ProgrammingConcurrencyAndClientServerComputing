@@ -4,17 +4,13 @@ package managers;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import network.Server;
 import clients.DisplayClient;
-
 import datatypes.Menu;
 import datatypes.MenuItem;
 import datatypes.Order;
 import datatypes.Order.OrderStatus;
-
 import members.Cashier;
-
-
 import utils.Utils;
 
 /**
@@ -41,8 +37,12 @@ public class OrderManager
 	//	Completed orders
 	private static List<Order> completedOrders = Collections.synchronizedList(new ArrayList<Order>());
 	
+	// reference to the Server
+	private static Server server;
+	
 	// reference to the display client
-	private static DisplayClient client;
+	private static DisplayClient displayClient;
+
 
 	/**
 	 * Returns the instance of the CashierManager
@@ -53,9 +53,19 @@ public class OrderManager
 		if(instance == null) 
 		{ 
 			instance = new OrderManager();
-			client = new DisplayClient();
 		}
 		return instance;
+	}
+	
+	public void initGUI()
+	{
+		displayClient = new DisplayClient();
+	}
+	
+	public void setServer(Server _server)
+	{
+		if(server == null) server = _server;
+		else System.out.println("OrderManager.setServer: Error Server already defined");
 	}
 	
 	/**
@@ -72,7 +82,7 @@ public class OrderManager
 		orderCount++;
 		//System.out.println("OrderManager-Cashier[" + _order.getCashier().getSurname() + "] added order: " + _order.getId() + "..." + _order.calculatePreparationTime()/1000 + "s prep time");
 		
-		//client.update();
+		displayClient.update();
 	}
 	
 	/**
@@ -86,7 +96,7 @@ public class OrderManager
 			Order order = pendingOrders.get(0);
 			processingOrders.add(order);
 			pendingOrders.remove(0);
-			client.update();
+			displayClient.update();
 			return order;
 		}
 		else return null;
@@ -128,7 +138,7 @@ public class OrderManager
 		processingOrders.remove(_order);		
 		deliveryOrders.add(_order);
 		_order.setOrderStatus(OrderStatus.cooked);
-		client.update();
+		displayClient.update();
 		//System.out.println("Order: " + _order.getId() + " cooked" );
 		
 		/*
@@ -153,7 +163,7 @@ public class OrderManager
 		//System.out.println("OrderManager: cashier[" + _order.getCashier().getSurname() + "] delivered order: " + _order.getId());
 		deliveryOrders.remove(_order);
 		completedOrders.add(_order);
-		client.update();
+		displayClient.update();
 		_order.setOrderStatus(OrderStatus.delivered);
 	}
 	

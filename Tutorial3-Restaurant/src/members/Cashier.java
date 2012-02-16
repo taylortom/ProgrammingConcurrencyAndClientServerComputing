@@ -1,10 +1,12 @@
 package members;
 
+import java.io.Serializable;
+
 import clients.CashierClient;
 import utils.Utils;
+
 import datatypes.Order;
 import datatypes.Order.OrderStatus;
-
 
 import managers.OrderManager;
 
@@ -15,8 +17,10 @@ import managers.OrderManager;
  * @version 0.1
  * @history 19.10.2011: Created class
  */
-public class Cashier extends Employee
+public class Cashier extends Employee implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private static final int DELIVERY_TIME = 3000;
 	
 	//	reference to the client GUI

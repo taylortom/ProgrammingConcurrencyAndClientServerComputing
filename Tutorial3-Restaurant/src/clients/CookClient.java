@@ -45,7 +45,7 @@ public class CookClient
 		
 		// add name label
 		JLabel cookName = new JLabel(this.cook.getFirstName() + " " + this.cook.getSurname());
-		cookName.setBounds(25, -120, 250, 300);
+		cookName.setBounds(25, 20, 250, 25);
 		container.add(cookName);	
 		
 		// add orders label

@@ -1,5 +1,7 @@
 package members;
 
+import java.io.Serializable;
+
 /**
  * Class to store all employee-related code
  *
@@ -7,10 +9,15 @@ package members;
  * @version 0.1
  * @history 19.10.2011: Created class
  */
-public class Employee extends Member implements Runnable
+public class Employee extends Member implements Runnable, Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	// if the employee is currently logged in
 	private boolean loggedIn = false;
+	
+	// if the employee's connected to the server
+	private boolean connected = false;
 	
 	/**
 	 * Constructor
@@ -32,9 +39,19 @@ public class Employee extends Member implements Runnable
 	 * Connects to the central server
 	 * @return whether the employee's connected
 	 */
-	protected boolean connectToSystem()
+	public boolean connectToSystem()
 	{
-		return false;
+		// connect to the server
+		return connected;
+	}
+	
+	/**
+	 * Whether the employee's connected to the server
+	 * @return
+	 */
+	public boolean connected()
+	{
+		return connected;
 	}
 	
 	@Override
@@ -48,12 +65,12 @@ public class Employee extends Member implements Runnable
 	 */
 	public void logIn()
 	{
-		loggedIn = true;
+		initGUI();
 		
 		Thread thread = new Thread(this);
 		thread.start();
 		
-		initGUI();
+		loggedIn = true;
 	}
 	
 	/**

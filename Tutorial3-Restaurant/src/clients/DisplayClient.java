@@ -66,9 +66,6 @@ public class DisplayClient
 		JScrollPane processingScroller = new JScrollPane(processingList);
 		processingScroller.setBounds(225, 60, 150, 300);
 		container.add(processingScroller);
-
-		frame.add(container);		
-		frame.setVisible(true);
 		
 		/**
 		 * Delivery List
@@ -83,6 +80,10 @@ public class DisplayClient
 		JScrollPane deliveryScroller = new JScrollPane(deliveryList);
 		deliveryScroller.setBounds(420, 60, 150, 300);
 		container.add(deliveryScroller);
+		
+		// add the container
+		frame.add(container);		
+		frame.setVisible(true);
 	}
 
 	/**

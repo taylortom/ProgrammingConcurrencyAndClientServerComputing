@@ -1,5 +1,6 @@
 package members;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,8 +10,10 @@ import java.util.ArrayList;
  * @version 0.1
  * @history 19.10.2011: Created class
  */
-public class Member
+public class Member implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private String firstName = "";
 	private String surname = "";
 	private String id = "";
