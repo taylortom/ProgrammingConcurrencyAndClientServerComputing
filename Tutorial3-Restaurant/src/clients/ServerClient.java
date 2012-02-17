@@ -6,6 +6,8 @@ import java.awt.TextArea;
 import javax.swing.*;
 
 import managers.CashierManager;
+import managers.CookManager;
+import managers.OrderManager;
 
 /**
  * Displays the state of the system
@@ -75,9 +77,17 @@ public class ServerClient
 	/**
 	 * Updates the display
 	 */
-	public void update(String _string)
+	public void updateDisplayText(String _string)
 	{
 		display.setText(_string + "\n" + display.getText());
+	}
+	
+	public void update()
+	{
 		cashiers.setText("Connected cashiers: " + CashierManager.getInstance().getNumberOfAvailableCashiers());
+		cooks.setText("Connected cooks: " + CookManager.getInstance().getNumberOfAvailableCooks());
+		
+		int totalOrders = OrderManager.getInstance().getPendingOrders().length + OrderManager.getInstance().getProcessingOrders().length;
+		orders.setText("Total orders: " + totalOrders);
 	}
 }

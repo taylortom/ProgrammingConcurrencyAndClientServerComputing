@@ -2,10 +2,7 @@ package managers;
 
 // Java imports
 import java.util.ArrayList;
-
 import members.Cook;
-
-
 import utils.Utils;
 
 /**
@@ -63,6 +60,24 @@ public class CookManager
 	public int getNumberOfCooks()
 	{
 		return cooks.size();
+	}
+	
+	/**
+	 * Gets the total number of Cooks available
+	 * (i.e. logged in) 
+	 * @return number of cooks
+	 */
+	public synchronized int getNumberOfAvailableCooks()
+	{
+		int count = 0;
+		
+		for (int i = 0; i < cooks.size(); i++)
+		{
+			Cook cook = cooks.get(i);
+			if(cook.loggedIn()) count++;
+		}
+		
+		return count;
 	}
 	
 	/**

@@ -11,8 +11,6 @@ import datatypes.DataPacket;
 import datatypes.Order;
 import datatypes.Order.OrderStatus;
 
-import managers.OrderManager;
-
 /**
  * Class to store all cashier-related code
  *
@@ -23,9 +21,7 @@ import managers.OrderManager;
 public class Cashier extends Employee implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-	
 	private static final int DELIVERY_TIME = 3000;
-	
 	//	reference to the client GUI
 	private CashierClient client;
 	
@@ -52,6 +48,7 @@ public class Cashier extends Employee implements Serializable
 			DataPacket packet = new DataPacket(Function.CREATE_RANDOM_ORDER);
 			packet.cashier = this;
 			packet = this.communicateWithServer(packet);
+			if(packet == null) continue;
 			
 			this.addOrder(packet.order);
 			
@@ -92,6 +89,8 @@ public class Cashier extends Employee implements Serializable
 	 */
 	public void deliverOrder(Order _order)
 	{
+		System.out.println("Cashier.deliverOrder");		
+		
 		if(_order.getOrderStatus() != OrderStatus.cooked)
 		{
 			System.out.println("Cashier.deliverOrder: Error order " + _order.getId() + " not completed " + _order.getOrderStatus());
@@ -101,10 +100,18 @@ public class Cashier extends Employee implements Serializable
 		try 
 		{ 
 			Thread.sleep(DELIVERY_TIME);
-			System.out.println(this.getFirstName() + this.getSurname() + ".deliverOrder: " + _order.getId());
-			OrderManager.getInstance().setOrderDelivered(_order);
+						
+			while(_order.getOrderStatus() != OrderStatus.delivered)
+			{
+				DataPacket packet = new DataPacket(Function.SET_ORDER_DELIVERED);
+				packet.order = _order;
+				this.communicateWithServer(packet);
+				
+				if(_order.getOrderStatus() != OrderStatus.delivered) Thread.sleep(1000);
+			}
+			System.out.println("Cashier.deliverOrder -------> 4");
 			this.client.update("Delivered order");
 		}
-		catch (InterruptedException e) { }
+		catch (Exception e) { System.out.println("Cashier.deliverOrder: Error exception " + e.getMessage()); }
 	}
 }

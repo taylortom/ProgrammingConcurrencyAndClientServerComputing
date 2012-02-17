@@ -8,7 +8,7 @@ import members.Cashier;
 import members.Cook;
 
 /**
- * A wrapper for an number of object s
+ * A wrapper for an number of objects
  *
  * @author Tom
  * @version 0.1
@@ -31,14 +31,16 @@ public class DataPacket implements Serializable
 		switch (_function)
 		{
 			case ADD_ORDER: 
-			case SET_ORDER_COOKED:
 			case SET_ORDER_DELIVERED:
+			case DELIVER_ORDER:
 				break;
 				
-			case GET_ORDER:
-			case GET_NEXT_ORDER: 
+			case SET_ORDER_COOKED:
 			case CREATE_RANDOM_ORDER:
 			case GET_CASHIER:
+			case GET_COOK:
+			case GET_NEXT_ORDER: 
+			case GET_ORDER:
 				this.returnTransmission = true; 
 				break;
 

@@ -9,11 +9,13 @@ import other.Setup;
 import clients.ServerClient;
 import datatypes.DataPacket;
 import datatypes.Order;
+import datatypes.Order.OrderStatus;
 
 import managers.CashierManager;
 import managers.CookManager;
 import managers.OrderManager;
 import members.Cashier;
+import members.Cook;
 
 
 /**
@@ -67,8 +69,8 @@ public class Server implements Runnable
 	 */
 	private void initGUI()
 	{
-		if(this.client == null) this.client = new ServerClient();	
-		else System.out.println("ServerClient.initGUI: Error client non-null");
+		//if(this.client == null) this.client = new ServerClient();	
+		//else System.out.println("ServerClient.initGUI: Error client non-null");
 		
 		orderManager.setServer(this);
 		orderManager.initGUI();
@@ -84,7 +86,7 @@ public class Server implements Runnable
 		
 		while(!confirmed)
 		{
-			System.out.println("Initialising Cashier");
+			System.out.println("Initialising Server");
 			
 			System.out.print("Enter the host: ");
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -117,7 +119,7 @@ public class Server implements Runnable
 	 */
 	public void output(String _output)
 	{
-		client.update(_output);
+		client.updateDisplayText(_output);
 	}
 	
    /**
@@ -126,7 +128,7 @@ public class Server implements Runnable
     */
 	public void listenAtPort(String _server, int _port) 
 	{
-		System.out.println("Server.listenAtPort: " + _server + ":" + _port);
+		System.out.print("Server.listenAtPort: " + _server + ":" + _port);
 		
 		try
 		{
@@ -142,28 +144,55 @@ public class Server implements Runnable
 
 			// get the input
 			DataPacket dataPacket = (DataPacket)ois.readObject();
-			System.out.println("Recieved DataPacket: " + dataPacket.function.toString());
-						
+			System.out.println(" Recieved DataPacket: " + dataPacket.function.toString());
+									
 			switch(dataPacket.function)
 			{
+				case SET_ORDER_COOKED:
+					orderManager.setOrderCooked(dataPacket.order);
+					//this.client.update();
+					break;
+					
+				case SET_ORDER_DELIVERED:
+					orderManager.setOrderDelivered(dataPacket.order);
+					//this.client.update();
+					break;
+
+				case GET_NEXT_ORDER:
+					Order nextOrder = orderManager.getOrder();
+					dataPacket.order = nextOrder;
+					//this.client.update();
+					break;
+									
+				case ADD_ORDER:
+					orderManager.addOrder(dataPacket.order);
+					//this.client.update();
+					break;
+					
+				case CREATE_RANDOM_ORDER:
+					Order randomOrder = orderManager.createRandomOrder(dataPacket.cashier);
+					dataPacket.order = randomOrder;
+					break;
+	
 				case GET_CASHIER:
 					Cashier cashier = cashierManager.getRandomCashier();
 					// if the cashier's already logged in, get another 
 					while(cashier.loggedIn()) cashier = cashierManager.getRandomCashier();
 					dataPacket.cashier = cashier;
+					//this.client.update();
 					break;
 					
-				case CREATE_RANDOM_ORDER:
-					Order order = orderManager.createRandomOrder(dataPacket.cashier);
-					dataPacket.order = order;
-					break;
-				
-				case ADD_ORDER:
-					orderManager.addOrder(dataPacket.order);
+				case GET_COOK:
+					Cook cook = cookManager.getRandomCook();
+					// if the cashier's already logged in, get another 
+					while(cook.loggedIn()) cook = cookManager.getRandomCook();
+					dataPacket.cook = cook;
+					//this.client.update();
 					break;
 					
 				default: 
 					System.out.println("Error function not recognised: " + dataPacket.function.toString());
+					this.output("Error function not recognised: " + dataPacket.function.toString());
 					break;
 			}
 			
@@ -175,7 +204,6 @@ public class Server implements Runnable
 				oos.flush();
 				bos.close();
 				oos.close();
-				System.out.println("Object sent successfully");
 			}
 			
 			// communication complete, close the connection
@@ -184,7 +212,7 @@ public class Server implements Runnable
 			socket.close();  
 			serverSocket.close();
 		}
-		catch (Exception e) { System.out.println("Server.listenAtPort: Error exception: " + e.getMessage()); }
+		catch (Exception e) { System.out.println(" Server.listenAtPort: Error exception: " + e.getMessage()); }
 	}
 	
 	@Override

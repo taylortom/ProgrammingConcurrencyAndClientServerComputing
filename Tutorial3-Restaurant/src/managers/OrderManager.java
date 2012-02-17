@@ -90,7 +90,7 @@ public class OrderManager
 	 * @return the next order
 	 */
 	public synchronized Order getOrder()
-	{
+	{		
 		if (pendingOrders.size() != 0)
 		{
 			Order order = pendingOrders.get(0);
@@ -134,24 +134,18 @@ public class OrderManager
 	 * @param _order
 	 */
 	public synchronized void setOrderCooked(Order _order)
-	{		
-		processingOrders.remove(_order);		
-		deliveryOrders.add(_order);
-		_order.setOrderStatus(OrderStatus.cooked);
-		this.displayClient.update();
-		//System.out.println("Order: " + _order.getId() + " cooked" );
+	{				
+		System.out.println("OrderManager.setOrderCooked: " + _order.getId() + " " + _order.getOrderStatus().toString());		
 		
-		/*
-		 *  notify the cashier the order's cooked
-		 *  If the cashier who took the order isn't available, get another
-		 */
-		if(_order.getCashier().loggedIn()) _order.getCashier().deliverOrder(_order);
-		else 
-		{
-			Cashier newCashier = CashierManager.getInstance().getAvailableCashier();
-			if(newCashier == null) System.out.println("Well this is embarrassing: all of the the waiting staff seem to have left");
-			else newCashier.deliverOrder(_order);
-		}
+		_order.setOrderStatus(OrderStatus.cooked);
+		deliveryOrders.add(_order);
+
+		for (int i = 0; i < processingOrders.size(); i++)
+			if(processingOrders.get(i).getId().equals(_order.getId())) processingOrders.remove(i);
+		
+		this.displayClient.update();
+		
+		System.out.println("II OrderManager.setOrderCooked: " + _order.getId() + " " + _order.getOrderStatus().toString());		
 	}
 	
 	/**
@@ -160,8 +154,11 @@ public class OrderManager
 	 */
 	public synchronized void setOrderDelivered(Order _order)
 	{		
-		//System.out.println("OrderManager: cashier[" + _order.getCashier().getSurname() + "] delivered order: " + _order.getId());
-		deliveryOrders.remove(_order);
+		System.out.println("OrderManager.setOrderDelivered: " + _order.getId());
+		
+		for (int i = 0; i < deliveryOrders.size(); i++)
+			if(deliveryOrders.get(i).getId().equals(_order.getId())) deliveryOrders.remove(i);
+		
 		completedOrders.add(_order);
 		this.displayClient.update();
 		_order.setOrderStatus(OrderStatus.delivered);

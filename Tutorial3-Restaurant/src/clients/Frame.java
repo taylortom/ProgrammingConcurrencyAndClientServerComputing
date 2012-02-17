@@ -55,8 +55,11 @@ public class Frame extends JFrame implements WindowListener
 	
 	public void windowClosing(WindowEvent e) 
 	{
-      if(employee != null) employee.logOut();
-      this.dispose();
+		if(employee != null) 
+		{
+			employee.logOut();
+			if(!employee.loggedIn()) this.dispose();
+      }
    }
 
 	public void windowOpened(WindowEvent e) {}

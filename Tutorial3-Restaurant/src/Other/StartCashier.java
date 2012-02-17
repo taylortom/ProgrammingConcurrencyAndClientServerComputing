@@ -3,8 +3,6 @@ package other;
 import java.io.*;
 import java.net.Socket;
 
-import com.sun.tools.jdi.Packet;
-
 import datatypes.DataPacket;
 import other.Constants.Function;
 import members.Cashier;
@@ -21,6 +19,7 @@ public class StartCashier implements Runnable
 {
 	private String host;
 	private int port;
+	
 	private Cashier cashier;
 	
 	public static void main(String[] args)
@@ -58,7 +57,7 @@ public class StartCashier implements Runnable
 			
 			// read the data
 			packet = (DataPacket)ois.readObject();
-			cashier = packet.cashier;
+			this.cashier = packet.cashier;
 						
 			// close connections
 			bis.close();
@@ -69,10 +68,10 @@ public class StartCashier implements Runnable
 		}
 		catch(Exception e) { System.out.println("Client.getCashier: Error exception " + e.getMessage()); }
 		
-		if(cashier != null) 
+		if(this.cashier != null) 
 		{
-			cashier.setServerDetails(this.host, this.port);
-			cashier.logIn();
+			this.cashier.setServerDetails(this.host, this.port);
+			this.cashier.logIn();
 		}
 		else 
 		{
@@ -91,17 +90,17 @@ public class StartCashier implements Runnable
 		{
 			System.out.println("Initialising Cashier");
 	
-			System.out.print("Enter the host: ");
+			System.out.print("Enter the server host: ");
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			try { this.host = br.readLine(); } 
 			catch (Exception e) { System.out.println("Exception reading input"); }
 
-			System.out.print("Enter the port number: ");
+			System.out.print("Enter the server port number: ");
 			br = new BufferedReader(new InputStreamReader(System.in));
 			try { this.port = Integer.valueOf(br.readLine()); } 
 			catch (Exception e) { System.out.println("Exception reading input"); }
-
-			System.out.println("Connected to host: " + host + " at port " + port);
+			
+			System.out.println("Connect to server: " + host + " at port " + port);
 			
 			System.out.print("Is this correct? (y/n): ");
 			br = new BufferedReader(new InputStreamReader(System.in));
@@ -119,6 +118,6 @@ public class StartCashier implements Runnable
 	@Override
 	public void run()
 	{
-		while(cashier == null) this.getCashier();
+		while(this.cashier == null) this.getCashier();
 	}
 }

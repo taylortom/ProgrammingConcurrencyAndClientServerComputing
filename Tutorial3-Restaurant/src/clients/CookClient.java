@@ -77,5 +77,6 @@ public class CookClient
 		this.orders.setText("Total Orders: " + this.cook.getTotalOrders());
 		this.status.setText("Status: " + _status);
 		if(this.cook.getCurrentOrder() != null) this.order.setText("Order: " + this.cook.getCurrentOrder().getId());
+		else this.order.setText("Order: ");
 	}
 }

@@ -84,7 +84,7 @@ public class CashierManager
 	
 	/**
 	 * Gets the total number of Cashiers available
-	 * (i.e. logged in and connected) 
+	 * (i.e. logged in) 
 	 * @return number of cashiers
 	 */
 	public synchronized int getNumberOfAvailableCashiers()
