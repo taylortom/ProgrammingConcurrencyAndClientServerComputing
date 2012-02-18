@@ -1,7 +1,7 @@
 package other;
 
 /**
- * Contains the constants used in the program
+ * Contains constants used in the program
  *
  * @author Tom
  * @version 0.1
@@ -10,17 +10,30 @@ package other;
 public interface Constants
 {
 	// Network stuff
-	public static final int COMMUNICATION_PORT = 1999;
-	public static final int CONNECTION_TIMEOUT = 10000;
+	public static final int CONNECTION_TIMEOUT = 5000;
+	public static final int DELIVERY_TIMEOUT = 10000;
 	
 	// ID prefixes
 	public static final String CASHIER_PREFIX = "CA"; 
 	public static final String COOK_PREFIX = "CO"; 
 	public static final String CUSTOMER_PREFIX = "CU"; 
 	
-	// Clients
-	public static final int NUMBER_OF_COOKS = 2;
-	public static final int NUMBER_OF_CASHIERS = 1;
+	// preparation times
+	public static final int STARTER_PREP_TIME = 10;
+	public static final int MAIN_PREP_TIME = 25;
+	public static final int DESSERT_PREP_TIME = 10;
+	
+	// order discounts
+	public static final double BRONZE_DISCOUNT = 0.05; 
+	public static final double SILVER_DISCOUNT = 0.10; 
+	public static final double GOLD_DISCOUNT = 0.15;
+
+	public static final int DELIVERY_TIME = 3000;
+	public final String RECEIPT_FILENAME = "receipts/order_X.txt";
+	
+	/* 
+	 * enumerations
+	 */
 	
 	public enum Function 
 	{ 
@@ -34,4 +47,11 @@ public interface Constants
 		SET_ORDER_COOKED,
 		SET_ORDER_DELIVERED
 	}
+	
+	public enum Course 
+	{ 
+		STARTER, 
+		MAIN, 
+		DESSERT 
+	}	
 }

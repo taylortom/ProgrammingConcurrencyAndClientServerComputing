@@ -18,6 +18,7 @@ public class CookClient
 	private JLabel orders;
 	private JLabel status;
 	private JLabel order;
+	private JLabel alert;
 	
 	private Cook cook;
 	
@@ -36,9 +37,6 @@ public class CookClient
 	 */
 	public void initGUI()
 	{     			  
-		// create the window
-		this.frame = new Frame(this.cook, 250, 165);
-		
 		// create the container for the components
 		Container container = new Container(); 
 		container.setLayout(null);
@@ -63,7 +61,13 @@ public class CookClient
 		order.setBounds(25, -40, 250, 300);
 		container.add(this.order);
 		
-		// add the container to the frame
+		// add debug label
+		alert = new JLabel("");
+		alert.setBounds(25, -20, 250, 300);
+		container.add(this.alert);
+		
+		// create the window and add the container to the frame
+		this.frame = new Frame(this.cook, this.alert, 250, 185);
 		this.frame.add(container);		
 		this.frame.setVisible(true);
 	}

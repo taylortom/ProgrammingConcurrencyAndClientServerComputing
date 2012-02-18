@@ -22,6 +22,7 @@ public class DataPacket implements Serializable
 	public Cashier cashier = null;
 	public Cook cook = null;
 	public Function function;
+	public String data = "";
 	public boolean returnTransmission = false;
 	
 	public DataPacket(Function _function)

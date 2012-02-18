@@ -1,5 +1,6 @@
 package utils;
 
+import other.Constants;
 import datatypes.Order;
 
 /**
@@ -12,10 +13,6 @@ import datatypes.Order;
  */
 public class LoyaltyScheme
 {
-	private static final double BRONZE_DISCOUNT = 0.05; 
-	private static final double SILVER_DISCOUNT = 0.10; 
-	private static final double GOLD_DISCOUNT = 0.15; 
-
 	/**
 	 * Calculates if the customer earns a discount
 	 * @param order to discount
@@ -30,10 +27,10 @@ public class LoyaltyScheme
 		{
 			if(orders > 9)
 			{
-				if(orders > 14) return orderCost * GOLD_DISCOUNT;
-				return orderCost * SILVER_DISCOUNT;
+				if(orders > 14) return orderCost * Constants.GOLD_DISCOUNT;
+				return orderCost * Constants.SILVER_DISCOUNT;
 			}
-			return orderCost * BRONZE_DISCOUNT; 
+			return orderCost * Constants.BRONZE_DISCOUNT; 
 		}
 		return 0;
 	}

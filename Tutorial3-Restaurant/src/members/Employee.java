@@ -1,14 +1,7 @@
 package members;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.Socket;
-
-import network.ClientServer;
-
 import datatypes.DataPacket;
 
 /**
@@ -59,61 +52,9 @@ public class Employee extends Member implements Runnable, Serializable
 	 * Sends a message to the server. Exactly what is sent depends on the message
 	 * @param _function
 	 */
-	protected DataPacket communicateWithServer(DataPacket _packet)
+	public DataPacket communicateWithServer(DataPacket _packet)
 	{
 		System.out.print("Employee.communicateWithServer: " + _packet.function.toString() + " at " + this.host + ":" + this.port);
-				
-		try
-		{
-			System.out.println();
-			
-			// the client socket
-			Socket socket = new Socket(this.host, this.port);
-
-			// create the output streams   			
-			BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());  
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-
-			// send the data
-			oos.writeObject(_packet);
-			oos.flush();
-			
-			// whether we also need to wait for a response
-			if(_packet.returnTransmission)
-			{
-				// create the input streams
-				BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
-				ObjectInputStream ois = new ObjectInputStream(bis);
-
-				// read the data
-				_packet = (DataPacket)ois.readObject();
-				
-				bis.close();
-				ois.close();
-			}
-						
-			// close connections
-			oos.close();  
-			bos.close();  
-			socket.close();  
-
-			return _packet;
-		}
-		catch(Exception e) 
-		{ 
-			System.out.print(" Error exception " + e.getMessage()); 
-			System.out.println();
-			return null;
-		}	
-	}
-	
-	/**
-	 * Sends a message to another client. Exactly what is sent depends on the message
-	 * @param _function
-	 */
-	protected DataPacket communicateWithClient(DataPacket _packet)
-	{
-		System.out.print("Employee.communicateWithClient: " + _packet.function.toString() + " at " + this.host + ":" + this.port);
 				
 		try
 		{

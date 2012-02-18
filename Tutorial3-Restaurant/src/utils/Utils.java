@@ -228,6 +228,18 @@ public class Utils
 	}
 	
 	/**
+	 * Formats a date using the passed format (see above)
+	 * @param date
+	 * @param format
+	 * @return
+	 */
+	public static String formatDate(Date date, String format)
+	{
+		DateFormat dateFormat = new SimpleDateFormat(format);
+		return dateFormat.format(date);
+	}
+	
+	/**
 	 * Returns a unique id based on the current time
 	 * @param stringToConvert
 	 * @return equivalent integer value

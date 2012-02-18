@@ -3,6 +3,8 @@ package other;
 import java.io.*;
 import java.net.Socket;
 
+import network.DeliveryServerlet;
+
 import datatypes.DataPacket;
 import other.Constants.Function;
 import members.Cashier;
@@ -19,24 +21,22 @@ public class StartCashier implements Runnable
 {
 	private String host;
 	private int port;
-	
+
 	private Cashier cashier;
-	
+
 	public static void main(String[] args)
 	{
 		new Thread(new StartCashier()).start();
 	}
-	
+
 	public StartCashier()
 	{
 		// set the server details		
 		setServerDetails();
 	}
-	
+
 	private void getCashier()
 	{
-		System.out.println("StartCashier.getCashier");
-				
 		try
 		{
 			// the client socket
@@ -50,15 +50,15 @@ public class StartCashier implements Runnable
 			DataPacket packet = new DataPacket(Function.GET_CASHIER);
 			oos.writeObject(packet);
 			oos.flush();
-			
+
 			// create the input streams
 			BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
 			ObjectInputStream ois = new ObjectInputStream(bis);
-			
+
 			// read the data
 			packet = (DataPacket)ois.readObject();
 			this.cashier = packet.cashier;
-						
+
 			// close connections
 			bis.close();
 			ois.close();
@@ -67,11 +67,12 @@ public class StartCashier implements Runnable
 			socket.close();  
 		}
 		catch(Exception e) { System.out.println("Client.getCashier: Error exception " + e.getMessage()); }
-		
+
 		if(this.cashier != null) 
 		{
 			this.cashier.setServerDetails(this.host, this.port);
 			this.cashier.logIn();
+			new DeliveryServerlet(this.cashier).start();
 		}
 		else 
 		{
@@ -80,36 +81,47 @@ public class StartCashier implements Runnable
 		}
 
 	}
-	
+
 	private void setServerDetails()
 	{
 		// keep looping until the user confirms details are correct
 		boolean confirmed = false;
-		
+
 		while(!confirmed)
 		{
 			System.out.println("Initialising Cashier");
-	
-			System.out.print("Enter the server host: ");
+
+			// for the user input
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+			// get the host name
+			System.out.print("Enter the host: ");
 			try { this.host = br.readLine(); } 
 			catch (Exception e) { System.out.println("Exception reading input"); }
 
-			System.out.print("Enter the server port number: ");
-			br = new BufferedReader(new InputStreamReader(System.in));
+			// get the port number 
+			System.out.print("Enter the port number: ");
 			try { this.port = Integer.valueOf(br.readLine()); } 
 			catch (Exception e) { System.out.println("Exception reading input"); }
-			
-			System.out.println("Connect to server: " + host + " at port " + port);
-			
-			System.out.print("Is this correct? (y/n): ");
-			br = new BufferedReader(new InputStreamReader(System.in));
+
 			try 
 			{ 
-				String response = br.readLine();				
-				if(response.equals("y")) confirmed = true;
-				else confirmed = false;
-				System.out.println("Server settings confirmed");
+				String response = "";
+
+				while(!response.equals("y") && !response.equals("n"))
+				{
+					// get the user to confirm the details
+					System.out.println("Connect to host: " + host + " at port " + port);
+					System.out.print("Is this correct? (y/n): ");
+
+					response = br.readLine();
+
+					if(response.equals("y"))
+					{
+						confirmed = true;
+						System.out.println("Server settings confirmed.");
+					}
+				}
 			} 
 			catch (Exception e) { System.out.println("Exception reading input"); }
 		}

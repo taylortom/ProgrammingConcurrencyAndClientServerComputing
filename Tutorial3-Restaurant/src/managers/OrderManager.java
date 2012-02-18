@@ -4,7 +4,6 @@ package managers;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import network.Server;
 import clients.DisplayClient;
 import datatypes.Menu;
 import datatypes.MenuItem;
@@ -37,9 +36,6 @@ public class OrderManager
 	//	Completed orders
 	private static List<Order> completedOrders = Collections.synchronizedList(new ArrayList<Order>());
 	
-	// reference to the Server
-	private static Server server;
-	
 	// reference to the display client
 	private DisplayClient displayClient;
 
@@ -60,12 +56,6 @@ public class OrderManager
 	public void initGUI()
 	{
 		this.displayClient = new DisplayClient();
-	}
-	
-	public void setServer(Server _server)
-	{
-		if(server == null) server = _server;
-		else System.out.println("OrderManager.setServer: Error Server already defined");
 	}
 	
 	/**
@@ -106,26 +96,17 @@ public class OrderManager
 	 * Looks for an order by its id
 	 * @return the order
 	 */
-	public Order getOrder(String _id)
+	public Order getOrderForDelivery(String _id)
 	{		
-		// first check the processing orders
-		for (int i = 0; i < processingOrders.size(); i++)
-			if(processingOrders.get(i).getId() == _id) return processingOrders.get(i);
-		
-		// then check the pending orders
-		for (int j = 0; j < pendingOrders.size(); j++)
-			if(pendingOrders.get(j).getId() == _id) return pendingOrders.get(j);
-		
 		// ... and the orders waiting for delivery
 		for (int k = 0; k < deliveryOrders.size(); k++)
-			if(deliveryOrders.get(k).getId() == _id) return deliveryOrders.get(k);
-		
-		// finally check the completed orders
-		for (int l = 0; l < completedOrders.size(); l++)
-			if(completedOrders.get(l).getId() == _id) return completedOrders.get(l);
+		{
+			if(deliveryOrders.get(k).getId().compareTo(_id) == 0) return deliveryOrders.get(k);
+			System.out.println("'" + deliveryOrders.get(k).getId() + "' - '" + _id + "'");
+		}
 		
 		// order not found, so display error, and return null
-		System.out.println("OrderManager.getOrder: Error no such order found");
+		System.out.println("OrderManager.getOrderForDelivery: Error no such order found: '" + _id + "'");
 		return null;
 	}
 	
@@ -134,18 +115,14 @@ public class OrderManager
 	 * @param _order
 	 */
 	public synchronized void setOrderCooked(Order _order)
-	{				
-		System.out.println("OrderManager.setOrderCooked: " + _order.getId() + " " + _order.getOrderStatus().toString());		
-		
+	{						
 		_order.setOrderStatus(OrderStatus.cooked);
 		deliveryOrders.add(_order);
 
 		for (int i = 0; i < processingOrders.size(); i++)
 			if(processingOrders.get(i).getId().equals(_order.getId())) processingOrders.remove(i);
 		
-		this.displayClient.update();
-		
-		System.out.println("II OrderManager.setOrderCooked: " + _order.getId() + " " + _order.getOrderStatus().toString());		
+		this.displayClient.update();		
 	}
 	
 	/**

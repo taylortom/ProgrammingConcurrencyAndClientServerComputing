@@ -3,20 +3,9 @@ package network;
 import java.io.*;
 import java.net.*;
 
-import other.Constants;
-import other.Setup;
-
-import clients.ServerClient;
-import datatypes.DataPacket;
-import datatypes.Order;
-import datatypes.Order.OrderStatus;
-
-import managers.CashierManager;
-import managers.CookManager;
 import managers.OrderManager;
-import members.Cashier;
-import members.Cook;
-
+import clients.ServerClient;
+import other.Setup;
 
 /**
  * The remote server which handles the 
@@ -26,21 +15,17 @@ import members.Cook;
  * @version 0.1
  * @history Feb 15, 2012: Created class
  */
-public class Server implements Runnable
+public class Server 
 {	
-	private String host = "localhost";
-	private int port = Constants.COMMUNICATION_PORT;
-	
-	OrderManager orderManager = OrderManager.getInstance();
-	CashierManager cashierManager = CashierManager.getInstance();
-	CookManager cookManager = CookManager.getInstance();
+	private String host = "";
+	private int port = -1;
 	
 	private boolean online = true;
 	private ServerClient client;
 	
 	public static void main(String args[])
 	{
-		new Thread(new Server()).start();
+		new Server();
 	}
 	
 	/**
@@ -52,6 +37,8 @@ public class Server implements Runnable
 		this.initGUI();
 		
 		this.setServerDetails();
+		
+		this.acceptConnection(this.host, this.port);
 	}
 	
 	/**
@@ -72,8 +59,7 @@ public class Server implements Runnable
 		//if(this.client == null) this.client = new ServerClient();	
 		//else System.out.println("ServerClient.initGUI: Error client non-null");
 		
-		orderManager.setServer(this);
-		orderManager.initGUI();
+		OrderManager.getInstance().initGUI();
 	}
 	
 	/**
@@ -88,26 +74,37 @@ public class Server implements Runnable
 		{
 			System.out.println("Initialising Server");
 			
-			System.out.print("Enter the host: ");
+			// for the user input
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			
+			// get the host name
+			System.out.print("Enter the host: ");
 			try { this.host = br.readLine(); } 
 			catch (Exception e) { System.out.println("Exception reading input"); }
 
+			// get the port number 
 			System.out.print("Enter the port number: ");
-			br = new BufferedReader(new InputStreamReader(System.in));
 			try { this.port = Integer.valueOf(br.readLine()); } 
 			catch (Exception e) { System.out.println("Exception reading input"); }
 
-			System.out.println("Connected to host: " + host + " at port " + port);
-			
-			System.out.print("Is this correct? (y/n): ");
-			br = new BufferedReader(new InputStreamReader(System.in));
 			try 
 			{ 
-				String response = br.readLine();				
-				if(response.equals("y")) confirmed = true;
-				else confirmed = false;
-				System.out.println("Server settings confirmed");
+				String response = "";
+				
+				while(!response.equals("y") && !response.equals("n"))
+				{
+					// get the user to confirm the details
+					System.out.println("Connect to host: " + host + " at port " + port);
+					System.out.print("Is this correct? (y/n): ");
+					
+					response = br.readLine();
+					
+					if(response.equals("y"))
+					{
+						confirmed = true;
+						System.out.println("Server settings confirmed.");
+					}
+				}
 			} 
 			catch (Exception e) { System.out.println("Exception reading input"); }
 		}
@@ -123,104 +120,25 @@ public class Server implements Runnable
 	}
 	
    /**
-    * Listens at the specified port for incoming connections.
-    * Depending on the input, acts accordingly
+    * Accepts connection at the specified port/host
+    * @param the host name
+    * @param the port number 
     */
-	public void listenAtPort(String _server, int _port) 
-	{
-		System.out.print("Server.listenAtPort: " + _server + ":" + _port);
-		
+	public void acceptConnection(String _server, int _port) 
+	{		
 		try
 		{
+			System.out.println("Server.acceptConnection: " + _server + ":" + _port);
+			
 			// set up the sockets
 			ServerSocket serverSocket = new ServerSocket(_port);
-			Socket socket = serverSocket.accept();
-			serverSocket.setSoTimeout(Constants.CONNECTION_TIMEOUT);
-			socket.setSoTimeout(Constants.CONNECTION_TIMEOUT);
 
-			// create the streams
-			BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());  
-			ObjectInputStream ois = new ObjectInputStream(bis);
-
-			// get the input
-			DataPacket dataPacket = (DataPacket)ois.readObject();
-			System.out.println(" Recieved DataPacket: " + dataPacket.function.toString());
-									
-			switch(dataPacket.function)
-			{
-				case SET_ORDER_COOKED:
-					orderManager.setOrderCooked(dataPacket.order);
-					//this.client.update();
-					break;
-					
-				case SET_ORDER_DELIVERED:
-					orderManager.setOrderDelivered(dataPacket.order);
-					//this.client.update();
-					break;
-
-				case GET_NEXT_ORDER:
-					Order nextOrder = orderManager.getOrder();
-					dataPacket.order = nextOrder;
-					//this.client.update();
-					break;
-									
-				case ADD_ORDER:
-					orderManager.addOrder(dataPacket.order);
-					//this.client.update();
-					break;
-					
-				case CREATE_RANDOM_ORDER:
-					Order randomOrder = orderManager.createRandomOrder(dataPacket.cashier);
-					dataPacket.order = randomOrder;
-					break;
-	
-				case GET_CASHIER:
-					Cashier cashier = cashierManager.getRandomCashier();
-					// if the cashier's already logged in, get another 
-					while(cashier.loggedIn()) cashier = cashierManager.getRandomCashier();
-					dataPacket.cashier = cashier;
-					//this.client.update();
-					break;
-					
-				case GET_COOK:
-					Cook cook = cookManager.getRandomCook();
-					// if the cashier's already logged in, get another 
-					while(cook.loggedIn()) cook = cookManager.getRandomCook();
-					dataPacket.cook = cook;
-					//this.client.update();
-					break;
-					
-				default: 
-					System.out.println("Error function not recognised: " + dataPacket.function.toString());
-					this.output("Error function not recognised: " + dataPacket.function.toString());
-					break;
-			}
-			
-			if(dataPacket.returnTransmission)
-			{
-				BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
-				ObjectOutputStream oos = new ObjectOutputStream(bos);
-				oos.writeObject(dataPacket);
-				oos.flush();
-				bos.close();
-				oos.close();
-			}
-			
-			// communication complete, close the connection
-			bis.close(); 
-			ois.close();
-			socket.close();  
+			// accept incoming connections
+			while(online) new Serverlet(serverSocket.accept()).start();
+			  
+			// close the server socket
 			serverSocket.close();
 		}
-		catch (Exception e) { System.out.println(" Server.listenAtPort: Error exception: " + e.getMessage()); }
-	}
-	
-	@Override
-	public void run()
-	{
-		while(online) 
-		{
-			listenAtPort(host, port);
-		}
+		catch (Exception e) { System.out.println("Server.listenAtPort: Error exception: " + e.getMessage()); }
 	}
 }

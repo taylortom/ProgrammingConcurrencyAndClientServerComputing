@@ -39,9 +39,6 @@ public class CashierClient implements Serializable
 	 */
 	public void initGUI()
 	{     			  
-		// create the window
-		this.frame = new Frame(this.cashier, 250, 150);
-		
 		// create the container for the components
 		Container container = new Container(); 
 		container.setLayout(null);
@@ -61,7 +58,8 @@ public class CashierClient implements Serializable
 		status.setBounds(25, -70, 250, 300);
 		container.add(this.status);
 		
-		// add the container to the frame
+		// create the window and add the container to the frame 
+		this.frame = new Frame(this.cashier, null, 250, 150);
 		this.frame.add(container);		
 		this.frame.setVisible(true);
 	}

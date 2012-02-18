@@ -2,6 +2,9 @@ package datatypes;
 
 import java.io.Serializable;
 
+import other.Constants;
+import other.Constants.Course;
+
 /**
  * An individual menu item
  *
@@ -18,14 +21,6 @@ public class MenuItem implements Serializable
 	private String name = "";
 	private double price = 0.0;
 	private Course course = null;
-	
-	// which course the item is
-	public enum Course { STARTER, MAIN, DESSERT }
-	
-	// preparation times
-	private static final int STARTER_PREP_TIME = 10;
-	private static final int MAIN_PREP_TIME = 25;
-	private static final int DESSERT_PREP_TIME = 10;
 
 	/**
 	 * Constructor
@@ -74,11 +69,11 @@ public class MenuItem implements Serializable
 		switch(this.course)
 		{
 			case STARTER:
-				return STARTER_PREP_TIME;
+				return Constants.STARTER_PREP_TIME;
 			case MAIN:
-				return MAIN_PREP_TIME;
+				return Constants.MAIN_PREP_TIME;
 			case DESSERT:
-				return DESSERT_PREP_TIME;
+				return Constants.DESSERT_PREP_TIME;
 			default:
 				return 0;
 		}

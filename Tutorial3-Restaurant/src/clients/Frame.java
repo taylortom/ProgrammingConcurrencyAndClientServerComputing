@@ -1,8 +1,8 @@
 package clients;
 
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import javax.swing.JFrame;
+import java.awt.event.*;
+import javax.swing.*;
+
 import members.Employee;
 
 /**
@@ -18,6 +18,8 @@ public class Frame extends JFrame implements WindowListener
 {
 	private static final long serialVersionUID = 1L;
 	
+	JLabel alert;
+	
 	// reference to the employee
 	Employee employee;
 	
@@ -27,10 +29,11 @@ public class Frame extends JFrame implements WindowListener
 	 * @param _width
 	 * @param _height
 	 */
-	public Frame(Employee _employee, int _width, int _height) 
+	public Frame(Employee _employee, JLabel _alert, int _width, int _height) 
 	{
 		super(_employee.getClass().getSimpleName().toString() + " Client: " + _employee.getFirstName() + " " + _employee.getSurname());
 		this.employee = _employee;
+		if(_alert != null) this.alert = _alert;
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setSize(_width, _height);
@@ -58,7 +61,12 @@ public class Frame extends JFrame implements WindowListener
 		if(employee != null) 
 		{
 			employee.logOut();
-			if(!employee.loggedIn()) this.dispose();
+			if(!employee.loggedIn()) 
+			{
+				this.dispose();
+				System.exit(EXIT_ON_CLOSE);
+			}
+			else if(alert != null) alert.setText("COMPLETE CURRENT ORDER FIRST");
       }
    }
 

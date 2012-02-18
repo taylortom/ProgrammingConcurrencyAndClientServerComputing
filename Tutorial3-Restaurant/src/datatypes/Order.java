@@ -4,6 +4,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.Calendar;
+
+import other.Constants;
 
 import members.Cashier;
 import members.Customer;
@@ -24,6 +27,7 @@ public class Order implements Serializable
 	private String id;
 	private String date;
 	private String time;
+	private Calendar timeCooked; 
 	
 	// the customer who placed the order
 	private Customer customer = null;
@@ -38,9 +42,6 @@ public class Order implements Serializable
 	
 	// an array of MenuItems with each order
 	private MenuItem[] order;
-	
-	// the name/location of the reciept
-	private final String RECEIPT_FILENAME = "receipts/order_X.txt";
 	
 	public enum OrderStatus
 	{
@@ -100,7 +101,7 @@ public class Order implements Serializable
 	{	
 		try
 		{
-			FileWriter fw = new FileWriter(Utils.stringSearchAndReplace(RECEIPT_FILENAME, "X", id));
+			FileWriter fw = new FileWriter(Utils.stringSearchAndReplace(Constants.RECEIPT_FILENAME, "X", id));
 
 			// add file header
 			fw.append("--Sales Receipt--");
@@ -152,9 +153,14 @@ public class Order implements Serializable
 	public Customer getCustomer() { return this.customer; }
 	public MenuItem[] getOrder() { return this.order; }
 	public OrderStatus getOrderStatus() { return this.status; }
+	public Calendar getTimeCooked() { return this.timeCooked; }
 	public void setOrderStatus(OrderStatus _status) 
 	{ 
-		if(this.status != _status) this.status = _status; 
+		if(this.status != _status) 
+		{
+			this.status = _status;
+			if(_status == OrderStatus.cooked) this.timeCooked = Calendar.getInstance(); 
+		}
 	}
 	public double getTotal() {	return total;	}	
 }
