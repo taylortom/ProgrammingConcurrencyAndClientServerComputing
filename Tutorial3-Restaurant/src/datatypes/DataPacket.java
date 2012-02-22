@@ -34,6 +34,8 @@ public class DataPacket implements Serializable
 			case ADD_ORDER: 
 			case SET_ORDER_DELIVERED:
 			case DELIVER_ORDER:
+			case EMPLOYEE_LOG_IN:
+			case EMPLOYEE_LOG_OUT:
 				break;
 				
 			case SET_ORDER_COOKED:
@@ -41,6 +43,7 @@ public class DataPacket implements Serializable
 			case GET_CASHIER:
 			case GET_COOK:
 			case GET_NEXT_ORDER: 
+			case GET_UNDELIVERED_ORDER:
 			case GET_ORDER:
 				this.returnTransmission = true; 
 				break;

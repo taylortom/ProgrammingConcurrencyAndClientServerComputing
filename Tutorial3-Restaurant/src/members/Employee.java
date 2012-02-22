@@ -2,6 +2,8 @@ package members;
 
 import java.io.*;
 import java.net.Socket;
+
+import other.Constants.Function;
 import datatypes.DataPacket;
 
 /**
@@ -14,13 +16,13 @@ import datatypes.DataPacket;
 public class Employee extends Member implements Runnable, Serializable
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String host;
 	private int port;
-		
+
 	// if the employee is currently logged in
 	private boolean loggedIn = false;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -28,7 +30,7 @@ public class Employee extends Member implements Runnable, Serializable
 	{
 		super(_firstName, _surname, _id);
 	}
-	
+
 	/**
 	 * Creates the GUI for the employee
 	 */
@@ -36,7 +38,7 @@ public class Employee extends Member implements Runnable, Serializable
 	{
 		// should be overridden in subclass
 	}
-	
+
 	/**
 	 * Sets data relevant for connecting to the servers
 	 * @param _host
@@ -47,19 +49,15 @@ public class Employee extends Member implements Runnable, Serializable
 		this.host = _host;
 		this.port = _port;
 	}
-	
+
 	/**
 	 * Sends a message to the server. Exactly what is sent depends on the message
 	 * @param _function
 	 */
 	public DataPacket communicateWithServer(DataPacket _packet)
-	{
-		System.out.print("Employee.communicateWithServer: " + _packet.function.toString() + " at " + this.host + ":" + this.port);
-				
+	{				
 		try
-		{
-			System.out.println();
-			
+		{		
 			// the client socket
 			Socket socket = new Socket(this.host, this.port);
 
@@ -70,7 +68,7 @@ public class Employee extends Member implements Runnable, Serializable
 			// send the data
 			oos.writeObject(_packet);
 			oos.flush();
-			
+
 			// whether we also need to wait for a response
 			if(_packet.returnTransmission)
 			{
@@ -80,11 +78,11 @@ public class Employee extends Member implements Runnable, Serializable
 
 				// read the data
 				_packet = (DataPacket)ois.readObject();
-				
+
 				bis.close();
 				ois.close();
 			}
-						
+
 			// close connections
 			oos.close();  
 			bos.close();  
@@ -94,31 +92,38 @@ public class Employee extends Member implements Runnable, Serializable
 		}
 		catch(Exception e) 
 		{ 
-			System.out.print(" Error exception " + e.getMessage()); 
-			System.out.println();
+			System.out.println("Error exception " + e.getMessage()); 
 			return null;
 		}	
 	}
-	
+
 	/**
 	 * Logs the employee into the system
 	 */
 	public void logIn()
-	{
-		initGUI();
+	{		
+		this.initGUI();
 		new Thread(this).start();
-		loggedIn = true;
+		this.loggedIn = true;
 	}
-	
+
 	/**
 	 * Logs the employee out of the system
 	 */
 	public void logOut()
 	{
-		System.out.println("Employee.logOut: " + this.getFirstName() + " " + this.getSurname());
-		loggedIn = false;
+		this.loggedIn = false;
 	}
-	
+
+	/**
+	 * Sets if the employee is currently logged in
+	 * @return logged in
+	 */
+	public void loggedIn(boolean _loggedIn)
+	{
+		this.loggedIn = _loggedIn;
+	}
+
 	/**
 	 * Whether the employee is currently logged in
 	 * @return logged in
@@ -127,7 +132,7 @@ public class Employee extends Member implements Runnable, Serializable
 	{
 		return this.loggedIn;
 	}
-	
+
 	@Override
 	public void run()
 	{

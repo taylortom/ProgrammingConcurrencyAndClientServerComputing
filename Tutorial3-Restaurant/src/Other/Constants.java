@@ -11,7 +11,7 @@ public interface Constants
 {
 	// Network stuff
 	public static final int CONNECTION_TIMEOUT = 5000;
-	public static final int DELIVERY_TIMEOUT = 10000;
+	public static final int DELIVERY_TIMEOUT = 3000;
 	
 	// ID prefixes
 	public static final String CASHIER_PREFIX = "CA"; 
@@ -40,10 +40,13 @@ public interface Constants
 		ADD_ORDER, 
 		CREATE_RANDOM_ORDER,
 		DELIVER_ORDER,
+		EMPLOYEE_LOG_IN,
+		EMPLOYEE_LOG_OUT,		
 		GET_CASHIER,
 		GET_COOK,
 		GET_ORDER,
-		GET_NEXT_ORDER, 
+		GET_NEXT_ORDER,
+		GET_UNDELIVERED_ORDER,
 		SET_ORDER_COOKED,
 		SET_ORDER_DELIVERED
 	}

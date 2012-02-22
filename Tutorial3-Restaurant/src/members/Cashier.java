@@ -1,9 +1,6 @@
 package members;
 
 import java.io.*;
-import java.util.Calendar;
-
-import network.DeliveryServerlet;
 
 import other.Constants;
 import other.Constants.Function;
@@ -27,7 +24,6 @@ public class Cashier extends Employee implements Serializable
 	private static final long serialVersionUID = 1L;
 	//	reference to the client GUI
 	private CashierClient client;
-	private DeliveryServerlet deliveryServerlet;
 
 	/**
 	 * Constructor
@@ -47,6 +43,8 @@ public class Cashier extends Employee implements Serializable
 	@Override
 	public void run()
 	{
+		try
+		{
 		while(this.loggedIn())
 		{			
 			DataPacket packet = new DataPacket(Function.CREATE_RANDOM_ORDER);
@@ -61,23 +59,13 @@ public class Cashier extends Employee implements Serializable
 			try { Thread.sleep(sleepAmount); }
 			catch (InterruptedException e) { }
 
-
-			// poll the order manager for orders not delivered 
-
-			/*// see if the order's passed the timeout
-			Calendar timeCooked = order.getTimeCooked();
-
-			if(timeCooked != null)
-			{
-				Calendar currentTime = Calendar.getInstance();
-				timeCooked.add(Calendar.MILLISECOND, Constants.DELIVERY_TIMEOUT);
-				if(currentTime.after(timeCooked)) System.out.println("Order timeout, deliver this order");
-				{
-					System.out.println("Order timeout, deliver this order");
-					this.cashier.deliverOrder(order);
-				}
-			}*/
+			// poll the order manager for any undelivered orders floating about 
+			DataPacket undeliveredOrderPacket = new DataPacket(Function.GET_UNDELIVERED_ORDER);
+			DataPacket undeliveredOrderReturnPacket = this.communicateWithServer(undeliveredOrderPacket);
+			if(undeliveredOrderReturnPacket.order != null) this.deliverOrder(undeliveredOrderReturnPacket.order);
 		}
+		}
+		catch(Exception e) { System.out.println("Cashier.run: Error exception " + e.getMessage()); }
 	}
 
 	/**
@@ -91,6 +79,8 @@ public class Cashier extends Employee implements Serializable
 		this.communicateWithServer(packet);
 
 		this.orders.add(_order.getId());
+
+		System.out.println("Cashier[" + this.getFirstName().charAt(0) + "." + this.getSurname() + "] added new order");
 		if(this.client != null) this.client.update("Added order");
 	}
 
@@ -110,8 +100,6 @@ public class Cashier extends Employee implements Serializable
 	 */
 	public void deliverOrder(Order _order)
 	{
-		System.out.println("Cashier.deliverOrder");		
-
 		if(_order.getOrderStatus() != OrderStatus.cooked)
 		{
 			System.out.println("Cashier.deliverOrder: Error order " + _order.getId() + " not completed " + _order.getOrderStatus());
@@ -122,23 +110,35 @@ public class Cashier extends Employee implements Serializable
 		{ 
 			Thread.sleep(Constants.DELIVERY_TIME);
 
-			while(_order.getOrderStatus() != OrderStatus.delivered)
-			{
-				DataPacket packet = new DataPacket(Function.SET_ORDER_DELIVERED);
-				packet.order = _order;
-				this.communicateWithServer(packet);
+			DataPacket packet = new DataPacket(Function.SET_ORDER_DELIVERED);
+			packet.order = _order;
+			this.communicateWithServer(packet);
 
-				if(_order.getOrderStatus() != OrderStatus.delivered) Thread.sleep(1000);
-			}
-			System.out.println("Cashier.deliverOrder -------> 4");
 			this.client.update("Delivered order");
+			System.out.println("Cashier[" + this.getFirstName().charAt(0) + "." + this.getSurname() + "] delivered order: " + _order.getId());
 		}
 		catch (Exception e) { System.out.println("Cashier.deliverOrder: Error exception " + e.getMessage()); }
 	}
 
+	@Override
+	public void logIn()
+	{		
+		// let the server know the cashier's logged in
+		DataPacket packet = new DataPacket(Function.EMPLOYEE_LOG_IN);
+		packet.cashier = this;
+		packet = this.communicateWithServer(packet);
+
+		super.logIn();
+	}
+
+	@Override
 	public void logOut()
 	{
+		// let the server know the cashier's logged in
+		DataPacket packet = new DataPacket(Function.EMPLOYEE_LOG_OUT);
+		packet.cashier = this;
+		packet = this.communicateWithServer(packet);		
+
 		super.logOut();
-		this.deliveryServerlet.goOffline();
 	}
 }

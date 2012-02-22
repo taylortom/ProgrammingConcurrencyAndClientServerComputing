@@ -246,7 +246,8 @@ public class Utils
 	 */
 	public static synchronized String generateUniqueId(String prefixString) 
 	{
-		return prefixString += generateTimeStamp("yyMMddHHmmss");
+		prefixString += "-" + generateTimeStamp("yyMM");
+		return String.format("%s%d%d%d%d", prefixString, generateRandomNumber(10), generateRandomNumber(10), generateRandomNumber(10), generateRandomNumber(10));
 	}
 	
 	/**

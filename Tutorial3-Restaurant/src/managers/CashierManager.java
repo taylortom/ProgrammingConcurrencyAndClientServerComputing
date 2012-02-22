@@ -42,9 +42,21 @@ public class CashierManager
 	 * Gets the Cashier by index 
 	 * @return the cashier
 	 */
-	public synchronized Cashier getCashier(int index)
+	public synchronized Cashier getCashier(int _index)
 	{
-		return cashiers.get(index);
+		return cashiers.get(_index);
+	}
+	
+	/**
+	 * Gets the Cashier by id 
+	 * @return the cashier
+	 */
+	public synchronized Cashier getCashier(String _id)
+	{
+		for (int i = 0; i < cashiers.size(); i++)
+			if(cashiers.get(i).getId().equals(_id)) return cashiers.get(i);   
+		
+		return null;
 	}
 	
 	/**

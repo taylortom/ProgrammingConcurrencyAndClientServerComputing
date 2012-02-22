@@ -2,8 +2,11 @@ package managers;
 
 // Java imports
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+
+import other.Constants;
 import clients.DisplayClient;
 import datatypes.Menu;
 import datatypes.MenuItem;
@@ -70,8 +73,7 @@ public class OrderManager
 		_order.calculateTotal();
 		_order.createReceipt();
 		orderCount++;
-		//System.out.println("OrderManager-Cashier[" + _order.getCashier().getSurname() + "] added order: " + _order.getId() + "..." + _order.calculatePreparationTime()/1000 + "s prep time");
-				
+		
 		this.displayClient.update();
 	}
 	
@@ -98,17 +100,37 @@ public class OrderManager
 	 */
 	public Order getOrderForDelivery(String _id)
 	{		
-		// ... and the orders waiting for delivery
 		for (int k = 0; k < deliveryOrders.size(); k++)
-		{
-			if(deliveryOrders.get(k).getId().compareTo(_id) == 0) return deliveryOrders.get(k);
-			System.out.println("'" + deliveryOrders.get(k).getId() + "' - '" + _id + "'");
-		}
+			if(deliveryOrders.get(k).getId().equals(_id.trim())) return deliveryOrders.get(k);
 		
 		// order not found, so display error, and return null
 		System.out.println("OrderManager.getOrderForDelivery: Error no such order found: '" + _id + "'");
 		return null;
 	}
+
+	/**
+	 * Searches the deliveryOrders for any orders which have been
+	 * waiting for longer than the specified timout constant 
+	 * @return the undelivered order
+	 */
+	public Order getUndeliveredOrder()
+	{
+		for (int i = 0; i < deliveryOrders.size(); i++)
+		{
+			Order order = deliveryOrders.get(i);
+			
+			Calendar currentTime = Calendar.getInstance();
+			
+			// work out when the order times out
+			Calendar timeoutTime = order.getTimeCooked();
+			timeoutTime.add(Calendar.MILLISECOND, Constants.DELIVERY_TIMEOUT);
+
+			if(currentTime.after(timeoutTime)) return order;
+		}
+		
+		return null;
+	}
+	
 	
 	/**
 	 * Sets the passed order as cooked
@@ -130,15 +152,14 @@ public class OrderManager
 	 * @param _order
 	 */
 	public synchronized void setOrderDelivered(Order _order)
-	{		
-		System.out.println("OrderManager.setOrderDelivered: " + _order.getId());
-		
+	{				
 		for (int i = 0; i < deliveryOrders.size(); i++)
 			if(deliveryOrders.get(i).getId().equals(_order.getId())) deliveryOrders.remove(i);
 		
 		completedOrders.add(_order);
-		this.displayClient.update();
 		_order.setOrderStatus(OrderStatus.delivered);
+
+		this.displayClient.update();
 	}
 	
 	/**

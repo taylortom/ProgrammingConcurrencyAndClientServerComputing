@@ -56,8 +56,8 @@ public class Server
 	 */
 	private void initGUI()
 	{
-		//if(this.client == null) this.client = new ServerClient();	
-		//else System.out.println("ServerClient.initGUI: Error client non-null");
+		if(this.client == null) this.client = new ServerClient();	
+		else System.out.println("ServerClient.initGUI: Error client non-null");
 		
 		OrderManager.getInstance().initGUI();
 	}
@@ -103,20 +103,12 @@ public class Server
 					{
 						confirmed = true;
 						System.out.println("Server settings confirmed.");
+						client.updateDisplayText("Server connected to " + this.host + ":" + this.port);
 					}
 				}
 			} 
 			catch (Exception e) { System.out.println("Exception reading input"); }
 		}
-	}
-	
-	/**
-	 * Adds the passed string to the sever client output window
-	 * @param _output string
-	 */
-	public void output(String _output)
-	{
-		client.updateDisplayText(_output);
 	}
 	
    /**
@@ -134,7 +126,7 @@ public class Server
 			ServerSocket serverSocket = new ServerSocket(_port);
 
 			// accept incoming connections
-			while(online) new Serverlet(serverSocket.accept()).start();
+			while(online) new Serverlet(serverSocket.accept(), client).start();
 			  
 			// close the server socket
 			serverSocket.close();

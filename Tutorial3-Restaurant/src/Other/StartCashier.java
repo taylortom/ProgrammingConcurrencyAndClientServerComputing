@@ -70,9 +70,10 @@ public class StartCashier implements Runnable
 
 		if(this.cashier != null) 
 		{
+			DeliveryServerlet serverlet = new DeliveryServerlet(this.cashier);
 			this.cashier.setServerDetails(this.host, this.port);
 			this.cashier.logIn();
-			new DeliveryServerlet(this.cashier).start();
+			serverlet.start();
 		}
 		else 
 		{
