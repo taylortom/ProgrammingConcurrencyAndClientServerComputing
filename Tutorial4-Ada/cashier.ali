@@ -1,0 +1,69 @@
+V "GNAT Lib v2011"
+P SS ZX
+R nnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnn
+
+U cashier%b		cashier.adb		0d61496e NE OO PK
+W ada%s			ada.ads			ada.ali
+W ada.command_line%s	a-comlin.adb		a-comlin.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W orderlist%s		orderlist.adb		orderlist.ali
+W utils%s		utils.adb		utils.ali
+
+U cashier%s		cashier.ads		39613dba EE NE OO PK
+
+D ada.ads		20110428140902 3ffc8e18
+D a-comlin.ads		20110428140900 e0accaa5
+D a-except.ads		20110428140900 4759ecee
+D a-finali.ads		20110428140900 b333d305
+D a-fihema.ads		20110428140900 1940728a
+D a-ioexce.ads		20110428140900 8b9de6cd
+D a-stream.ads		20110428140902 2ca4ee37
+D a-tags.ads		20110428140902 7b33f560
+D a-textio.ads		20110428140902 386df5d4
+D a-unccon.ads		20110428140902 f9eb8f06
+D cashier.ads		20120225002626 39613dba
+D cashier.adb		20120225122348 78154d06
+D interfac.ads		20110428140906 f77d8799
+D i-cstrea.ads		20110428140906 1bd72c32
+D orderlist.ads		20120225120244 37be8c6f
+D system.ads		20110428140910 bc164b96
+D s-crtl.ads		20110428140906 ac77b159
+D s-exctab.ads		20110428140906 66e51330
+D s-ficobl.ads		20110428140906 443b9d66
+D s-finroo.ads		20110428140906 2dd85ce2
+D s-parame.ads		20110428140908 03aa3b01
+D s-pooglo.ads		20110428140908 542f33d0
+D s-secsta.ads		20110428140908 eea35a36
+D s-soflin.ads		20110428140908 607487c5
+D s-stache.ads		20110428140908 596fc1b4
+D s-stalib.ads		20110428140908 f78bcf95
+D s-stoele.ads		20110428140908 facd7d98
+D s-stoele.adb		20110428140908 afc5dc80
+D s-stopoo.ads		20110428140908 5c51faf9
+D s-traent.ads		20110428140908 5221ee41
+D s-unstyp.ads		20110428140908 6ae15c76
+D s-wchcon.ads		20110428140910 bfeb2e3d
+D utils.ads		20120224231828 a36a8acc
+X 1 ada.ads
+16K9*Ada 19e8 12|2r6 2r24 3r5 3r23
+X 2 a-comlin.ads
+38K13*Command_Line 139e21 12|2w10 3r9
+X 9 a-textio.ads
+49K13*Text_IO 471e16 12|2w28 3r27
+263U14*Put_Line 12|14s17
+X 11 cashier.ads
+8K9*Cashier 26l5 26e12 12|5b14 20l5 20t12
+14R14*CashierRecord 17e19 24r38 12|10r38
+15a17*Name{string} 12|15r66
+16i17*OrdersTaken{integer}
+24U19*TakeOrder 24>30 12|10b19 18l13 18t22
+24r30 Cashier{14R14} 12|10b30 15r58
+X 15 orderlist.ads
+10K9*OrderList 12|2w44 15r17 15r36 15|52e14
+17R14*Order 24e19
+18P14*OrderAccess(17R14)
+41U19*AddOrder 12|15s27
+44V18*CreateOrder{18P14} 12|15s46
+X 33 utils.ads
+2K9*Utils 12|2w37 33|7e10
+

@@ -1,0 +1,10 @@
+project Restaurant is
+
+   package Ide is
+      for Vcs_Kind use "Git";
+   end Ide;
+
+   for Source_Dirs use (".\**");
+
+end Restaurant;
+
