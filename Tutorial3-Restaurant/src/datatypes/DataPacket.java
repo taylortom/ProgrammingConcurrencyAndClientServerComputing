@@ -9,6 +9,7 @@ import members.Cook;
 
 /**
  * A wrapper for an number of objects
+ * Used to transmit data via sockets.
  *
  * @author Tom
  * @version 0.1
@@ -18,11 +19,17 @@ public class DataPacket implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
+	// the relevant Order (optional)
 	public Order order = null;
+	// the relevant Cashier (optional)
 	public Cashier cashier = null;
+	// the relevant Cook (optional)
 	public Cook cook = null;
+	// the 'purpose' of the DataPacket
 	public Function function;
+	// any extra data (optional)
 	public String data = "";
+	// whether a response is required 
 	public boolean returnTransmission = false;
 	
 	public DataPacket(Function _function)

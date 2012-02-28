@@ -16,11 +16,24 @@ import members.Cook;
 import datatypes.DataPacket;
 import datatypes.Order;
 
+/**
+ * Handles incoming connections
+ * Processes the DataPacket and acts accordingly
+ *
+ * @author Tom
+ * @version 0.1
+ * @history Feb 26, 2012: Created class
+ */
 public class Serverlet extends Thread
 {
 	Socket socket;
 	ServerClient client;
 
+	/**
+	 * Constructor
+	 * @param _socket
+	 * @param _client
+	 */
 	public Serverlet(Socket _socket, ServerClient _client)
 	{
 		this.socket = _socket;
