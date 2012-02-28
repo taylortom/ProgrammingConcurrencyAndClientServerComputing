@@ -1,0 +1,102 @@
+procedure OrderSystem is
+
+	--
+	-- Cashier
+        --
+
+		Cashier1:CashierRecord;
+                Cashier2:CashierRecord;
+
+                Cashier1Task:CashierTask;
+                Cashier2Task:CashierTask;
+
+        	type CashierRecord is record
+          		Name:String(1..15);
+              		OrdersTaken:Integer := 0;
+        	end record;
+
+        	-- a local reference to the OrderList
+        	LocalOrderList:ProtectedOrderList;
+
+           	--
+           	-- Procedures/functions
+           	--
+
+           	-- simulates the taking of an order
+           	procedure TakeOrder (Cashier:CashierRecord);
+
+                -- the main task
+                task type CashierTask is
+                	entry SetCashier (CashierInput : in  CashierRecord);
+                end CashierTask;
+
+	--
+        -- Cook
+        --
+
+        	type CookRecord is record
+          		Name:String(1..15);
+              		OrdersCooked:Integer := 0;
+        	end record;
+
+           	--
+           	-- Procedures/functions
+           	--
+
+           	-- simulates the cooking of an order
+           	procedure CookOrder (Cook:CookRecord);
+
+        	 -- the main task
+                task type CookTask is
+                	entry SetCook (CookInput : in  CookRecord);
+                end CookTask;
+
+         --
+         -- OrderList
+         --
+
+         	-- stores information about an order
+           	type Order;
+            	type OrderAccess is access Order;
+           	type Order is record
+          		OrderNo:Integer;
+          		Time:String(1..19);
+              		Cashier:String(1..15);
+              		NextOrder:OrderAccess;
+        	end record;
+
+        	--
+           	-- Protected
+           	--
+
+                protected type ProtectedOrderList is
+
+               		-- adds an order to the list
+           		procedure AddOrder (orderToAdd:OrderAccess);
+
+        		-- creates a new order with the passed cashier
+        		procedure CreateOrder (Cashier: in String; NewOrder: out OrderAccess);
+
+           		-- gets the next order, and removes from the list
+           		entry GetOrder (Order: out OrderAccess);
+
+                        -- returns the order id
+                        function GetOrderID return Integer;
+
+               		-- prints out each item to the console window
+                	procedure PrintList;
+
+                private
+
+         		 -- the next and last orders
+           		HeadOrder:OrderAccess;
+           		TailOrder:OrderAccess;
+
+           		-- total number of orders
+           		OrderTotal:Integer := 0;
+
+                        -- the next order id
+           		OrderID:Natural := 1;
+
+                end ProtectedOrderList;
+end OrderSystem;

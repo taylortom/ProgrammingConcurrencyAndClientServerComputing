@@ -1,0 +1,161 @@
+V "GNAT Lib v2011"
+M P W=b
+P SS ZX
+R vnnvnnnnnvnnnnnnnnvvnvnvnvvnvnnvnvvnvnnvnvvnvnnnnvnvnnnnnnvnnnnnnnvnv1nnnv1nv1+nnnv1+nn
+
+U ordersystem%b		ordersystem.adb		4a9e5c99 NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.calendar.delays%s	a-caldel.adb		a-caldel.ali
+W ada.exceptions%s	a-except.adb		a-except.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.real_time%s	a-reatim.adb		a-reatim.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W system%s		system.ads		system.ali
+W system.concat_2%s	s-conca2.adb		s-conca2.ali
+W system.concat_6%s	s-conca6.adb		s-conca6.ali
+W system.concat_7%s	s-conca7.adb		s-conca7.ali
+W system.img_int%s	s-imgint.adb		s-imgint.ali
+W system.img_lld%s	s-imglld.adb		s-imglld.ali
+W system.parameters%s	s-parame.adb		s-parame.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.soft_links%s	s-soflin.adb		s-soflin.ali
+W system.standard_library%s  s-stalib.adb	s-stalib.ali
+W system.task_info%s	s-tasinf.adb		s-tasinf.ali
+W system.tasking%s	s-taskin.adb		s-taskin.ali
+W system.tasking.protected_objects%s  s-taprob.adb  s-taprob.ali
+W system.tasking.protected_objects.entries%s  s-tpoben.adb  s-tpoben.ali
+W system.tasking.protected_objects.operations%s  s-tpobop.adb  s-tpobop.ali
+W system.tasking.rendezvous%s  s-tasren.adb	s-tasren.ali
+W system.tasking.stages%s  s-tassta.adb		s-tassta.ali
+W utils%s		utils.adb		utils.ali
+
+D ada.ads		20110428140902 3ffc8e18
+D a-calend.ads		20110428140858 343c83dd
+D a-caldel.ads		20110428140858 9f20b83d
+D a-except.ads		20110428140900 4759ecee
+D a-finali.ads		20110428140900 b333d305
+D a-fihema.ads		20110428140900 1940728a
+D a-inteio.ads		20110428140900 f64b89a4
+D a-ioexce.ads		20110428140900 8b9de6cd
+D a-reatim.ads		20110428140902 63f07669
+D a-stream.ads		20110428140902 2ca4ee37
+D a-tags.ads		20110428140902 7b33f560
+D a-textio.ads		20110428140902 386df5d4
+D a-tiinio.ads		20110428140902 aa04e5d6
+D a-unccon.ads		20110428140902 f9eb8f06
+D interfac.ads		20110428140906 f77d8799
+D i-c.ads		20110428140906 5421119b
+D i-cstrin.ads		20110428140906 341d0ddf
+D i-cstrea.ads		20110428140906 1bd72c32
+D ordersystem.adb	20120228222850 27d2aa25
+D system.ads		20110428140910 bc164b96
+D s-atacco.ads		20110428140906 1dc856ad
+D s-conca2.ads		20110428140906 fbd0f2fc
+D s-conca6.ads		20110428140906 c7caf514
+D s-conca7.ads		20110428140906 1c57f31a
+D s-crtl.ads		20110428140906 ac77b159
+D s-exctab.ads		20110428140906 66e51330
+D s-ficobl.ads		20110428140906 443b9d66
+D s-finroo.ads		20110428140906 2dd85ce2
+D s-imgint.ads		20110428140906 02dbe0c2
+D s-imglld.ads		20110428140906 f3220969
+D s-multip.ads		20110428140908 38ac9f73
+D s-osinte.ads		20110428140908 ecf1fbfd
+D s-parame.ads		20110428140908 03aa3b01
+D s-pooglo.ads		20110428140908 542f33d0
+D s-secsta.ads		20110428140908 eea35a36
+D s-soflin.ads		20110428140908 607487c5
+D s-stache.ads		20110428140908 596fc1b4
+D s-stausa.ads		20110428140908 017a0a05
+D s-stalib.ads		20110428140908 f78bcf95
+D s-stoele.ads		20110428140908 facd7d98
+D s-stoele.adb		20110428140908 afc5dc80
+D s-stopoo.ads		20110428140908 5c51faf9
+D s-tasinf.ads		20110428140908 859198ad
+D s-taspri.ads		20110428140908 196697f7
+D s-taprop.ads		20110428140908 07f79e46
+D s-taskin.ads		20110428140908 b2eaee08
+D s-taprob.ads		20110428140908 502249e3
+D s-tpoben.ads		20110428140908 e8374469
+D s-tpobop.ads		20110428140908 5f548bb3
+D s-tasren.ads		20110428140908 86fa7427
+D s-tassta.ads		20110428140908 e88ef99e
+D s-traent.ads		20110428140908 5221ee41
+D s-unstyp.ads		20110428140908 6ae15c76
+D s-wchcon.ads		20110428140910 bfeb2e3d
+D s-win32.ads		20110428140910 07238fa2
+D utils.ads		20120224231828 a36a8acc
+X 1 ada.ads
+16K9*Ada 19e8 19|1r6 1r19 2r5 2r18
+X 7 a-inteio.ads
+18K13*Integer_Text_IO[13|45] 19|1w23 2r22
+X 12 a-textio.ads
+49K13*Text_IO 471e16 19|1w10 2r9
+263U14*Put_Line 19|85s33 145s33 148s41 204s33 242s33 245s33 263s33
+X 19 ordersystem.adb
+13U11*OrderSystem 13b11 303l5 303t16
+28R22 Order 29r44 30c22 35e27 110r49
+29P22 OrderAccess(28R22) 34r35 44r56 47r82 50r52 61r35 63r35 81r56 107r82
+. 119r52 143r46 180r34 234r37
+31i25 OrderNo{integer} 85r78 110m56 148r88 242r79
+32a25 Time{string} 85r145 110m76 148r148
+33a25 Cashier{string} 85r115 110m106 148r119
+34p25 NextOrder{29P22} 92m51 110m126 125r56 149r70
+41W32 ProtectedOrderList 74l21 74e39 76b32 153l21 153t39 156r24
+44U35 AddOrder 44>45 81b35 102l29 102t37 185s40
+44p45 orderToAdd{29P22} 81b45 85r67 85r104 85r134 89r54 92r64 95r54
+47U35 CreateOrder 47>48 47<68 107b35 114l29 114t40 183s40
+47s48 Cashier{string} 107b48 110r117
+47p68 NewOrder{29P22} 107b68 110m33
+50Y31 GetOrder 50<41 119b31 128l29 128t37 239s48
+50p41 Order{29P22} 123m33
+53V34 GetCurrentOrders{integer} 133b34 136l29 136t45 145s82 147s45 268s51
+56U35 PrintList 142b35 151l29 151t38
+61p25 HeadOrder{29P22} 89r41 92r41 123r42 125r33 125r46 143r61
+63p25 TailOrder{29P22} 95r41
+66i25 OrderTotal{integer} 99r33 99r47
+69i25 CurrentOrders{integer} 87r36 90r39 93r39 101r33 101r50 119r70 127r33
+. 127r50 135r40
+72i25 OrderID{integer} 110r67 112r33 112r44
+119p41 Order{29P22}
+143p33 OrderToPrint{29P22} 148r75 148r106 148r135 149m41 149r57
+147i37 I{integer}
+156w9 LocalOrderList{41W32} 183r25 185r25 239r33 268r36
+167R22 CashierRecord 170e27 175r46 176r46 194r62 199r33 202r63 278r26 279r26
+168a25 Name{string} 183m60 204r91 294m18 295m18
+169i25 OrdersTaken{integer}
+175U27 TakeOrder 175>38 176b27 188l21 188t30 208s33
+175r38 Cashier{167R22} 176b38 183r52
+178o25 Random{duration} 187r31
+180p25 NewOrder{29P22} 183m66 183r66 185r49
+193T27 CashierTask 195l21 195e32 197b27 210l21 210t32 281r30 282r30
+194Y31 SetCashier 194>43 202b32 205l29 205t39 300s22 301s22
+194r43 CashierInput{167R22} 203r44
+199r25 Cashier{167R22} 203m33 204r83 208r43
+202r44 CashierInput{167R22}
+221R22 CookRecord 224e27 229r43 230r43 253r56 258r30 261r57 284r23 285r23
+222a25 Name{string} 242r125 263r79 292m15 293m15
+223i25 OrdersCooked{integer}
+229U27 CookOrder 229>38 230b27 247l21 247t30 269s41
+229r38 Cook{221R22} 230b38 242r120
+232o25 Random{duration} 241r39 242r156
+234p25 OrderToCook{29P22} 239m57 239r57 242r67
+252T27 CookTask 254l21 254e29 256b27 272l21 272t29 287r27 288r27
+253Y31 SetCook 253>40 261b32 264l29 264t36 298s19 299s19
+253r40 CookInput{221R22} 262r41
+258r25 Cook{221R22} 262m33 263r74 269r51
+261r41 CookInput{221R22}
+278r17 Cashier1{167R22} 294m9 300r33
+279r17 Cashier2{167R22} 295m9 301r33
+281t17 Cashier1Task{193T27} 300r9
+282t17 Cashier2Task{193T27} 301r9
+284r17 Cook1{221R22} 292m9 298r27
+285r17 Cook2{221R22} 293m9 299r27
+287t17 Cook1Task{252T27} 298r9
+288t17 Cook2Task{252T27} 299r9
+X 56 utils.ads
+2K9*Utils 19|1w40 110r84 178r44 232r44 56|7e10
+4V18*GetCurrentTime{string} 19|110s90
+5V18*GenerateRandomNumber{duration} 19|178s50 232s50
+

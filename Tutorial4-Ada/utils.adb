@@ -70,12 +70,21 @@ package body Utils is
 
 		subtype NumberRange is Integer range LowerBound..UpperBound;
 		package RandomInteger is new Ada.Numerics.Discrete_Random(NumberRange);
-		Seed:RandomInteger.Generator;
+                Random:Standard.Duration;
+
+                -- should store a copy of the seed!
+                Seed:RandomInteger.Generator;
 
 	begin
 
 		RandomInteger.Reset(Seed);
-		return Duration(RandomInteger.Random(Seed));
+                Random := Duration(RandomInteger.Random(Seed));
+
+                if Random = 0.0 then
+                	Random := 1.0;
+                end if;
+
+		return Random;
 
 	end GenerateRandomNumber;
 

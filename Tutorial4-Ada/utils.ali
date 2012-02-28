@@ -2,7 +2,7 @@ V "GNAT Lib v2011"
 P SS ZX
 R nnnnnnnvnvnnnnnnnnnnnvnvnnnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnvnnvnnnnvnnnnnnnnnnnnnn
 
-U utils%b		utils.adb		07b49f38 NE OO PK
+U utils%b		utils.adb		c952b0d4 NE OO PK
 W ada%s			ada.ads			ada.ali
 W ada.calendar%s	a-calend.adb		a-calend.ali
 W ada.command_line%s	a-comlin.adb		a-comlin.ali
@@ -52,7 +52,7 @@ D s-traent.ads		20110428140908 5221ee41
 D s-unstyp.ads		20110428140908 6ae15c76
 D s-valuns.ads		20110428140908 10a8ed3b
 D utils.ads		20120224231828 a36a8acc
-D utils.adb		20120225003504 b2b75d11
+D utils.adb		20120228174338 7c5172fd
 X 1 ada.ads
 16K9*Ada 19e8 33|1r21 1r35 1r53 2r20 2r34 72r46
 X 2 a-calend.ads
@@ -66,9 +66,9 @@ X 5 a-numeri.ads
 16K13*Numerics 32e17 33|1r57 72r50
 X 6 a-nudira.ads
 44k22*Discrete_Random 73e33 33|1w66 72r59
-48R9 Generator 33|73r36[72]
-50V13 Random{integer} 33|78s47[72]
-53U14 Reset<21|91p14> 33|77s31[72]
+48R9 Generator 33|76r36[72]
+50V13 Random{integer} 33|81s50[72]
+53U14 Reset<21|91p14> 33|80s31[72]
 X 7 a-nudira.adb
 51V16 Random[21|74]{integer} 22|394b13[33|72]
 X 9 gnat.ads
@@ -83,9 +83,9 @@ X 21 s-rannum.ads
 66V13*Random{11|57M9} 22|223i21
 67V13*Random{11|60M9} 22|223i21
 X 32 utils.ads
-2K9*Utils 7l5 7e10 33|4b14 82l5 82t10
+2K9*Utils 7l5 7e10 33|4b14 91l5 91t10
 4V18*GetCurrentTime{string} 33|6b18 67l13 67t27
-5V18*GenerateRandomNumber{duration} 5>40 5>51 33|69b18 80l13 80t33
+5V18*GenerateRandomNumber{duration} 5>40 5>51 33|69b18 89l13 89t33
 5i40 LowerBound{integer} 33|69b40 71r54
 5i51 UpperBound{integer} 33|69b51 71r66
 X 33 utils.adb
@@ -106,6 +106,7 @@ X 33 utils.adb
 12a17 DateString{string} 63m17 66r24
 13a17 TimeString{string} 61m17 66r43
 71I25 NumberRange{integer} 72r75
-72K25 RandomInteger[6|44] 73r22 77r17 78r33
-73r17 Seed{6|48R9[72]} 77r37 78r54
+72K25 RandomInteger[6|44] 76r22 80r17 81r36
+73o17 Random{duration} 81m17 83r20 84m25 87r24
+76r17 Seed{6|48R9[72]} 80r37 81r57
 
