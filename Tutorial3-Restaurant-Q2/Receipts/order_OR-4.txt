@@ -1,0 +1,20 @@
+--Sales Receipt--
+
+You were served by: Luke Everitt
+
+Order No. OR-4
+Date: 16.02.2012 Time: 00:10:58
+
+
+Items:
+
+Beef Lasagne             £10.95
+Chargrilled Steak        £14.95
+Thai Green Curry         £10.95
+Fried Halloumi           £3.95
+Sorbet Selection         £3.95
+
+Total: £44.75
+
+
+--Thank you, call again!--

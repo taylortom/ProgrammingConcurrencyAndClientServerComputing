@@ -1,0 +1,19 @@
+--Sales Receipt--
+
+You were served by: Emma Fitzgerald
+
+Order No. OR-16
+Date: 15.02.2012 Time: 20:58:55
+
+
+Items:
+
+Braised Greens           £3.95
+Red Apple Salad          £10.95
+
+Subtotal: £14.9
+Discount: £0.74
+Total: £14.16
+
+
+--Thank you, call again!--

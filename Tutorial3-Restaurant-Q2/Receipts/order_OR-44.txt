@@ -1,0 +1,18 @@
+--Sales Receipt--
+
+You were served by: Emma Fitzgerald
+
+Order No. OR-44
+Date: 15.02.2012 Time: 20:47:45
+
+
+Items:
+
+Braised Greens           £3.95
+
+Subtotal: £3.95
+Discount: £0.2
+Total: £3.75
+
+
+--Thank you, call again!--

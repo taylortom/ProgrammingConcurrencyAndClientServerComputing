@@ -1,0 +1,18 @@
+--Sales Receipt--
+
+You were served by: Steve Spears
+
+Order No. OR-77
+Date: 15.02.2012 Time: 20:14:10
+
+
+Items:
+
+Sorbet Selection         £3.95
+
+Subtotal: £3.95
+Discount: £0.2
+Total: £3.75
+
+
+--Thank you, call again!--

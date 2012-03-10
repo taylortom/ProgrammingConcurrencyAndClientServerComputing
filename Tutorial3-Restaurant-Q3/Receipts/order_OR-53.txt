@@ -1,0 +1,22 @@
+--Sales Receipt--
+
+You were served by: John Price
+
+Order No. OR-53
+Date: 15.02.2012 Time: 20:40:10
+
+
+Items:
+
+Beef Lasagne             £10.95
+Margharita Pizza         £8.95
+Lemon Cheesecake         £4.95
+Artichoke Risotto        £4.95
+Chicken Soup             £10.95
+
+Subtotal: £40.75
+Discount: £2.04
+Total: £38.71
+
+
+--Thank you, call again!--

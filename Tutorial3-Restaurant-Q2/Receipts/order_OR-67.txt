@@ -1,0 +1,18 @@
+--Sales Receipt--
+
+You were served by: Steve Spears
+
+Order No. OR-67
+Date: 15.02.2012 Time: 20:13:52
+
+
+Items:
+
+Tiramasu                 £4.95
+
+Subtotal: £4.95
+Discount: £0.25
+Total: £4.7
+
+
+--Thank you, call again!--

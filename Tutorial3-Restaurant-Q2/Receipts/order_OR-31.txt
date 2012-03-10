@@ -1,0 +1,20 @@
+--Sales Receipt--
+
+You were served by: Emma Fitzgerald
+
+Order No. OR-31
+Date: 15.02.2012 Time: 20:47:24
+
+
+Items:
+
+Lemon Cheesecake         £4.95
+Banoffee Pie             £5.95
+Thai Green Curry         £10.95
+
+Subtotal: £21.85
+Discount: £2.18
+Total: £19.67
+
+
+--Thank you, call again!--

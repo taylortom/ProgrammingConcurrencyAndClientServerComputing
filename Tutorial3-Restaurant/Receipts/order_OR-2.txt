@@ -1,0 +1,20 @@
+--Sales Receipt--
+
+You were served by: Luke Everitt
+
+Order No. OR-2
+Date: 16.02.2012 Time: 00:10:52
+
+
+Items:
+
+Braised Greens           £3.95
+Baked Cannelloni         £10.95
+Beef Lasagne             £10.95
+Chargrilled Steak        £14.95
+Baked Cannelloni         £10.95
+
+Total: £51.75
+
+
+--Thank you, call again!--

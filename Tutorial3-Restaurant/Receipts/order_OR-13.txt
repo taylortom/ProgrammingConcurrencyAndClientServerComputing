@@ -1,0 +1,20 @@
+--Sales Receipt--
+
+You were served by: Luke Everitt
+
+Order No. OR-13
+Date: 15.02.2012 Time: 21:31:51
+
+
+Items:
+
+Margharita Pizza         £8.95
+Fried Halloumi           £3.95
+Sorbet Selection         £3.95
+Baked Cannelloni         £10.95
+Chicken Soup             £10.95
+
+Total: £38.75
+
+
+--Thank you, call again!--

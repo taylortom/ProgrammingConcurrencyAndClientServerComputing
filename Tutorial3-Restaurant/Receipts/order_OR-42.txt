@@ -1,0 +1,21 @@
+--Sales Receipt--
+
+You were served by: Emma Fitzgerald
+
+Order No. OR-42
+Date: 15.02.2012 Time: 20:47:44
+
+
+Items:
+
+Beef Lasagne             £10.95
+Chicken Chow Mein        £10.95
+Braised Greens           £3.95
+Braised Greens           £3.95
+
+Subtotal: £29.8
+Discount: £1.49
+Total: £28.31
+
+
+--Thank you, call again!--

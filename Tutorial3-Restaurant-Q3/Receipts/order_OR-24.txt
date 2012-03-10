@@ -1,0 +1,20 @@
+--Sales Receipt--
+
+You were served by: Emma Fitzgerald
+
+Order No. OR-24
+Date: 15.02.2012 Time: 20:59:41
+
+
+Items:
+
+Sorbet Selection         £3.95
+Beef Lasagne             £10.95
+Braised Greens           £3.95
+
+Subtotal: £18.85
+Discount: £1.88
+Total: £16.96
+
+
+--Thank you, call again!--

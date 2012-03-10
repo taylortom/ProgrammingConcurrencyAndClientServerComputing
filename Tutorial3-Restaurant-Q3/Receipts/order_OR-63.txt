@@ -1,0 +1,21 @@
+--Sales Receipt--
+
+You were served by: Sarah Simpson
+
+Order No. OR-63
+Date: 15.02.2012 Time: 20:13:52
+
+
+Items:
+
+Chilli Con Carne         £9.95
+Chicken Chow Mein        £10.95
+Lemon Cheesecake         £4.95
+Spaghetti Bolognese      £9.95
+
+Subtotal: £35.8
+Discount: £3.58
+Total: £32.22
+
+
+--Thank you, call again!--

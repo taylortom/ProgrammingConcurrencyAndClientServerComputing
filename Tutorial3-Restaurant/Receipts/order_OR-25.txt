@@ -1,0 +1,19 @@
+--Sales Receipt--
+
+You were served by: Emma Fitzgerald
+
+Order No. OR-25
+Date: 15.02.2012 Time: 20:59:48
+
+
+Items:
+
+Sorbet Selection         £3.95
+Fried Halloumi           £3.95
+
+Subtotal: £7.9
+Discount: £0.4
+Total: £7.51
+
+
+--Thank you, call again!--

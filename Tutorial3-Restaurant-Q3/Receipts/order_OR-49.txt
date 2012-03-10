@@ -1,0 +1,21 @@
+--Sales Receipt--
+
+You were served by: Emma Fitzgerald
+
+Order No. OR-49
+Date: 15.02.2012 Time: 20:40:10
+
+
+Items:
+
+Chocolate Fudge Cake     £5.95
+Margharita Pizza         £8.95
+Braised Greens           £3.95
+Chilli Con Carne         £9.95
+
+Subtotal: £28.8
+Discount: £1.44
+Total: £27.36
+
+
+--Thank you, call again!--

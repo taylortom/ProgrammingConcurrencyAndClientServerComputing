@@ -1,0 +1,21 @@
+--Sales Receipt--
+
+You were served by: Emma Fitzgerald
+
+Order No. OR-19
+Date: 15.02.2012 Time: 20:59:13
+
+
+Items:
+
+Tiramasu                 £4.95
+Thai Green Curry         £10.95
+Chicken Chow Mein        £10.95
+Margharita Pizza         £8.95
+
+Subtotal: £35.8
+Discount: £1.79
+Total: £34.01
+
+
+--Thank you, call again!--

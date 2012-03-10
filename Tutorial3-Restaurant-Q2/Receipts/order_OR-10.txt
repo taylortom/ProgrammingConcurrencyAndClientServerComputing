@@ -1,0 +1,18 @@
+--Sales Receipt--
+
+You were served by: Sam Fisher
+
+Order No. OR-10
+Date: 15.02.2012 Time: 22:28:08
+
+
+Items:
+
+Red Apple Salad          £10.95
+Bruschetta               £3.95
+Chilli Con Carne         £9.95
+
+Total: £24.85
+
+
+--Thank you, call again!--

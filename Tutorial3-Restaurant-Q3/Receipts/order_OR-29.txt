@@ -1,0 +1,18 @@
+--Sales Receipt--
+
+You were served by: John Price
+
+Order No. OR-29
+Date: 15.02.2012 Time: 20:47:24
+
+
+Items:
+
+Chargrilled Steak        £14.95
+
+Subtotal: £14.95
+Discount: £1.5
+Total: £13.45
+
+
+--Thank you, call again!--

@@ -1,0 +1,18 @@
+--Sales Receipt--
+
+You were served by: Emma Fitzgerald
+
+Order No. OR-26
+Date: 15.02.2012 Time: 20:59:51
+
+
+Items:
+
+Chicken Chow Mein        £10.95
+
+Subtotal: £10.95
+Discount: £0.55
+Total: £10.4
+
+
+--Thank you, call again!--

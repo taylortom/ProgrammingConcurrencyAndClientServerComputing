@@ -1,0 +1,20 @@
+--Sales Receipt--
+
+You were served by: Sarah Simpson
+
+Order No. OR-51
+Date: 15.02.2012 Time: 20:40:10
+
+
+Items:
+
+Braised Greens           £3.95
+Beef Lasagne             £10.95
+Spaghetti Bolognese      £9.95
+
+Subtotal: £24.85
+Discount: £1.24
+Total: £23.61
+
+
+--Thank you, call again!--

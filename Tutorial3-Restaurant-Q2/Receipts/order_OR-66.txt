@@ -1,0 +1,20 @@
+--Sales Receipt--
+
+You were served by: John Price
+
+Order No. OR-66
+Date: 15.02.2012 Time: 20:13:52
+
+
+Items:
+
+Tiramasu                 £4.95
+Red Apple Salad          £10.95
+Braised Greens           £3.95
+
+Subtotal: £19.85
+Discount: £0.99
+Total: £18.86
+
+
+--Thank you, call again!--

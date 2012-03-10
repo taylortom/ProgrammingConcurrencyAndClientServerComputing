@@ -1,0 +1,19 @@
+--Sales Receipt--
+
+You were served by: Nicole Black
+
+Order No. OR-78
+Date: 15.02.2012 Time: 20:14:10
+
+
+Items:
+
+Lemon Cheesecake         £4.95
+Chocolate Fudge Cake     £5.95
+
+Subtotal: £10.9
+Discount: £0.54
+Total: £10.36
+
+
+--Thank you, call again!--

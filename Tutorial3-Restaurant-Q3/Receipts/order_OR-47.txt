@@ -1,0 +1,19 @@
+--Sales Receipt--
+
+You were served by: Nicole Black
+
+Order No. OR-47
+Date: 15.02.2012 Time: 20:47:47
+
+
+Items:
+
+Fried Halloumi           £3.95
+Red Apple Salad          £10.95
+
+Subtotal: £14.9
+Discount: £0.74
+Total: £14.16
+
+
+--Thank you, call again!--

@@ -1,0 +1,20 @@
+--Sales Receipt--
+
+You were served by: Nicole Black
+
+Order No. OR-69
+Date: 15.02.2012 Time: 20:13:52
+
+
+Items:
+
+Sorbet Selection         £3.95
+Spaghetti Bolognese      £9.95
+Chocolate Fudge Cake     £5.95
+
+Subtotal: £39.7
+Discount: £3.97
+Total: £35.73
+
+
+--Thank you, call again!--
